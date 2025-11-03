@@ -50,9 +50,8 @@ WineLog rozwiązuje te problemy poprzez:
 
 #### 3.1.1 Rejestracja
 - Rejestracja poprzez e-mail i hasło
-- Weryfikacja e-mail z modelem "soft verification" - użytkownik może korzystać z aplikacji przed weryfikacją
-- Link weryfikacyjny ważny przez 7 dni
-- Prześlij przypomnienia o weryfikacji e-mail (co 3 dni przez 7 dni)
+- Prosta weryfikacja e-mail (link weryfikacyjny ważny przez 7 dni)
+- Weryfikacja nie jest wymagana do rozpoczęcia korzystania z aplikacji (soft verification)
 - Walidacja formatu e-mail po stronie klienta i serwera
 - Polityka hasła:
   - Minimum 8 znaków
@@ -70,7 +69,7 @@ WineLog rozwiązuje te problemy poprzez:
 
 #### 3.1.3 Zarządzanie kontem
 - Podgląd danych konta (e-mail, data rejestracji)
-- Zmiana hasła (z weryfikacją starego hasła)
+- Reset hasła przez e-mail (brak zmiany hasła w ustawieniach w MVP)
 - Usunięcie konta wraz z wszystkimi danymi (z potwierdzeniem)
 - Brak eksportu danych w MVP (planowane na później)
 
@@ -121,13 +120,8 @@ Każdy szablon zawiera:
 9. Butelkowanie
 
 #### 3.3.2 Funkcjonalności etapów
-- Przechodzenie między etapami w dowolnej kolejności z ostrzeżeniami przy pomijaniu
-- Oznaczenie etapu jako "pominięty" z opcjonalną notatką wyjaśniającą
-- Powrót do poprzedniego etapu z obowiązkową notatką wyjaśniającą powód
-- Restart fermentacji w dowolnej chwili:
-  - Oznaczenie ponownego rozpoczęcia z aktualną datą
-  - Historia restartów w notatkach
-  - Bez cofania etapu
+- Sekwencyjne przechodzenie przez etapy (tylko do przodu, bez możliwości pomijania lub cofania)
+- Przejście do następnego etapu oznacza automatyczne ukończenie poprzedniego
 - Zlewanie z nad osadu możliwe wielokrotnie w trakcie etapu klarowania i dojrzewania
 - Wyświetlanie szczegółowych instrukcji dla każdego etapu:
   - Krok po kroku co robić
@@ -144,29 +138,30 @@ Każdy szablon zawiera:
 ### 3.4 Notatki
 
 #### 3.4.1 Pola notatek
-- Data (automatyczna, możliwość ręcznej zmiany)
+- Data (automatyczna, bez możliwości ręcznej zmiany w MVP)
 - Działanie (tekstowe pole opisujące wykonane działanie)
 - Obserwacje (tekstowe pole na uwagi i obserwacje)
 
 #### 3.4.2 Operacje CRUD
 - Przeglądanie: wyświetlenie wszystkich notatek nastawu w chronologicznej kolejności
-- Tworzenie: dodanie nowej notatki do aktualnego lub wybranego etapu
-- Edytowanie: modyfikacja istniejącej notatki z zachowaniem timestampu ostatniej edycji
-- Usuwanie: trwałe usunięcie notatki z potwierdzeniem
+- Tworzenie: dodanie nowej notatki do aktualnego etapu
+- Edytowanie: modyfikacja istniejącej notatki (bez timestampu ostatniej edycji w MVP)
+- Usuwanie: trwałe usunięcie notatki bez potwierdzenia (dla szybkości w MVP)
 
 #### 3.4.3 Ograniczenia MVP
 - Brak wersjonowania notatek
 - Brak możliwości cofnięcia zmian
-- Timestamp ostatniej edycji przy edycji notatki
+- Brak timestampu ostatniej edycji
+- Brak ręcznej zmiany daty notatki
+- Brak potwierdzenia przy usuwaniu notatki
 
 ### 3.5 Archiwum i oceny
 
 #### 3.5.1 Archiwizacja
-- Możliwość zakończenia nastawu w dowolnym momencie
-- Opcjonalny powód zakończenia w notatce
+- Możliwość zakończenia nastawu w dowolnym momencie (jeden klik)
 - Automatyczne przeniesienie zakończonego nastawu do archiwum
 - Bezterminowe przechowywanie zakończonych nastawów
-- Możliwość ręcznego usunięcia nastawu z archiwum (z potwierdzeniem)
+- Możliwość ręcznego usunięcia nastawu z archiwum (uproszczone potwierdzenie w MVP)
 
 #### 3.5.2 Przeglądanie archiwum
 - Lista wszystkich zakończonych nastawów
@@ -190,9 +185,6 @@ Każdy szablon zawiera:
   - Ostatnia notatka (preview)
 - Sekcja Archiwum z listą zakończonych nastawów
 - Przycisk "Nowy nastaw" z łatwym dostępem
-- Statystyki (opcjonalne w MVP):
-  - Liczba aktywnych nastawów
-  - Liczba zakończonych nastawów
 
 ### 3.7 Obsługa błędów i walidacja
 
@@ -216,8 +208,6 @@ Każdy szablon zawiera:
   - "Nie można usunąć nastawu z aktywnymi notatkami." (jeśli dotyczy)
 
 #### 3.7.3 Ostrzeżenia
-- Ostrzeżenie przy pomijaniu etapu: "Czy na pewno chcesz pominąć ten etap? Może to wpłynąć na jakość końcowego produktu."
-- Ostrzeżenie przy powrocie do poprzedniego etapu: "Powrót do poprzedniego etapu wymaga dodania notatki wyjaśniającej powód."
 - Ostrzeżenie przy zakończeniu nastawu: "Czy na pewno chcesz zakończyć ten nastaw? Nastaw zostanie przeniesiony do archiwum."
 
 ### 3.8 Metryki i analityka
@@ -242,7 +232,7 @@ Każdy szablon zawiera:
 #### 3.9.2 Wydajność
 - Ładowanie strony poniżej 3 sekund na 4G
 - Reakcja interfejsu poniżej 200ms
-- Lazy loading dla archiwum (ładowanie nastawów na żądanie)
+- Prosta lista wszystkich zakończonych nastawów (brak lazy loading w MVP)
 - Loading states i skeleton screens dla lepszego UX
 
 #### 3.9.3 Kompatybilność
@@ -324,6 +314,15 @@ Każdy szablon zawiera:
 - Brak możliwości dodawania własnych szablonów w MVP
 - Brak możliwości dodawania własnych etapów w MVP
 - Brak filtrowania i sortowania w MVP (planowane na późniejsze wersje)
+- Sekwencyjne przechodzenie przez etapy (tylko do przodu, bez pomijania i cofania)
+- Brak restartu fermentacji w MVP
+- Brak ocen nastawów w MVP (planowane na późniejsze wersje)
+- Brak zmiany hasła w ustawieniach (tylko reset przez e-mail)
+- Brak lazy loading w archiwum (prosta lista wszystkich nastawów)
+- Brak przypomnień o weryfikacji e-mail w MVP
+- Brak ręcznej zmiany daty w notatkach
+- Brak timestampu ostatniej edycji notatek
+- Brak statystyk na dashboardzie
 
 ## 5. Historyjki użytkowników
 
@@ -353,9 +352,9 @@ Każdy szablon zawiera:
 - Użytkownik otrzymuje e-mail weryfikacyjny po rejestracji
 - Link weryfikacyjny jest ważny przez 7 dni
 - Kliknięcie w link weryfikuje konto
-- Użytkownik otrzymuje przypomnienia o weryfikacji co 3 dni (przez 7 dni)
 - Po weryfikacji status konta zmienia się na zweryfikowane
-- Użytkownik może korzystać z aplikacji przed weryfikacją
+- Użytkownik może korzystać z aplikacji przed weryfikacją (soft verification)
+- Brak przypomnień o weryfikacji w MVP
 
 #### US-003: Logowanie użytkownika
 **Tytuł:** Logowanie do aplikacji
@@ -382,20 +381,7 @@ Każdy szablon zawiera:
 - Użytkownik jest przekierowywany do strony logowania
 - Niezapisane dane są tracone (z ostrzeżeniem jeśli to możliwe)
 
-#### US-005: Zmiana hasła
-**Tytuł:** Zmiana hasła użytkownika
-
-**Opis:** Jako zalogowany użytkownik chcę zmienić moje hasło, aby zwiększyć bezpieczeństwo mojego konta.
-
-**Kryteria akceptacji:**
-- Użytkownik może wprowadzić stare hasło i nowe hasło
-- System waliduje stare hasło
-- System waliduje nowe hasło zgodnie z polityką
-- Po poprawnym wprowadzeniu hasło zostaje zmienione
-- Użytkownik jest wylogowywany z innych urządzeń (opcjonalnie)
-- Komunikat potwierdzenia wyświetlany jest po zmianie hasła
-
-#### US-006: Usunięcie konta
+#### US-005: Usunięcie konta
 **Tytuł:** Usunięcie konta użytkownika
 
 **Opis:** Jako zalogowany użytkownik chcę usunąć moje konto wraz z wszystkimi danymi, aby spełnić moje prawo do bycia zapomnianym (RODO).
@@ -499,52 +485,14 @@ Każdy szablon zawiera:
 
 **Kryteria akceptacji:**
 - Przycisk "Następny etap" jest dostępny w widoku etapu
-- Kliknięcie przechodzi do następnego etapu w sekwencji
+- Kliknięcie przechodzi do następnego etapu w sekwencji (tylko do przodu)
 - Aktualny etap jest automatycznie oznaczany jako ukończony
 - Nowy etap jest oznaczany jako aktualny
 - Zmiana jest zapisywana natychmiast
-- Użytkownik może opcjonalnie dodać notatkęd
+- Użytkownik może opcjonalnie dodać notatkę
+- Brak możliwości pomijania lub cofania etapów w MVP
 
-#### US-014: Pominięcie etapu
-**Tytuł:** Pomijanie etapu produkcji
-
-**Opis:** Jako zalogowany użytkownik chcę pominąć etap, który nie jest potrzebny dla mojego nastawu, zachowując elastyczność procesu.
-
-**Kryteria akceptacji:**
-- Użytkownik może oznaczyć etap jako "pominięty"
-- Przy próbie pominięcia wyświetlane jest ostrzeżenie: "Czy na pewno chcesz pominąć ten etap? Może to wpłynąć na jakość końcowego produktu."
-- Użytkownik może dodać opcjonalną notatkę wyjaśniającą powód pominięcia
-- Po potwierdzeniu etap jest oznaczany jako pominięty
-- Następny etap staje się aktualnym
-- Pominięty etap jest widoczny w timeline jako pominięty
-
-#### US-015: Powrót do poprzedniego etapu
-**Tytuł:** Powrót do wcześniejszego etapu
-
-**Opis:** Jako zalogowany użytkownik chcę wrócić do poprzedniego etapu, jeśli potrzebuję coś poprawić lub dokończyć.
-
-**Kryteria akceptacji:**
-- Użytkownik może wrócić do poprzedniego etapu
-- Przy próbie powrotu wyświetlane jest ostrzeżenie wymagające dodania notatki
-- Notatka wyjaśniająca powód powrotu jest obowiązkowa
-- Po dodaniu notatki i potwierdzeniu następuje powrót do poprzedniego etapu
-- Poprzedni etap staje się aktualnym
-- Historia powrotów jest widoczna w notatkach
-
-#### US-016: Restart fermentacji
-**Tytuł:** Ponowne rozpoczęcie fermentacji
-
-**Opis:** Jako zalogowany użytkownik chcę zrestartować fermentację w dowolnej chwili, aby zaznaczyć ponowne rozpoczęcie procesu.
-
-**Kryteria akceptacji:**
-- Użytkownik może zrestartować fermentację z poziomu etapów fermentacji
-- Restart oznacza ponowne rozpoczęcie z aktualną datą
-- Automatycznie dodawana jest notatka o restarcie z datą
-- Historia restartów jest widoczna w notatkach
-- Restart nie cofa etapu (pozostaje na aktualnym etapie)
-- Użytkownik może dodać własną notatkę do restaru
-
-#### US-017: Wybór tłoczenia vs maceracji
+#### US-014: Wybór tłoczenia vs maceracji
 **Tytuł:** Wybór metody przygotowania nastawu
 
 **Opis:** Jako zalogowany użytkownik chcę wybrać między tłoczeniem a maceracją podczas przygotowania nastawu, aby dostosować proces do moich potrzeb.
@@ -556,35 +504,23 @@ Każdy szablon zawiera:
 - Instrukcje krok po kroku zmieniają się w zależności od wyboru
 - Wybór jest zapisywany i widoczny w szczegółach nastawu
 
-#### US-018: Przechodzenie między etapami w dowolnej kolejności
-**Tytuł:** Elastyczne przechodzenie między etapami
-
-**Opis:** Jako zalogowany użytkownik chcę móc przechodzić między etapami w dowolnej kolejności, zachowując elastyczność procesu produkcji.
-
-**Kryteria akceptacji:**
-- Użytkownik może otworzyć dowolny etap z listy
-- Przy próbie pominięcia etapów wyświetlane jest ostrzeżenie
-- Ostrzeżenie nie blokuje akcji, ale informuje o możliwych konsekwencjach
-- Użytkownik może kontynuować mimo ostrzeżenia
-- Historia zmian etapów jest widoczna w notatkach
-
 ### 5.4 Notatki
 
-#### US-019: Dodanie notatki do nastawu
+#### US-015: Dodanie notatki do nastawu
 **Tytuł:** Tworzenie notatki z działaniem i obserwacjami
 
 **Opis:** Jako zalogowany użytkownik chcę dodawać notatki do mojego nastawu, aby dokumentować postępy i obserwacje.
 
 **Kryteria akceptacji:**
 - Użytkownik może dodać notatkę z poziomu widoku szczegółów nastawu lub etapu
-- Formularz notatki zawiera pola: data (automatyczna), działanie, obserwacje
-- Data może być zmieniona ręcznie
-- Każde pole może mieć maksymalnie 200 znaków
-- Notatka jest zapisywana do aktualnego lub wybranego etapu
+- Formularz notatki zawiera pola: data (automatyczna, bez możliwości zmiany), działanie, obserwacje
+- Data jest ustawiana automatycznie i nie może być zmieniona w MVP
+- Każde pole może mieć maksymalnie 5000 znaków
+- Notatka jest zapisywana do aktualnego etapu
 - Po zapisaniu notatka jest widoczna w timeline nastawu
 - Walidacja po stronie klienta i serwera
 
-#### US-020: Przeglądanie notatek nastawu
+#### US-016: Przeglądanie notatek nastawu
 **Tytuł:** Wyświetlenie wszystkich notatek nastawu
 
 **Opis:** Jako zalogowany użytkownik chcę przeglądać wszystkie notatki mojego nastawu, aby śledzić historię produkcji.
@@ -595,34 +531,34 @@ Każdy szablon zawiera:
 - Notatki są powiązane z etapami
 - Ostatnia notatka jest widoczna w preview na dashboardzie
 
-#### US-021: Edycja notatki
+#### US-017: Edycja notatki
 **Tytuł:** Modyfikacja istniejącej notatki
 
 **Opis:** Jako zalogowany użytkownik chcę edytować moje notatki, aby poprawić błędy lub dodać informacje.
 
 **Kryteria akceptacji:**
 - Użytkownik może edytować istniejącą notatkę
-- Wszystkie pola notatki mogą być zmienione
-- Timestamp ostatniej edycji jest zapisywany i wyświetlany
+- Wszystkie pola notatki mogą być zmienione (oprócz daty)
+- Brak timestampu ostatniej edycji w MVP
 - Zmiany są zapisywane natychmiast po potwierdzeniu
 - Brak możliwości cofnięcia zmian (w MVP)
 - Komunikat potwierdzenia po zapisaniu zmian
 
-#### US-022: Usunięcie notatki
+#### US-018: Usunięcie notatki
 **Tytuł:** Trwałe usunięcie notatki
 
 **Opis:** Jako zalogowany użytkownik chcę usunąć notatkę, jeśli została dodana przez pomyłkę lub jest niepotrzebna.
 
 **Kryteria akceptacji:**
 - Użytkownik może usunąć notatkę z poziomu widoku notatki
-- Przed usunięciem wyświetlane jest potwierdzenie
-- Po potwierdzeniu notatka jest trwale usunięta
+- Brak potwierdzenia przed usunięciem w MVP (dla szybkości)
+- Notatka jest trwale usunięta natychmiast po kliknięciu
 - Usunięta notatka znika z timeline
 - Brak możliwości przywrócenia usuniętej notatki (w MVP)
 
 ### 5.5 Archiwum i oceny
 
-#### US-023: Zakończenie nastawu
+#### US-019: Zakończenie nastawu
 **Tytuł:** Zakończenie produkcji nastawu
 
 **Opis:** Jako zalogowany użytkownik chcę zakończyć mój nastaw w dowolnym momencie, aby przenieść go do archiwum.
@@ -630,19 +566,19 @@ Każdy szablon zawiera:
 **Kryteria akceptacji:**
 - Użytkownik może zakończyć nastaw z poziomu widoku szczegółów
 - Przy próbie zakończenia wyświetlane jest ostrzeżenie: "Czy na pewno chcesz zakończyć ten nastaw? Nastaw zostanie przeniesiony do archiwum."
-- Użytkownik może opcjonalnie dodać powód zakończenia w notatce
+- Brak opcjonalnego powodu zakończenia w MVP
 - Po potwierdzeniu nastaw jest oznaczany jako zakończony
 - Nastaw jest przenoszony do archiwum
 - Data zakończenia jest zapisywana
 - Nastaw znika z listy aktywnych nastawów
 
-#### US-024: Przeglądanie archiwum
+#### US-020: Przeglądanie archiwum
 **Tytuł:** Wyświetlenie zakończonych nastawów
 
 **Opis:** Jako zalogowany użytkownik chcę przeglądać moje zakończone nastawy w archiwum, aby analizować poprzednie produkcje.
 
 **Kryteria akceptacji:**
-- Sekcja Archiwum wyświetla listę wszystkich zakończonych nastawów
+- Sekcja Archiwum wyświetla listę wszystkich zakończonych nastawów (prosta lista, brak lazy loading w MVP)
 - Dla każdego nastawu wyświetlane są: nazwa, typ, data rozpoczęcia, data zakończenia, ocena (jeśli dodana)
 - Kliknięcie na nastaw otwiera widok szczegółów z pełną historią
 - Dostępne są wszystkie notatki zakończonego nastawu
@@ -661,14 +597,14 @@ Każdy szablon zawiera:
 - Ocena jest zapisywana natychmiast po wyborze
 - Brak możliwości usunięcia oceny (można zmienić na inną)
 
-#### US-026: Usunięcie nastawu z archiwum
+#### US-021: Usunięcie nastawu z archiwum
 **Tytuł:** Trwałe usunięcie zakończonego nastawu
 
 **Opis:** Jako zalogowany użytkownik chcę usunąć zakończony nastaw z archiwum, jeśli nie jest mi już potrzebny.
 
 **Kryteria akceptacji:**
 - Użytkownik może usunąć nastaw z archiwum
-- Przed usunięciem wyświetlane jest potwierdzenie z ostrzeżeniem
+- Uproszczone potwierdzenie przed usunięciem w MVP
 - Po potwierdzeniu nastaw i wszystkie jego notatki są trwale usunięte
 - Usunięty nastaw znika z archiwum
 - Brak możliwości przywrócenia usuniętego nastawu
@@ -676,7 +612,7 @@ Każdy szablon zawiera:
 
 ### 5.6 Dashboard i nawigacja
 
-#### US-027: Wyświetlenie dashboardu
+#### US-022: Wyświetlenie dashboardu
 **Tytuł:** Przeglądanie głównego ekranu z nastawami
 
 **Opis:** Jako zalogowany użytkownik chcę widzieć mój dashboard z listą aktywnych nastawów i dostępem do archiwum, aby mieć szybki przegląd mojej pracy.
@@ -688,8 +624,9 @@ Każdy szablon zawiera:
 - Dashboard jest responsywny i działa na wszystkich urządzeniach
 - Ładowanie dashboardu jest szybkie (poniżej 3 sekund na 4G)
 - Loading states są wyświetlane podczas ładowania
+- Brak statystyk na dashboardzie w MVP
 
-#### US-028: Nawigacja między sekcjami
+#### US-023: Nawigacja między sekcjami
 **Tytuł:** Przechodzenie między różnymi sekcjami aplikacji
 
 **Opis:** Jako zalogowany użytkownik chcę łatwo nawigować między dashboardem, nastawami i archiwum, aby szybko znaleźć potrzebne informacje.
@@ -704,7 +641,7 @@ Każdy szablon zawiera:
 
 ### 5.7 Obsługa błędów
 
-#### US-029: Wyświetlanie błędów walidacji
+#### US-024: Wyświetlanie błędów walidacji
 **Tytuł:** Komunikaty błędów przy nieprawidłowych danych
 
 **Opis:** Jako użytkownik chcę otrzymywać jasne komunikaty błędów, gdy wprowadzam nieprawidłowe dane, aby móc je poprawić.
@@ -717,7 +654,7 @@ Każdy szablon zawiera:
 - Ogólne błędy serwera wyświetlają komunikat: "Wystąpił błąd. Spróbuj ponownie."
 - Szczegółowe logi błędów są zapisywane dla debugowania (bez wyświetlania użytkownikowi)
 
-#### US-030: Obsługa błędów sieciowych
+#### US-025: Obsługa błędów sieciowych
 **Tytuł:** Reagowanie na problemy z połączeniem
 
 **Opis:** Jako użytkownik chcę być informowany o problemach z połączeniem, aby wiedzieć kiedy aplikacja nie działa poprawnie.
@@ -731,7 +668,7 @@ Każdy szablon zawiera:
 
 ### 5.8 Responsywność i wydajność
 
-#### US-031: Użycie aplikacji na urządzeniu mobilnym
+#### US-026: Użycie aplikacji na urządzeniu mobilnym
 **Tytuł:** Pełna funkcjonalność na telefonie
 
 **Opis:** Jako użytkownik chcę używać aplikacji na moim telefonie, aby mieć dostęp do moich nastawów w dowolnym miejscu.
@@ -744,7 +681,7 @@ Każdy szablon zawiera:
 - Przyciski i elementy interaktywne są łatwe do kliknięcia
 - Nawigacja jest zoptymalizowana dla mobile
 
-#### US-032: Szybkie ładowanie strony
+#### US-027: Szybkie ładowanie strony
 **Tytuł:** Ładowanie aplikacji poniżej 3 sekund
 
 **Opis:** Jako użytkownik chcę, aby aplikacja ładowała się szybko, aby nie tracić czasu na czekanie.
@@ -752,22 +689,10 @@ Każdy szablon zawiera:
 **Kryteria akceptacji:**
 - Ładowanie strony głównej poniżej 3 sekund na 4G
 - Reakcja interfejsu poniżej 200ms po akcji użytkownika
-- Lazy loading dla archiwum (ładowanie na żądanie)
+- Prosta lista wszystkich zakończonych nastawów (brak lazy loading w MVP)
 - Loading states i skeleton screens podczas ładowania
 - Optymalizacja obrazów i zasobów
 - Monitoring wydajności i Core Web Vitals
-
-#### US-033: Lazy loading archiwum
-**Tytuł:** Stopniowe ładowanie zakończonych nastawów
-
-**Opis:** Jako użytkownik chcę, aby archiwum ładowało się stopniowo, aby nie czekać na wszystkie nastawy na raz.
-
-**Kryteria akceptacji:**
-- Archiwum ładuje nastawy partiami (np. po 10)
-- Więcej nastawów ładuje się przy przewijaniu do końca listy
-- Loading indicator pokazuje proces ładowania
-- Skeleton screens są wyświetlane dla ładujących się elementów
-- Użytkownik może korzystać z aplikacji podczas ładowania
 
 ## 6. Metryki sukcesu
 
@@ -876,28 +801,28 @@ Każdy szablon zawiera:
    - Ostrzeżenia: Nie używaj zepsutych owoców. Upewnij się, że wszystko jest czyste i wysterylizowane.
 
 2. **Ewentualne tłoczenie lub maceracja** (3-7 dni przy maceracji, 1 dzień przy tłoczeniu)
-   - Instrukcje: Jeśli wybrałeś macerację, codziennie mieszaj masę. Po 3-7 dniach przetłocz i wyciśnij sok. Jeśli wybrałeś tłoczenie, wykonaj je od razu.
-   - Materiały: Prasa lub tłuczek, sitko, fermentator
-   - Warunki: Temperatura 20-25°C
-   - Ostrzeżenia: Nie maceruj zbyt długo - może powstać gorycz
+   - Instrukcje: Jeśli wybrałeś macerację, codziennie mieszaj masę i zanurzaj kożuch (skórki) 2-3 razy dziennie. Kontroluj temperaturę (20-25°C) - jeśli rośnie, schładzaj. Po 3-7 dniach (lub gdy osiągniesz pożądany kolor) przetłocz i wyciśnij sok. Jeśli wybrałeś tłoczenie, wykonaj je od razu po zmiażdżeniu.
+   - Materiały: Prasa lub tłuczek, sitko, fermentator, termometr
+   - Warunki: Temperatura 20-25°C, przykrycie (ale nie szczelne - potrzebny dostęp tlenu)
+   - Ostrzeżenia: Nie maceruj zbyt długo - powyżej 7 dni może powstać gorycz i nieprzyjemny smak. Kontroluj temperaturę - powyżej 28°C może zepsuć smak. Jeśli pojawi się pleśń, usuń ją natychmiast i skróć macerację.
 
 3. **Fermentacja burzliwa** (5-10 dni)
-   - Instrukcje: Dodaj drożdże winne oraz pożywka z witaminą B1 zgodnie z instrukcją. Fermentacja powinna być widoczna po dniu (bąbelki, pianowanie). Temperatura 18-22°C.
-   - Materiały: Drożdże winne, pożywka z witaminą B1, cukier (jeśli potrzebny do korygowania soku)
-   - Warunki: Temperatura 18-22°C, ciemne miejsce
-   - Ostrzeżenia: Nie zamykaj hermetycznie - potrzebny dostęp tlenu na początku. Staraj się codziennie mieszać.
+   - Instrukcje: Dodaj drożdże winne oraz pożywka z witaminą B1 zgodnie z instrukcją na opakowaniu. Opcjonalnie dodaj siarkę (konserwant) w dawce 30-50 mg/l (dla wina czerwonego często nie jest konieczna). Fermentacja powinna być widoczna po 12-24 godzinach (bąbelki, pianowanie, kożuch na powierzchni). Temperatura 18-22°C. Codziennie mieszaj i zanurzaj kożuch (skórki na powierzchni) - to uwalnia barwniki i aromaty.
+   - Materiały: Drożdże winne, pożywka z witaminą B1, siarka/siarczyn sodu (opcjonalnie, 30-50 mg/l), cukier (jeśli potrzebny do korygowania soku), rurka fermentacyjna
+   - Warunki: Temperatura 18-22°C, ciemne miejsce, dostęp tlenu na początku (nie zamykaj hermetycznie)
+   - Ostrzeżenia: Nie zamykaj hermetycznie na początku - drożdże potrzebują tlenu. Codziennie mieszaj i zanurzaj kożuch. Kontroluj temperaturę - zbyt wysoka (>25°C) może zepsuć smak. Jeśli fermentacja nie zacznie się w ciągu 48 godzin, sprawdź temperaturę i ewentualnie dodaj więcej drożdży.
 
 4. **Fermentacja cicha** (2-4 tygodnie)
-   - Instrukcje: Po zakończeniu fermentacji burzliwej wino przechodzi w fazę cichą. Temperatura 15-18°C. Fermentacja trwa, ale jest mniej widoczna.
-   - Materiały: Fermentator z zamknięciem
-   - Warunki: Temperatura 15-18°C, ciemne, spokojne miejsce
-   - Ostrzeżenia: Sprawdzaj regularnie, ale nie mieszaj zbyt często
+   - Instrukcje: Po zakończeniu fermentacji burzliwej (kożuch opadł, mniej bąbelków) wykonaj pierwsze zlewanie z nad osadu. Przenieś wino do czystego naczynia, zostawiając osad na dnie. Następnie wino przechodzi w fazę cichą - zamknij szczelnie z rurką fermentacyjną. Temperatura 15-18°C. Fermentacja trwa, ale jest mniej widoczna.
+   - Materiały: Fermentator z zamknięciem, rurka fermentacyjna, syfon, czyste naczynie
+   - Warunki: Temperatura 15-18°C, ciemne, spokojne miejsce, szczelne zamknięcie
+   - Ostrzeżenia: Po zlewaniu sprawdź czy rurka fermentacyjna ma wodę. Sprawdzaj regularnie, ale nie mieszaj. Jeśli fermentacja całkowicie ustała, można dodać siarkę (30-50 mg/l) dla stabilności.
 
 5. **Klarowanie** (2-4 tygodnie)
-   - Instrukcje: Wino powinno się klarować naturalnie. Można użyć klarownika (np. bentonit). Pozostaw wino w spokoju, osad opadnie na dno.
-   - Materiały: Klarownik (opcjonalnie), cierpliwość
-   - Warunki: Temperatura 10-15°C, ciemne miejsce, bez wstrząsów
-   - Ostrzeżenia: Nie mieszaj wina podczas klarowania. Jeśli po 4 tygodniach wino nie jest klarowne, rozważ użycie klarownika
+   - Instrukcje: Wino powinno się klarować naturalnie. Jeśli potrzebne jest szybsze klarowanie, użyj klarownika (np. bentonit - 2-4 g/l, rozpuść w wodzie i dodaj). Pozostaw wino w spokoju, osad opadnie na dno. Po 2-3 tygodniach sprawdź klarowność - wino powinno być przejrzyste.
+   - Materiały: Klarownik (np. bentonit, żelatyna, białko jajka - opcjonalnie), cierpliwość
+   - Warunki: Temperatura 10-15°C, ciemne miejsce, bez wstrząsów, szczelne zamknięcie z rurką fermentacyjną
+   - Ostrzeżenia: Nie mieszaj wina podczas klarowania. Jeśli po 4 tygodniach wino nie jest klarowne, rozważ użycie klarownika. Sprawdzaj czy rurka fermentacyjna ma wodę.
 
 6. **Zlewanie z nad osadu** (możliwe wielokrotnie)
    - Instrukcje: Przenieś wino do czystego naczynia, zostawiając osad na dnie. Użyj wężyka lub wlej ostrożnie.
@@ -917,7 +842,7 @@ Każdy szablon zawiera:
    - Warunki: Sterylne warunki, chłodne miejsce
    - Ostrzeżenia: Nie napełniaj butelek pod korek - zostaw 1-2 cm przestrzeni. Upewnij się, że korki są właściwie zamknięte
 
-**Typowe składniki:** Winogrona czerwone (15-20 kg na 10L), drożdże winne, pożywka z witaminą B1, cukier (jeśli potrzebny), klarownik (opcjonalnie), siarka (opcjonalnie, jako konserwant)
+**Typowe składniki:** Winogrona czerwone (15-20 kg na 10L), drożdże winne, pożywka z witaminą B1, cukier (jeśli potrzebny do korekty ekstraktu), klarownik (opcjonalnie - bentonit, żelatyna), siarka/siarczyn sodu (opcjonalnie, 30-50 mg/l jako konserwant), rurka fermentacyjna
 
 ### 7.2 Wino białe
 
@@ -929,16 +854,16 @@ Każdy szablon zawiera:
    - Ostrzeżenia: Dla białego wina ważne jest szybkie tłoczenie - nie pozostawiaj skórek z winogron w soku
 
 2. **Fermentacja burzliwa** (7-14 dni)
-   - Instrukcje: Dodaj drożdże winne do soku oraz pożywke z witaminą B1. Zainstaluj rurke fermentacyjną. Fermentacja powinna być widoczna. Temperatura 15-18°C (chłodniejsza niż dla czerwonego).
-   - Materiały: Drożdże winne, pożywka z witaminą B1,  rurka fermentacyjna, cukier (jeśli potrzebny)
-   - Warunki: Temperatura 15-18°C, ciemne miejsce
-   - Ostrzeżenia: Białe wino fermentuje w niższej temperaturze niż czerwone. Utrzymuj stabilną temperaturę, Staraj się codziennie mieszać.
+   - Instrukcje: Dodaj drożdże winne do soku oraz pożywka z witaminą B1 zgodnie z instrukcją. Opcjonalnie dodaj siarkę (50-80 mg/l - dla białych win często potrzebna dla stabilności). Zainstaluj rurka fermentacyjną. Fermentacja powinna być widoczna po 12-24 godzinach (delikatne bąbelki, mniej piany niż w czerwonym). Temperatura 15-18°C (chłodniejsza niż dla czerwonego - ważne dla aromatu). Delikatnie mieszaj codziennie.
+   - Materiały: Drożdże winne, pożywka z witaminą B1, rurka fermentacyjna, siarka/siarczyn sodu (opcjonalnie, 50-80 mg/l), cukier (jeśli potrzebny)
+   - Warunki: Temperatura 15-18°C, ciemne miejsce, stabilna temperatura (ważne!)
+   - Ostrzeżenia: Białe wino fermentuje w niższej temperaturze niż czerwone - to jest kluczowe dla aromatu. Utrzymuj stabilną temperaturę - wahania mogą zepsuć smak. Mieszaj delikatnie - mniej agresywnie niż czerwone (mniej kożucha). Jeśli fermentacja nie zacznie się w 48 godzin, sprawdź temperaturę.
 
 3. **Fermentacja cicha** (2-3 tygodnie)
-   - Instrukcje: Po zakończeniu fermentacji burzliwej wino przechodzi w fazę cichą. Temperatura 12-15°C.
-   - Materiały: Fermentator z zamknięciem, rurka fermentacyjna
-   - Warunki: Temperatura 12-15°C, ciemne miejsce
-   - Ostrzeżenia: Sprawdzaj regularnie, ale nie mieszaj
+   - Instrukcje: Po zakończeniu fermentacji burzliwej (mniej bąbelków, osad opadł) wykonaj pierwsze zlewanie z nad osadu. Przenieś wino do czystego naczynia, zostawiając osad. Następnie wino przechodzi w fazę cichą - zamknij szczelnie z rurką fermentacyjną. Temperatura 15-18°C (nie 12-15°C - to zbyt niska dla kompletnej fermentacji).
+   - Materiały: Fermentator z zamknięciem, rurka fermentacyjna, syfon, czyste naczynie
+   - Warunki: Temperatura 15-18°C, ciemne miejsce, szczelne zamknięcie
+   - Ostrzeżenia: Po zlewaniu sprawdź czy rurka fermentacyjna ma wodę. Sprawdzaj regularnie, ale nie mieszaj. Temperatura 15-18°C jest lepsza niż 12-15°C dla kompletnej fermentacji.
 
 4. **Klarowanie** (2-3 tygodnie)
    - Instrukcje: Wino klaruje się naturalnie. Można użyć klarownika. Pozostaw w spokoju, osad opadnie.
@@ -964,7 +889,7 @@ Każdy szablon zawiera:
    - Warunki: Sterylne warunki
    - Ostrzeżenia: Upewnij się, że wszystko jest czyste i sterylne
 
-**Typowe składniki:** Winogrona białe (12-15 kg na 10L), drożdże winne, cukier (jeśli potrzebny), klarownik (opcjonalnie)
+**Typowe składniki:** Winogrona białe (12-15 kg na 10L), drożdże winne, pożywka z witaminą B1, cukier (jeśli potrzebny), klarownik (opcjonalnie - bentonit, żelatyna), siarka/siarczyn sodu (opcjonalnie, 50-80 mg/l), rurka fermentacyjna
 
 ### 7.3 Wino różowe
 
@@ -976,16 +901,16 @@ Każdy szablon zawiera:
    - Ostrzeżenia: Krótka maceracja - nie pozostawiaj zbyt długo, bo wino będzie za ciemne
 
 2. **Fermentacja burzliwa** (7-12 dni)
-   - Instrukcje: Dodaj drożdże winne oraz pożywke z witaminą B1. Zainstaluj rurke fermencatujną. Temperatura 16-20°C.
-   - Materiały: Drożdże winne, pożywka z witaminą B1, rurka fermentacyjna, cukier (jeśli potrzebny)
-   - Warunki: Temperatura 16-20°C, ciemne miejsce
-   - Ostrzeżenia: Kontroluj temperaturę - różowe wino jest wrażliwe na zbyt wysoką temperaturę, Staraj się codziennie mieszać.
+   - Instrukcje: Dodaj drożdże winne oraz pożywka z witaminą B1 zgodnie z instrukcją. Opcjonalnie dodaj siarkę (40-60 mg/l). Zainstaluj rurkę fermentacyjną. Temperatura 16-20°C. Fermentacja powinna być widoczna po 12-24 godzinach. Delikatnie mieszaj codziennie (mniej agresywnie niż czerwone, bo mniej kożucha).
+   - Materiały: Drożdże winne, pożywka z witaminą B1, rurka fermentacyjna, siarka/siarczyn sodu (opcjonalnie, 40-60 mg/l), cukier (jeśli potrzebny)
+   - Warunki: Temperatura 16-20°C, ciemne miejsce, stabilna temperatura
+   - Ostrzeżenia: Kontroluj temperaturę - różowe wino jest wrażliwe na zbyt wysoką temperaturę (>22°C może zepsuć aromat). Mieszaj delikatnie codziennie. Jeśli fermentacja nie zacznie się w 48 godzin, sprawdź temperaturę.
 
 3. **Fermentacja cicha** (2-3 tygodnie)
-   - Instrukcje: Po zakończeniu fermentacji burzliwej, temperatura 14-16°C.
-   - Materiały: Fermentator, rurka fermentacyjna
-   - Warunki: Temperatura 14-16°C
-   - Ostrzeżenia: Sprawdzaj regularnie
+   - Instrukcje: Po zakończeniu fermentacji burzliwej (mniej bąbelków, osad opadł) wykonaj pierwsze zlewanie z nad osadu. Przenieś wino do czystego naczynia, zostawiając osad. Następnie wino przechodzi w fazę cichą - zamknij szczelnie z rurką fermentacyjną. Temperatura 15-18°C (nie 14-16°C - zbyt niska dla kompletnej fermentacji).
+   - Materiały: Fermentator z zamknięciem, rurka fermentacyjna, syfon, czyste naczynie
+   - Warunki: Temperatura 15-18°C, ciemne miejsce, szczelne zamknięcie
+   - Ostrzeżenia: Po zlewaniu sprawdź czy rurka fermentacyjna ma wodę. Sprawdzaj regularnie, ale nie mieszaj. Temperatura 15-18°C jest lepsza dla kompletnej fermentacji.
 
 4. **Klarowanie** (2-3 tygodnie)
    - Instrukcje: Pozostaw wino do klarowania. Można użyć klarownika.
@@ -1011,7 +936,7 @@ Każdy szablon zawiera:
    - Warunki: Sterylne warunki
    - Ostrzeżenia: Upewnij się, że wszystko jest czyste
 
-**Typowe składniki:** Winogrona czerwone/białe (14-17 kg na 10L), drożdże winne, cukier (jeśli potrzebny), klarownik (opcjonalnie)
+**Typowe składniki:** Winogrona czerwone/białe (14-17 kg na 10L), drożdże winne, pożywka z witaminą B1, cukier (jeśli potrzebny), klarownik (opcjonalnie - bentonit, żelatyna), siarka/siarczyn sodu (opcjonalnie, 40-60 mg/l), rurka fermentacyjna
 
 ### 7.4 Wino owocowe
 
@@ -1029,16 +954,16 @@ Każdy szablon zawiera:
    - Ostrzeżenia: Nie wszystkie wina owocowe wymagają oddzielania - zależy od typu owoców
 
 3. **Fermentacja burzliwa** (7-14 dni)
-   - Instrukcje: Dodaj drożdże owocowe (specjalne dla win owocowych) lub drożdże winne oraz pożywka z witaminą B1. Zainstaluj rurke fermentacyjną. Temperatura 18-22°C.
-   - Materiały: Drożdże owocowe lub winne, pożywka z witaminą B1, rurka fermentacyjna, cukier (jeśli potrzebny)
-   - Warunki: Temperatura 18-22°C
-   - Ostrzeżenia: Niektóre owoce (np. jabłka) fermentują szybciej. Kontroluj proces codziennie, Staraj się codziennie mieszać.
+   - Instrukcje: Dodaj drożdże owocowe (specjalne dla win owocowych) lub drożdże winne oraz pożywka z witaminą B1 zgodnie z instrukcją. Opcjonalnie dodaj siarkę (40-60 mg/l - dla win owocowych często potrzebna dla stabilności). Zainstaluj rurkę fermentacyjną. Temperatura 18-22°C. Fermentacja powinna być widoczna po 12-24 godzinach (bąbelki, pianowanie). Codziennie mieszaj i zanurzaj kożuch (jeśli jest).
+   - Materiały: Drożdże owocowe lub winne, pożywka z witaminą B1, rurka fermentacyjna, siarka/siarczyn sodu (opcjonalnie, 40-60 mg/l), cukier (jeśli potrzebny)
+   - Warunki: Temperatura 18-22°C, ciemne miejsce, dostęp tlenu na początku
+   - Ostrzeżenia: Niektóre owoce (np. jabłka) fermentują szybciej. Kontroluj proces codziennie, mieszaj i zanurzaj kożuch. Wina owocowe mogą fermentować intensywniej - upewnij się, że rurka fermentacyjna ma dużo miejsca na pianę. Jeśli fermentacja nie zacznie się w 48 godzin, sprawdź temperaturę i zawartość cukru.
 
 4. **Fermentacja cicha** (2-4 tygodnie)
-   - Instrukcje: Po zakończeniu fermentacji burzliwej, temperatura 15-18°C.
-   - Materiały: Fermentator, rurka fermentacyjna
-   - Warunki: Temperatura 15-18°C
-   - Ostrzeżenia: Wina owocowe mogą fermentować dłużej niż winogronowe
+   - Instrukcje: Po zakończeniu fermentacji burzliwej (kożuch opadł, mniej bąbelków) wykonaj pierwsze zlewanie z nad osadu. Przenieś wino do czystego naczynia, zostawiając osad na dnie. Następnie wino przechodzi w fazę cichą - zamknij szczelnie z rurką fermentacyjną. Temperatura 15-18°C. Wina owocowe mogą fermentować dłużej niż winogronowe.
+   - Materiały: Fermentator z zamknięciem, rurka fermentacyjna, syfon, czyste naczynie
+   - Warunki: Temperatura 15-18°C, ciemne miejsce, szczelne zamknięcie
+   - Ostrzeżenia: Po zlewaniu sprawdź czy rurka fermentacyjna ma wodę. Wina owocowe mogą fermentować dłużej niż winogronowe - bądź cierpliwy. Sprawdzaj regularnie, ale nie mieszaj.
 
 5. **Klarowanie** (2-4 tygodnie)
    - Instrukcje: Pozostaw wino do klarowania. Wina owocowe mogą wymagać klarownika częściej.
@@ -1064,7 +989,7 @@ Każdy szablon zawiera:
    - Warunki: Sterylne warunki
    - Ostrzeżenia: Upewnij się, że wszystko jest czyste
 
-**Typowe składniki:** Owoce (jabłka, wiśnie, maliny, śliwki, itp. - 10-15 kg na 10L), drożdże owocowe lub winne, cukier (często potrzebny), woda (opcjonalnie), klarownik (często potrzebny)
+**Typowe składniki:** Owoce (jabłka, wiśnie, maliny, śliwki, itp. - 10-15 kg na 10L), drożdże owocowe lub winne, pożywka z witaminą B1, cukier (często potrzebny - 150-200 g/l dla 12-14% alkoholu), woda (opcjonalnie, dla rozrzedzenia), klarownik (często potrzebny - bentonit, żelatyna), siarka/siarczyn sodu (opcjonalnie, 40-60 mg/l), rurka fermentacyjna
 
 ### 7.5 Miód pitny trójniak
 
@@ -1076,16 +1001,16 @@ Każdy szablon zawiera:
    - Ostrzeżenia: Nie gotuj miodu - traci właściwości. Użyj dobrej jakości miodu. Sprawdź czy woda jest odpowiedniej jakości (nie chlorowana lub przegotowana i ostudzona)
 
 2. **Fermentacja burzliwa** (10-21 dni)
-   - Instrukcje: Dodaj drożdże do miodu pitnego (specjalne drożdże do miodu pitnego lub drożdże winne) oraz pożywke z witaminą B1. Zainstaluj rurke fermentacyjną. Fermentacja jest widoczna (bąbelki, pianowanie). Temperatura 18-22°C. Codziennie mieszaj delikatnie na początku (pierwsze 3-5 dni).
-   - Materiały: Drożdże do miodu pitnego lub winne, pożywka z witaminą B1, rurka fermentacyjna, dodatkowy miód lub cukier (jeśli potrzeba skorygować)
-   - Warunki: Temperatura 18-22°C, ciemne miejsce
-   - Ostrzeżenia: Miód pitny fermentuje wolniej niż wino. Bądź cierpliwy. Upewnij się, że zawór wodny ma wodę. Nie mieszaj zbyt agresywnie po pierwszych dniach, Staraj się codziennie mieszać.
+   - Instrukcje: Dodaj drożdże do miodu pitnego (specjalne drożdże do miodu pitnego lub drożdże winne) oraz pożywka z witaminą B1 zgodnie z instrukcją. Miód pitny ma mało składników odżywczych, więc pożywka jest bardzo ważna. Zainstaluj rurkę fermentacyjną (upewnij się, że ma wodę!). Fermentacja jest widoczna po 2-3 dniach (bąbelki, pianowanie - miodu pitny ma więcej piany niż wino). Temperatura 18-22°C. Codziennie mieszaj delikatnie na początku (pierwsze 3-5 dni) - to napowietrza i pomaga drożdżom. Po 5 dniach przestań mieszać.
+   - Materiały: Drożdże do miodu pitnego lub winne (odporne na wysoką zawartość alkoholu), pożywka z witaminą B1 (ważna!), rurka fermentacyjna, dodatkowy miód lub cukier (jeśli potrzeba skorygować ekstrakt)
+   - Warunki: Temperatura 18-22°C, ciemne miejsce, dostęp tlenu na początku (nie zamykaj hermetycznie przez pierwsze 3-5 dni)
+   - Ostrzeżenia: Miód pitny fermentuje wolniej niż wino - bądź cierpliwy, to normalne. Upewnij się, że rurka fermentacyjna ma wodę (sprawdzaj codziennie!). Nie mieszaj zbyt agresywnie po pierwszych 5 dniach - pozwól drożdżom pracować. Jeśli fermentacja nie zacznie się w ciągu 5 dni, dodaj więcej pożywki i/lub więcej drożdży.
 
 3. **Fermentacja cicha** (4-8 tygodni)
-   - Instrukcje: Po zakończeniu fermentacji burzliwej (mniej bąbelków) miód pitny przechodzi w fazę cichą. Temperatura 15-18°C. Fermentacja trwa, ale jest mniej widoczna.
-   - Materiały: Fermentator z zamknięciem, rurka fermentacyjna
-   - Warunki: Temperatura 15-18°C, ciemne, spokojne miejsce
-   - Ostrzeżenia: Miód pitny potrzebuje więcej czasu na fermentację cichą niż wino. Sprawdzaj regularnie, ale nie mieszaj
+   - Instrukcje: Po zakończeniu fermentacji burzliwej (mniej bąbelków, mniej piany, osad opadł - może to trwać dłużej niż w winie) wykonaj pierwsze zlewanie z nad osadu. Przenieś miód pitny do czystego naczynia, zostawiając osad na dnie. Następnie zamknij szczelnie z rurką fermentacyjną - przechodzi w fazę cichą. Temperatura 15-18°C. Fermentacja trwa, ale jest mniej widoczna (może być 1 bąbelek co kilka sekund).
+   - Materiały: Fermentator z zamknięciem, rurka fermentacyjna, syfon, czyste naczynie
+   - Warunki: Temperatura 15-18°C, ciemne, spokojne miejsce, szczelne zamknięcie
+   - Ostrzeżenia: Po zlewaniu sprawdź czy rurka fermentacyjna ma wodę (ważne!). Miód pitny potrzebuje więcej czasu na fermentację cichą niż wino - to normalne. Sprawdzaj regularnie (co tydzień), ale nie mieszaj. Jeśli fermentacja całkowicie ustała po 8 tygodniach, można zakończyć - ale miód pitny może fermentować nawet do 12 tygodni.
 
 4. **Klarowanie** (4-8 tygodni)
    - Instrukcje: Miód pitny klaruje się wolniej niż wino. Pozostaw w spokoju, osad opadnie na dno. Można użyć klarownika, ale często nie jest potrzebny - miód pitny klaruje się naturalnie.
