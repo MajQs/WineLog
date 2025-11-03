@@ -1,0 +1,17 @@
+
+  ### Główny problem
+  Produkcja wina dla osób początkujących może być problematyczna. Wiele osób chce szybko zacząć bez uprzedniego zagłębienia się w temat co w rezultacie może prowadzić do słabej jakości wina.
+  
+  ### Najmniejszy zestaw funkcjonalności
+  - Przeglądanie, tworzenie, edytowanie, usuwanie notatek danego nastawu wina
+  - Archiwizacja i przegląd zakończonych nastawów win
+  - Przeprowadzenie użytkownika przez wszystkie etapy wytwarzania wina
+  - Prosty system kont użytkowników do przechowywania notatek
+  
+  ### Co NIE wchodzi w zakres MVP
+  - Aplikacje mobilne (na początek tylko web)
+  - Zaawansowane kalkulatory mierzenia alkoholu, cukru itp. (aplikacja przeznaczona jest dla użytkowników początkujących) 
+  
+  ### Kryteria sukcesu
+  - Użytkonik powinien dodać nowy nastaw w zaledwie kilka kliknięć 
+  - Aplikacja przedstawia użytkownikowi kolejno fazy produkcji wina w prosty sposób (w pigułce, dla początkujących)
