@@ -68,44 +68,34 @@
 
 ---
 
-## Ostatnie pytania i zalecenia przed PRD
+## Ostatnie pytania i zalecenia przed PRD - Odpowiedzi
 
-1. **Jakie błędy i sytuacje brzegowe aplikacja powinna obsługiwać - co się dzieje, gdy użytkownik próbuje przejść do następnego etapu przed zakończeniem poprzedniego, czy mogą być konflikty w danych?**
+1. **Jakie błędy i sytuacje brzegowe aplikacja powinna obsługiwać?**
+   - ✅ Zgodnie z rekomendacją - przechodzenie między etapami w dowolnej kolejności z ostrzeżeniami, walidacja po stronie serwera, przyjazne komunikaty błędów
 
-   Rekomendacja: Aplikacja powinna pozwalać na przechodzenie między etapami w dowolnej kolejności, ale ostrzegać użytkownika, jeśli pomija etapy (np. "Czy na pewno chcesz pominąć X?"). Wszystkie dane powinny być walidowane po stronie serwera, a błędne operacje powinny być zgłaszane w sposób przyjazny dla użytkownika. Rozważ logowanie błędów dla celów debugowania.
+2. **Czy aplikacja powinna mieć funkcję eksportu danych?**
+   - ✅ Zaplanuj tylko to co jest wymagane przez RODO - eksport danych w formacie JSON
 
-2. **Czy aplikacja powinna mieć funkcję eksportu danych użytkownika (np. PDF z historią nastawu, CSV z danymi) i w jakim formacie?**
+3. **Jak aplikacja powinna obsługiwać przypadki utraty sesji?**
+   - ✅ Aplikacja powinna automatycznie wylogowywać użytkownika po wygaśnięciu sesji (np. po 30 dniach nieaktywności lub po wygaśnięciu tokenu). Użytkownik powinien otrzymać komunikat o konieczności ponownego zalogowania.
 
-   Rekomendacja: W MVP wprowadź podstawowy eksport danych użytkownika w formacie JSON (wymagane przez RODO), ale zaplanuj możliwość eksportu konkretnego nastawu do PDF lub CSV w przyszłości. Użytkownik powinien móc pobrać wszystkie swoje dane w ustawieniach konta.
+4. **Czy aplikacja powinna mieć system wersjonowania notatek?**
+   - ✅ W MVP nie jest konieczne pełne wersjonowanie
 
-3. **Jak aplikacja powinna obsługiwać przypadki utraty sesji użytkownika lub wygaśnięcia tokenu autoryzacji?**
+5. **Jakie metryki i analitykę aplikacja powinna zbierać?**
+   - ✅ Zgodnie z rekomendacją - anonimowe metryki zgodnie z RODO, możliwość wyłączenia przez użytkownika
 
-   Rekomendacja: Aplikacja powinna automatycznie wylogowywać użytkownika po wygaśnięciu sesji (np. po 30 dniach nieaktywności lub po wygaśnięciu tokenu). Użytkownik powinien otrzymać komunikat o konieczności ponownego zalogowania, a wszystkie niezapisane zmiany powinny być zapisane w lokalnym cache (jeśli to możliwe) lub ostrzeżenie o utracie danych.
+6. **Jak aplikacja powinna wyglądać na różnych rozdzielczościach ekranów?**
+   - ✅ Zgodnie z rekomendacją - w pełni responsywna (320px-4K), mobile-first, priorytet dla urządzeń mobilnych i tabletów
 
-4. **Czy aplikacja powinna mieć system wersjonowania lub historii zmian dla notatek - czy użytkownik może cofnąć edycję notatki?**
+7. **Czy aplikacja powinna mieć funkcję wyszukiwania/filtrowania?**
+   - ✅ W MVP wprowadź podstawową funkcjonalność filtrowania nastawów po statusie (aktywne/zakończone) i typie (wino/miód pitny) oraz sortowaniu po dacie.
 
-   Rekomendacja: W MVP nie jest konieczne pełne wersjonowanie, ale zaplanuj architekturę, która pozwoli na dodanie historii zmian w przyszłości. W MVP użytkownik może edytować notatki, ale bez możliwości cofnięcia zmian. Rozważ dodanie timestampu ostatniej edycji przy każdej notatce.
+8. **Jakie są wymagania dotyczące wydajności?**
+   - ✅ Zgodnie z rekomendacją - ładowanie poniżej 3 sekund na 4G, reakcja interfejsu poniżej 200ms, lazy loading dla archiwum, loading states
 
-5. **Jakie metryki i analitykę aplikacja powinna zbierać dla celów rozwoju produktu (przy zachowaniu prywatności użytkowników)?**
+9. **Czy aplikacja powinna mieć tryb offline/read-only?**
+   - ✅ W MVP nie jest to konieczne
 
-   Rekomendacja: Zbieraj anonimowe metryki: liczba aktywnych nastawów na użytkownika, średni czas ukończenia nastawu, najczęściej wybierane szablony, punkty drop-off w procesie, czas spędzony w aplikacji. Wszystko zgodnie z RODO i z możliwością wyłączenia przez użytkownika. Nie zbieraj danych osobowych w metrykach.
-
-6. **Jak aplikacja powinna wyglądać na różnych rozdzielczościach ekranów - czy jest to responsywna aplikacja webowa czy planowany jest konkretny zakres rozdzielczości?**
-
-   Rekomendacja: Aplikacja powinna być w pełni responsywna i działać poprawnie na urządzeniach mobilnych, tabletach i desktopach (od 320px do 4K). Priorytetem są urządzenia mobilne i tablety, ponieważ użytkownicy mogą chcieć dodawać notatki w trakcie pracy nad nastawem. Zastosuj podejście mobile-first.
-
-7. **Czy aplikacja powinna mieć funkcję wyszukiwania/filtrowania nastawów i notatek, czy w MVP wystarczy podstawowa lista?**
-
-   Rekomendacja: W MVP wprowadź podstawową funkcjonalność filtrowania nastawów po statusie (aktywne/zakończone) i typie (wino/miód pitny). Zaplanuj możliwość rozszerzenia o wyszukiwanie po nazwie, dacie, ocenie w przyszłości. Dla małej liczby nastawów (do 20-30) lista może być wystarczająca bez zaawansowanego wyszukiwania.
-
-8. **Jakie są wymagania dotyczące wydajności ładowania strony i responsywności interfejsu - jakie są akceptowalne czasy ładowania?**
-
-   Rekomendacja: Strona powinna ładować się w czasie poniżej 3 sekund na typowym połączeniu 4G. Interfejs powinien reagować na akcje użytkownika w czasie poniżej 200ms (percepcja natychmiastowej reakcji). Rozważ lazy loading dla archiwum zakończonych nastawów. Implementuj loading states i skeleton screens dla lepszego UX.
-
-9. **Czy aplikacja powinna mieć tryb offline/read-only, nawet jeśli pełna synchronizacja nie jest dostępna w MVP?**
-
-   Rekomendacja: W MVP nie jest to konieczne, ale zaplanuj cache'owanie danych w localStorage przeglądarki, aby możliwe było przeglądanie ostatnio załadowanych nastawów bez połączenia (read-only). Pełna funkcjonalność offline (edytowanie bez internetu) może być dodana później.
-
-10. **Jakie są priorytety implementacji funkcjonalności - czy wszystkie funkcje MVP mają być gotowe jednocześnie, czy można wprowadzić je fazami?**
-
-    Rekomendacja: Rozważ fazowe wprowadzanie: Faza 1 - podstawowa rejestracja/logowanie i tworzenie nastawów z szablonami, Faza 2 - zarządzanie etapami i notatkami, Faza 3 - archiwum i oceny. To pozwoli na wcześniejsze testowanie z użytkownikami i iterację. Określ, które funkcje są krytyczne dla pierwszego uruchomienia, a które mogą być dodane w ciągu pierwszych tygodni po launchu.
+10. **Jakie są priorytety implementacji funkcjonalności?**
+    - ✅ Wszystko ma być gotowe na MVP - wszystkie funkcje jednocześnie
