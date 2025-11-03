@@ -1,94 +1,80 @@
-# 10x Astro Starter
+# WineLog
 
-A modern, opinionated starter template for building fast, accessible, and AI-friendly web applications.
+> A web application that guides beginner and intermediate winemakers (and mead enthusiasts) through the entire production process — step-by-step, fully documented, and available on any device.
+
+## Table of Contents
+1. [Project Description](#project-description)
+2. [Tech Stack](#tech-stack)
+3. [Getting Started Locally](#getting-started-locally)
+4. [Available Scripts](#available-scripts)
+5. [Project Scope (MVP)](#project-scope-mvp)
+6. [Project Status](#project-status)
+7. [License](#license)
+
+## Project Description
+WineLog simplifies home wine and mead making by providing:
+- A template-driven workflow with predefined production stages and durations.
+- Detailed, beginner-friendly instructions for every step.
+- The ability to run multiple batches in parallel, each with its own timeline and notes.
+- A chronological note system to document actions and observations.
+- An archive to review and rate finished batches.
 
 ## Tech Stack
+| Layer | Technology |
+|-------|------------|
+| Frontend | Astro 5, React 19, TypeScript 5 |
+| Styling | Tailwind CSS 4, Shadcn/ui, Radix UI |
+| Backend-as-a-Service | Supabase (PostgreSQL, Auth, Storage) |
+| Tooling | Node 22.14, Vite, ESLint, Prettier |
 
-- [Astro](https://astro.build/) v5.5.5 - Modern web framework for building fast, content-focused websites
-- [React](https://react.dev/) v19.0.0 - UI library for building interactive components
-- [TypeScript](https://www.typescriptlang.org/) v5 - Type-safe JavaScript
-- [Tailwind CSS](https://tailwindcss.com/) v4.0.17 - Utility-first CSS framework
-
-## Prerequisites
-
-- Node.js v22.14.0 (as specified in `.nvmrc`)
-- npm (comes with Node.js)
-
-## Getting Started
-
-1. Clone the repository:
-
+## Getting Started Locally
 ```bash
-git clone https://github.com/przeprogramowani/10x-astro-starter.git
-cd 10x-astro-starter
+# 1. Clone the repository
+$ git clone https://github.com/your-org/winelog.git
+$ cd winelog
+
+# 2. Install dependencies (requires Node >= 22.14)
+$ npm install
+
+# 3. Start the development server
+$ npm run dev
+# The app is now available at http://localhost:4321
+
+# 4. Build for production
+$ npm run build
 ```
 
-2. Install dependencies:
-
-```bash
-npm install
-```
-
-3. Run the development server:
-
-```bash
-npm run dev
-```
-
-4. Build for production:
-
-```bash
-npm run build
-```
+> **Tip**
+> WineLog uses Supabase. During local development you can either:
+> 1. Point the `.env` variables at a hosted Supabase project, **or**
+> 2. Run Supabase locally with `supabase start`.
 
 ## Available Scripts
+Command | Purpose
+--- | ---
+`npm run dev` | Start Astro in dev mode with hot-reload
+`npm run build` | Build a static production bundle
+`npm run preview` | Preview the production build locally
+`npm run astro <cmd>` | Run arbitrary Astro CLI commands
+`npm run lint` | Lint all files with ESLint
+`npm run lint:fix` | Lint and auto-fix issues
+`npm run format` | Format code with Prettier
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
-- `npm run lint` - Run ESLint
-- `npm run lint:fix` - Fix ESLint issues
+## Project Scope (MVP)
+- **User Accounts** – Email/password registration, soft email verification, 30-day sessions, account deletion.
+- **Batch Templates** – Red, white, rosé, fruit wine, and traditional mead with predefined stages.
+- **Production Stages** – Sequential progression (prepare → ferment → clarify → mature → bottle) with guidance and safeguards.
+- **Notes** – CRUD for dated notes tied to stages.
+- **Archive & Rating** – Move finished batches to archive and rate 1-5 stars.
+- **Dashboard** – Mobile-first overview of all active batches plus archive access.
 
-## Project Structure
+_Out of scope for MVP_: native mobile apps, advanced calculators, social features, notifications, custom templates, offline mode, exports.
 
-```md
-.
-├── src/
-│   ├── layouts/    # Astro layouts
-│   ├── pages/      # Astro pages
-│   │   └── api/    # API endpoints
-│   ├── components/ # UI components (Astro & React)
-│   └── assets/     # Static assets
-├── public/         # Public assets
-```
+## Project Status
+[![GitHub CI](https://img.shields.io/github/actions/workflow/status/your-org/winelog/ci.yml?branch=main&label=CI)](../../actions)
+[![Version](https://img.shields.io/static/v1?label=version&message=0.0.1&color=blue)](./package.json)
 
-## AI Development Support
-
-This project is configured with AI development tools to enhance the development experience, providing guidelines for:
-
-- Project structure
-- Coding practices
-- Frontend development
-- Styling with Tailwind
-- Accessibility best practices
-- Astro and React guidelines
-
-### Cursor IDE
-
-The project includes AI rules in `.cursor/rules/` directory that help Cursor IDE understand the project structure and provide better code suggestions.
-
-### GitHub Copilot
-
-AI instructions for GitHub Copilot are available in `.github/copilot-instructions.md`
-
-### Windsurf
-
-The `.windsurfrules` file contains AI configuration for Windsurf.
-
-## Contributing
-
-Please follow the AI guidelines and coding practices defined in the AI configuration files when contributing to this project.
+The project is in active **MVP development**. Core features are being implemented; expect breaking changes until v1.0.0.
 
 ## License
-
-MIT
+This project is licensed under the **MIT License**. See the [`LICENSE`](LICENSE) file for details.
