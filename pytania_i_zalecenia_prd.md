@@ -34,44 +34,78 @@
 
 ---
 
-## Kolejne pytania i zalecenia
+## Kolejne pytania i zalecenia - Odpowiedzi
 
-1. **Jak dokładnie powinien działać mechanizm restartu fermentacji - czy użytkownik może restartować dowolną liczbę razy, czy jest limit? Czy restart cofa nastaw do konkretnego etapu, czy tylko oznacza ponowne rozpoczęcie fermentacji?**
+1. **Jak dokładnie powinien działać mechanizm restartu fermentacji?**
+   - ✅ Zgodnie z rekomendacją - restart oznacza ponowne rozpoczęcie fermentacji z aktualną datą, historia restartów w notatkach, bez cofania etapu
 
-   Rekomendacja: Zaplanuj restart fermentacji jako opcję, która pozwala użytkownikowi oznaczyć, że fermentacja została wznowiona (np. po dodaniu cukru). Zachowaj historię wszystkich restartów w notatkach, aby użytkownik mógł śledzić postępy. Nie cofaj etapu, tylko pozwól na oznaczenie ponownego rozpoczęcia fermentacji z aktualną datą.
+2. **Kiedy użytkownik powinien wybierać między tłoczeniem a maceracją?**
+   - ✅ Zgodnie z rekomendacją - wybór w etapie "przygotowanie nastawu", opcjonalny, z wyjaśnieniami dla początkujących
 
-2. **Kiedy użytkownik powinien wybierać między tłoczeniem a maceracją - czy wybór następuje podczas tworzenia nastawu, czy można zmienić wybór w trakcie procesu?**
+3. **Jak powinien wyglądać przepływ weryfikacji e-mail?**
+   - ✅ Zgodnie z rekomendacją - model "soft verification", możliwość korzystania przed weryfikacją, link ważny 7 dni
 
-   Rekomendacja: Wybór tłoczenia vs maceracji powinien być częścią etapu "przygotowanie nastawu" i może być opcjonalny (użytkownik może pominąć ten krok). Aplikacja powinna zawierać krótkie wyjaśnienia, kiedy stosować które podejście, aby pomóc początkującym użytkownikom.
+4. **Jakie konkretne typy win i miodów pitnych powinny być dostępne jako szablony?**
+   - ✅ Zgodnie z rekomendacją - 3-5 szablonów (wino czerwone, białe, różowe, miód pitny klasyczny), każdy z nazwą etapów, czasami trwania, opisami i składnikami
 
-3. **Jak powinien wyglądać przepływ weryfikacji e-mail - czy użytkownik może używać aplikacji przed weryfikacją, czy musi czekać na potwierdzenie e-mail?**
+5. **Czy aplikacja powinna umożliwiać niestandardowe typy nastawów?**
+   - ✅ Zgodnie z rekomendacją - tylko wino i miód pitny w MVP, elastyczna struktura danych na przyszłość
 
-   Rekomendacja: Rozważ model "soft verification" - użytkownik może rozpocząć korzystanie z aplikacji natychmiast po rejestracji, ale otrzymuje przypomnienia o weryfikacji i niektóre funkcje (np. reset hasła, powiadomienia) wymagają zweryfikowanego e-maila. Link weryfikacyjny powinien być ważny przez określony czas (np. 7 dni).
+6. **Jakie dane powinny być widoczne na dashboardzie?**
+   - ✅ Zgodnie z rekomendacją - lista aktywnych nastawów (nazwa, typ, data, etap, ostatnia notatka), sekcja Archiwum, przycisk "Nowy nastaw"
 
-4. **Jakie konkretne typy win i miodów pitnych powinny być dostępne jako szablony w MVP i jakie informacje powinien zawierać każdy szablon?**
+7. **Czy użytkownik powinien móc edytować etapy?**
+   - ✅ Zgodnie z rekomendacją - możliwość pominięcia etapu lub powrotu do poprzedniego z notatką, bez dodawania nowych etapów w MVP
 
-   Rekomendacja: W MVP wprowadź 3-5 podstawowych szablonów: wino czerwone, wino białe, wino różowe, miód pitny klasyczny, ewentualnie wino owocowe. Każdy szablon powinien zawierać: nazwę etapów, sugerowane czasy trwania etapów (jeśli dotyczy), krótkie opisy co robić na każdym etapie, oraz typowe składniki (jako sugestia/podpowiedź).
+8. **Jakie informacje powinny być wymagane podczas tworzenia nastawu?**
+   - ✅ Zgodnie z rekomendacją - minimalnie: nazwa (lub domyślna) + wybór szablonu, reszta w notatkach, możliwość 2 kliknięć
 
-5. **Czy aplikacja powinna umożliwiać użytkownikowi dodanie własnego niestandardowego typu nastawu (nie wino, nie miód pitny), czy w MVP ograniczamy się tylko do tych dwóch kategorii?**
+9. **Jak powinna działać funkcja zakończenia nastawu?**
+   - ✅ Użytkownik może zakończyć nastaw w dowolnym momencie (z opcjonalnym powodem w notatce). Po zakończeniu nastaw przenosi się do archiwum, gdzie użytkownik może dodać ocenę 1-5 gwiazdek.
 
-   Rekomendacja: W MVP ogranicz się do win i miodów pitnych, ale zaplanuj elastyczną strukturę danych, która pozwoli w przyszłości dodać inne kategorie. Użytkownik może wybrać między "wino" a "miód pitny" podczas tworzenia nastawu.
+10. **Jakie są wymagania dotyczące bezpieczeństwa i RODO?**
+    - ✅ Zgodnie z rekomendacją - eksport danych, usunięcie konta, szyfrowanie, polityka prywatności
 
-6. **Jakie dane powinny być widoczne na dashboardzie głównym użytkownika i jak powinna wyglądać lista aktywnych nastawów?**
+---
 
-   Rekomendacja: Dashboard powinien pokazywać: listę aktywnych nastawów z nazwą, typem (wino/miód), datą rozpoczęcia, aktualnym etapem, oraz szybkim podglądem ostatniej notatki. Zakończone nastawy powinny być widoczne w oddzielnej sekcji "Archiwum". Zapewnij łatwy dostęp do dodania nowego nastawu (duży przycisk "Nowy nastaw").
+## Ostatnie pytania i zalecenia przed PRD
 
-7. **Czy użytkownik powinien móc edytować etapy w istniejącym nastawie (np. pominąć jakiś etap, dodać dodatkowy), czy etapy są sztywne i użytkownik tylko przechodzi przez nie sekwencyjnie?**
+1. **Jakie błędy i sytuacje brzegowe aplikacja powinna obsługiwać - co się dzieje, gdy użytkownik próbuje przejść do następnego etapu przed zakończeniem poprzedniego, czy mogą być konflikty w danych?**
 
-   Rekomendacja: Użytkownik powinien móc przechodzić przez etapy sekwencyjnie, ale również mieć możliwość oznaczenia etapu jako "pominięty" lub powrotu do poprzedniego etapu (z notatką wyjaśniającą powód). Nie pozwól na dodawanie całkowicie nowych etapów w MVP - to można dodać później.
+   Rekomendacja: Aplikacja powinna pozwalać na przechodzenie między etapami w dowolnej kolejności, ale ostrzegać użytkownika, jeśli pomija etapy (np. "Czy na pewno chcesz pominąć X?"). Wszystkie dane powinny być walidowane po stronie serwera, a błędne operacje powinny być zgłaszane w sposób przyjazny dla użytkownika. Rozważ logowanie błędów dla celów debugowania.
 
-8. **Jakie informacje powinny być wymagane podczas tworzenia nowego nastawu, aby spełnić kryterium "kilka kliknięć"?**
+2. **Czy aplikacja powinna mieć funkcję eksportu danych użytkownika (np. PDF z historią nastawu, CSV z danymi) i w jakim formacie?**
 
-   Rekomendacja: Minimalne wymagane dane to: nazwa nastawu (lub domyślna generowana), wybór szablonu (wino czerwone/białe/różowe/miód pitny). Wszystkie pozostałe informacje (daty, składniki, szczegóły) mogą być dodawane później w notatkach. Rozważ możliwość szybkiego utworzenia z tylko 2 kliknięciami: "Nowy nastaw" -> wybór szablonu -> "Utwórz".
+   Rekomendacja: W MVP wprowadź podstawowy eksport danych użytkownika w formacie JSON (wymagane przez RODO), ale zaplanuj możliwość eksportu konkretnego nastawu do PDF lub CSV w przyszłości. Użytkownik powinien móc pobrać wszystkie swoje dane w ustawieniach konta.
 
-9. **Jak powinna działać funkcja zakończenia nastawu i przeniesienia do archiwum - czy użytkownik może oznaczyć nastaw jako zakończony w dowolnym momencie, czy musi przejść przez wszystkie etapy?**
+3. **Jak aplikacja powinna obsługiwać przypadki utraty sesji użytkownika lub wygaśnięcia tokenu autoryzacji?**
 
-   Rekomendacja: Użytkownik powinien móc zakończyć nastaw w dowolnym momencie (z opcjonalnym powodem w notatce). Po zakończeniu nastaw przenosi się do archiwum, gdzie użytkownik może dodać ocenę 1-5 gwiazdek. Rozważ również opcję "wstrzymany" dla nastawów, które są tymczasowo przerwane.
+   Rekomendacja: Aplikacja powinna automatycznie wylogowywać użytkownika po wygaśnięciu sesji (np. po 30 dniach nieaktywności lub po wygaśnięciu tokenu). Użytkownik powinien otrzymać komunikat o konieczności ponownego zalogowania, a wszystkie niezapisane zmiany powinny być zapisane w lokalnym cache (jeśli to możliwe) lub ostrzeżenie o utracie danych.
 
-10. **Jakie są wymagania dotyczące bezpieczeństwa danych użytkownika i zgodności z RODO, szczególnie w kontekście przechowywania danych osobowych i danych o produkcji?**
+4. **Czy aplikacja powinna mieć system wersjonowania lub historii zmian dla notatek - czy użytkownik może cofnąć edycję notatki?**
 
-    Rekomendacja: Zaplanuj implementację zgodną z RODO: możliwość eksportu danych użytkownika, możliwość usunięcia konta wraz z wszystkimi danymi, szyfrowanie danych wrażliwych, jasna polityka prywatności. Użytkownik powinien mieć dostęp do swoich danych i móc je usunąć w ustawieniach konta.
+   Rekomendacja: W MVP nie jest konieczne pełne wersjonowanie, ale zaplanuj architekturę, która pozwoli na dodanie historii zmian w przyszłości. W MVP użytkownik może edytować notatki, ale bez możliwości cofnięcia zmian. Rozważ dodanie timestampu ostatniej edycji przy każdej notatce.
+
+5. **Jakie metryki i analitykę aplikacja powinna zbierać dla celów rozwoju produktu (przy zachowaniu prywatności użytkowników)?**
+
+   Rekomendacja: Zbieraj anonimowe metryki: liczba aktywnych nastawów na użytkownika, średni czas ukończenia nastawu, najczęściej wybierane szablony, punkty drop-off w procesie, czas spędzony w aplikacji. Wszystko zgodnie z RODO i z możliwością wyłączenia przez użytkownika. Nie zbieraj danych osobowych w metrykach.
+
+6. **Jak aplikacja powinna wyglądać na różnych rozdzielczościach ekranów - czy jest to responsywna aplikacja webowa czy planowany jest konkretny zakres rozdzielczości?**
+
+   Rekomendacja: Aplikacja powinna być w pełni responsywna i działać poprawnie na urządzeniach mobilnych, tabletach i desktopach (od 320px do 4K). Priorytetem są urządzenia mobilne i tablety, ponieważ użytkownicy mogą chcieć dodawać notatki w trakcie pracy nad nastawem. Zastosuj podejście mobile-first.
+
+7. **Czy aplikacja powinna mieć funkcję wyszukiwania/filtrowania nastawów i notatek, czy w MVP wystarczy podstawowa lista?**
+
+   Rekomendacja: W MVP wprowadź podstawową funkcjonalność filtrowania nastawów po statusie (aktywne/zakończone) i typie (wino/miód pitny). Zaplanuj możliwość rozszerzenia o wyszukiwanie po nazwie, dacie, ocenie w przyszłości. Dla małej liczby nastawów (do 20-30) lista może być wystarczająca bez zaawansowanego wyszukiwania.
+
+8. **Jakie są wymagania dotyczące wydajności ładowania strony i responsywności interfejsu - jakie są akceptowalne czasy ładowania?**
+
+   Rekomendacja: Strona powinna ładować się w czasie poniżej 3 sekund na typowym połączeniu 4G. Interfejs powinien reagować na akcje użytkownika w czasie poniżej 200ms (percepcja natychmiastowej reakcji). Rozważ lazy loading dla archiwum zakończonych nastawów. Implementuj loading states i skeleton screens dla lepszego UX.
+
+9. **Czy aplikacja powinna mieć tryb offline/read-only, nawet jeśli pełna synchronizacja nie jest dostępna w MVP?**
+
+   Rekomendacja: W MVP nie jest to konieczne, ale zaplanuj cache'owanie danych w localStorage przeglądarki, aby możliwe było przeglądanie ostatnio załadowanych nastawów bez połączenia (read-only). Pełna funkcjonalność offline (edytowanie bez internetu) może być dodana później.
+
+10. **Jakie są priorytety implementacji funkcjonalności - czy wszystkie funkcje MVP mają być gotowe jednocześnie, czy można wprowadzić je fazami?**
+
+    Rekomendacja: Rozważ fazowe wprowadzanie: Faza 1 - podstawowa rejestracja/logowanie i tworzenie nastawów z szablonami, Faza 2 - zarządzanie etapami i notatkami, Faza 3 - archiwum i oceny. To pozwoli na wcześniejsze testowanie z użytkownikami i iterację. Określ, które funkcje są krytyczne dla pierwszego uruchomienia, a które mogą być dodane w ciągu pierwszych tygodni po launchu.
