@@ -291,7 +291,7 @@ Każdy szablon zawiera:
 
 #### 4.1.10 Zaawansowane funkcje nastawów
 - Dodawanie własnych etapów
-- Własne szablony użytkownika
+- Brak możliwości dodawania własnych szablonów (tylko szablony systemowe)
 - Klonowanie nastawów
 - Planowane na późniejsze wersje
 
@@ -515,7 +515,7 @@ Każdy szablon zawiera:
 - Użytkownik może dodać notatkę z poziomu widoku szczegółów nastawu lub etapu
 - Formularz notatki zawiera pola: data (automatyczna, bez możliwości zmiany), działanie, obserwacje
 - Data jest ustawiana automatycznie i nie może być zmieniona w MVP
-- Każde pole może mieć maksymalnie 5000 znaków
+- Każde pole może mieć maksymalnie 200 znaków
 - Notatka jest zapisywana do aktualnego etapu
 - Po zapisaniu notatka jest widoczna w timeline nastawu
 - Walidacja po stronie klienta i serwera
