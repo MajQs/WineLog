@@ -4,7 +4,7 @@
  */
 
 import { Calendar, Clock, FileText } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { BatchCardVM } from "@/lib/hooks/useDashboardData";
 
 interface BatchCardProps {
@@ -17,36 +17,6 @@ interface BatchCardProps {
 function truncateText(text: string, maxLength: number): string {
   if (text.length <= maxLength) return text;
   return text.slice(0, maxLength) + "…";
-}
-
-/**
- * Format batch type for display
- */
-function formatBatchType(type: string): string {
-  const typeMap: Record<string, string> = {
-    red: "Czerwone",
-    white: "Białe",
-    rose: "Różowe",
-    sparkling: "Musujące",
-    dessert: "Deserowe",
-  };
-  return typeMap[type] || type;
-}
-
-/**
- * Format stage name for display
- */
-function formatStageName(stageName: string): string {
-  const stageMap: Record<string, string> = {
-    preparation: "Przygotowanie",
-    fermentation: "Fermentacja",
-    pressing: "Tłoczenie",
-    racking: "Dekantacja",
-    aging: "Dojrzewanie",
-    clarification: "Klarowanie",
-    bottling: "Butelkowanie",
-  };
-  return stageMap[stageName] || stageName;
 }
 
 /**
@@ -79,9 +49,6 @@ export function BatchCard({ batch }: BatchCardProps) {
           <CardTitle className="truncate">
             {truncateText(batch.name, 100)}
           </CardTitle>
-          <CardDescription>
-            {formatBatchType(batch.type)}
-          </CardDescription>
         </CardHeader>
         
         <CardContent className="space-y-4">
@@ -91,7 +58,7 @@ export function BatchCard({ batch }: BatchCardProps) {
               Etap {batch.currentStagePosition}
             </span>
             <span className="text-muted-foreground text-sm">
-              {formatStageName(batch.currentStageName)}
+              {batch.currentStageDescription}
             </span>
           </div>
 

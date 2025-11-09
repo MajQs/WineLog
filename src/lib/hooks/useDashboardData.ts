@@ -18,7 +18,7 @@ export interface BatchCardVM {
   name: string;
   type: string;
   startedAtHuman: string;
-  currentStageName: string;
+  currentStageDescription: string;
   currentStagePosition: number;
   currentStageDaysElapsed?: number;
   latestNoteAction?: string;
@@ -34,7 +34,7 @@ function transformBatchToVM(batch: DashboardBatchDto): BatchCardVM {
     name: batch.name,
     type: batch.type,
     startedAtHuman: format(new Date(batch.started_at), "dd.MM.yyyy"),
-    currentStageName: batch.current_stage.name,
+    currentStageDescription: batch.current_stage.description,
     currentStagePosition: batch.current_stage.position,
     currentStageDaysElapsed: batch.current_stage.days_elapsed,
     latestNoteAction: batch.latest_note?.action,

@@ -1,0 +1,16 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import BatchView from "../../components/BatchView";
+
+// Get batch ID from URL params
+const { id } = Astro.params;
+
+if (!id) {
+  return Astro.redirect("/");
+}
+---
+
+<Layout title="Nastaw - WineLog">
+  <BatchView client:only="react" batchId={id} />
+</Layout>
+

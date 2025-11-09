@@ -1,0 +1,16 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ArchivedBatchView from "../../components/ArchivedBatchView";
+
+// Get batch ID from URL params
+const { id } = Astro.params;
+
+if (!id) {
+  return Astro.redirect("/archived");
+}
+---
+
+<Layout title="Archiwum - WineLog">
+  <ArchivedBatchView client:only="react" batchId={id} />
+</Layout>
+

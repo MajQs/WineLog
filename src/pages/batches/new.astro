@@ -1,0 +1,13 @@
+---
+/**
+ * New Batch Modal Route
+ * Modal page for creating a new batch
+ */
+import Layout from "../../layouts/Layout.astro";
+import NewBatchModal from "../../components/batch/NewBatchModal";
+---
+
+<Layout title="Nowy nastaw - WineLog">
+  <NewBatchModal client:only="react" />
+</Layout>
+
