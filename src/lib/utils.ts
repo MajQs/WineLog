@@ -88,6 +88,15 @@ export function mapServiceErrorToHttp(error: Error): [number, ErrorResponseDto] 
         },
       ];
 
+    case "BATCH_NOT_COMPLETED":
+      return [
+        403,
+        {
+          error: "Batch must be archived to add a rating",
+          code: "BATCH_NOT_COMPLETED",
+        },
+      ];
+
     default:
       // For unexpected errors, return generic server error
       console.error("Unexpected service error:", error);
