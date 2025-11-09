@@ -483,7 +483,6 @@ export interface DashboardBatchDto {
 export interface DashboardDto {
   active_batches: DashboardBatchDto[];
   archived_batches_count: number;
-  total_notes: number;
 }
 
 // ============================================================================

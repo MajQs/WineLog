@@ -130,3 +130,11 @@ export const upsertRatingSchema = z.object({
     .max(5, "Rating must be at most 5"),
 });
 
+/**
+ * Validator for dashboard query parameters
+ * Currently no query params are expected, but this is prepared for future extensions
+ */
+export const dashboardQuerySchema = z.object({
+  // Future query params can be added here (e.g., limit, filters)
+});
+
