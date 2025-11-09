@@ -846,51 +846,7 @@ Authorization: Bearer {access_token}
 
 ---
 
-### 7.3 Update Note
-
-**PATCH** `/api/v1/batches/{batch_id}/notes/{note_id}`
-
-Updates existing note (action and/or observations).
-
-**Headers:**
-```
-Authorization: Bearer {access_token}
-```
-
-**Request Body:**
-```json
-{
-  "action": "Zlewanie z nad osadu - drugie",
-  "observations": "Osad około 1cm, wino bardzo klarowne"
-}
-```
-
-**Success Response (200 OK):**
-```json
-{
-  "id": "uuid",
-  "batch_id": "uuid",
-  "stage_id": "uuid",
-  "action": "Zlewanie z nad osadu - drugie",
-  "observations": "Osad około 1cm, wino bardzo klarowne",
-  "created_at": "2025-01-20T10:30:00Z"
-}
-```
-
-**Error Responses:**
-- `400 Bad Request` - Validation failed (character limit exceeded)
-- `404 Not Found` - Note or batch not found
-
-**Validation Rules:**
-- `action`: Max 200 characters
-- `observations`: Max 200 characters
-- At least one field must be provided
-
-**Note:** No edit timestamp in MVP. `created_at` remains unchanged.
-
----
-
-### 7.4 Delete Note
+### 7.3 Delete Note
 
 **DELETE** `/api/v1/batches/{batch_id}/notes/{note_id}`
 

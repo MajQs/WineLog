@@ -145,13 +145,11 @@ Każdy szablon zawiera:
 #### 3.4.2 Operacje CRUD
 - Przeglądanie: wyświetlenie wszystkich notatek nastawu w chronologicznej kolejności
 - Tworzenie: dodanie nowej notatki do aktualnego etapu
-- Edytowanie: modyfikacja istniejącej notatki (bez timestampu ostatniej edycji w MVP)
 - Usuwanie: trwałe usunięcie notatki bez potwierdzenia (dla szybkości w MVP)
 
 #### 3.4.3 Ograniczenia MVP
 - Brak wersjonowania notatek
-- Brak możliwości cofnięcia zmian
-- Brak timestampu ostatniej edycji
+- Brak edytowania notatek (użytkownik może usunąć i dodać nową)
 - Brak ręcznej zmiany daty notatki
 - Brak potwierdzenia przy usuwaniu notatki
 
@@ -531,20 +529,7 @@ Każdy szablon zawiera:
 - Notatki są powiązane z etapami
 - Ostatnia notatka jest widoczna w preview na dashboardzie
 
-#### US-017: Edycja notatki
-**Tytuł:** Modyfikacja istniejącej notatki
-
-**Opis:** Jako zalogowany użytkownik chcę edytować moje notatki, aby poprawić błędy lub dodać informacje.
-
-**Kryteria akceptacji:**
-- Użytkownik może edytować istniejącą notatkę
-- Wszystkie pola notatki mogą być zmienione (oprócz daty)
-- Brak timestampu ostatniej edycji w MVP
-- Zmiany są zapisywane natychmiast po potwierdzeniu
-- Brak możliwości cofnięcia zmian (w MVP)
-- Komunikat potwierdzenia po zapisaniu zmian
-
-#### US-018: Usunięcie notatki
+#### US-017: Usunięcie notatki
 **Tytuł:** Trwałe usunięcie notatki
 
 **Opis:** Jako zalogowany użytkownik chcę usunąć notatkę, jeśli została dodana przez pomyłkę lub jest niepotrzebna.
@@ -555,10 +540,11 @@ Każdy szablon zawiera:
 - Notatka jest trwale usunięta natychmiast po kliknięciu
 - Usunięta notatka znika z timeline
 - Brak możliwości przywrócenia usuniętej notatki (w MVP)
+- Jeśli użytkownik chce poprawić notatkę, może ją usunąć i dodać nową
 
 ### 5.5 Archiwum i oceny
 
-#### US-019: Zakończenie nastawu
+#### US-018: Zakończenie nastawu
 **Tytuł:** Zakończenie produkcji nastawu
 
 **Opis:** Jako zalogowany użytkownik chcę zakończyć mój nastaw w dowolnym momencie, aby przenieść go do archiwum.
@@ -572,7 +558,7 @@ Każdy szablon zawiera:
 - Data zakończenia jest zapisywana
 - Nastaw znika z listy aktywnych nastawów
 
-#### US-020: Przeglądanie archiwum
+#### US-019: Przeglądanie archiwum
 **Tytuł:** Wyświetlenie zakończonych nastawów
 
 **Opis:** Jako zalogowany użytkownik chcę przeglądać moje zakończone nastawy w archiwum, aby analizować poprzednie produkcje.
@@ -584,7 +570,7 @@ Każdy szablon zawiera:
 - Dostępne są wszystkie notatki zakończonego nastawu
 - Zakończone nastawy są przechowywane bezterminowo
 
-#### US-025: Ocena zakończonego nastawu
+#### US-020: Ocena zakończonego nastawu
 **Tytuł:** Dodanie oceny 1-5 gwiazdek do nastawu
 
 **Opis:** Jako zalogowany użytkownik chcę ocenić mój zakończony nastaw w skali 1-5 gwiazdek, aby oznaczyć jakość produktu końcowego.
