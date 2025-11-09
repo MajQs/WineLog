@@ -59,3 +59,18 @@ export const notesQuerySchema = z.object({
   stage_id: uuidSchema.optional(),
 });
 
+/**
+ * Validator for creating a new batch
+ */
+export const createBatchSchema = z.object({
+  template_id: uuidSchema,
+  name: z.string().max(100, "Batch name must not exceed 100 characters").optional(),
+});
+
+/**
+ * Validator for updating batch name
+ */
+export const updateBatchSchema = z.object({
+  name: z.string().min(1, "Batch name cannot be empty").max(100, "Batch name must not exceed 100 characters"),
+});
+

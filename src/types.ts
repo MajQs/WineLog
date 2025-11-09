@@ -316,6 +316,14 @@ export interface CompleteBatchResponseDto {
   message: string;
 }
 
+/**
+ * Delete batch response
+ * DELETE /api/v1/batches/{id}
+ */
+export interface DeleteBatchResponseDto {
+  message: string;
+}
+
 // ============================================================================
 // BATCH STAGES - COMMAND MODELS
 // ============================================================================
