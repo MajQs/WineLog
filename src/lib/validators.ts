@@ -74,3 +74,25 @@ export const updateBatchSchema = z.object({
   name: z.string().min(1, "Batch name cannot be empty").max(100, "Batch name must not exceed 100 characters"),
 });
 
+/**
+ * Validator for batch ID parameter
+ */
+export const batchIdParamSchema = z.object({
+  id: uuidSchema,
+});
+
+/**
+ * Validator for stage advancement note
+ */
+export const stageAdvancementNoteSchema = z.object({
+  action: z.string().min(1, "Action cannot be empty").max(200, "Action must not exceed 200 characters"),
+  observations: z.string().max(200, "Observations must not exceed 200 characters").optional(),
+});
+
+/**
+ * Validator for advancing to next stage
+ */
+export const advanceStageSchema = z.object({
+  note: stageAdvancementNoteSchema.optional(),
+});
+
