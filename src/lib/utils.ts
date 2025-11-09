@@ -7,105 +7,76 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 /**
- * Maps service error messages to HTTP status codes and error response DTOs
- * @param error - Error object from service layer
- * @returns Tuple of [statusCode, errorResponseDto]
+ * Maps service layer errors to HTTP status codes and error responses
+ * 
+ * @param error - Error thrown by service layer
+ * @returns Tuple of [statusCode, errorResponse]
  */
 export function mapServiceErrorToHttp(error: Error): [number, ErrorResponseDto] {
   const message = error.message;
 
-  // Handle known error codes
-  switch (message) {
-    case "BATCH_NOT_FOUND":
-      return [
-        404,
-        {
-          error: "Batch not found or you don't have access to it",
-          code: "NOT_FOUND",
-        },
-      ];
+  // Map known error codes to HTTP status codes
+  const errorMap: Record<string, { status: number; code: string; message: string }> = {
+    BATCH_NOT_FOUND: {
+      status: 404,
+      code: "BATCH_NOT_FOUND",
+      message: "Batch not found",
+    },
+    BATCH_ARCHIVED: {
+      status: 400,
+      code: "BATCH_ARCHIVED",
+      message: "Cannot modify archived batch",
+    },
+    BATCH_ALREADY_COMPLETED: {
+      status: 400,
+      code: "BATCH_ALREADY_COMPLETED",
+      message: "Batch is already completed",
+    },
+    BATCH_NOT_COMPLETED: {
+      status: 400,
+      code: "BATCH_NOT_COMPLETED",
+      message: "Batch must be completed before rating",
+    },
+    TEMPLATE_NOT_FOUND: {
+      status: 404,
+      code: "TEMPLATE_NOT_FOUND",
+      message: "Template not found",
+    },
+    NO_STAGES_FOUND: {
+      status: 400,
+      code: "NO_STAGES_FOUND",
+      message: "No stages found for this batch",
+    },
+    FINAL_STAGE: {
+      status: 400,
+      code: "FINAL_STAGE",
+      message: "Cannot advance from final stage",
+    },
+    NOTE_NOT_FOUND: {
+      status: 404,
+      code: "NOTE_NOT_FOUND",
+      message: "Note not found",
+    },
+  };
 
-    case "BATCH_ARCHIVED":
-      return [
-        400,
-        {
-          error: "Cannot modify an archived batch",
-          code: "INVALID_INPUT",
-        },
-      ];
-
-    case "FINAL_STAGE":
-      return [
-        400,
-        {
-          error: "Batch is already at the final stage",
-          code: "FINAL_STAGE",
-        },
-      ];
-
-    case "NO_STAGES_FOUND":
-      return [
-        500,
-        {
-          error: "No stages found for this batch",
-          code: "SERVER_ERROR",
-        },
-      ];
-
-    case "TEMPLATE_NOT_FOUND":
-      return [
-        404,
-        {
-          error: "Template not found",
-          code: "NOT_FOUND",
-        },
-      ];
-
-    case "BATCH_ALREADY_COMPLETED":
-      return [
-        400,
-        {
-          error: "Batch is already completed",
-          code: "INVALID_INPUT",
-        },
-      ];
-
-    case "UNAUTHORIZED":
-      return [
-        401,
-        {
-          error: "Unauthorized",
-          code: "UNAUTHORIZED",
-        },
-      ];
-
-    case "NOTE_NOT_FOUND":
-      return [
-        404,
-        {
-          error: "Note not found or you don't have access to it",
-          code: "NOT_FOUND",
-        },
-      ];
-
-    case "BATCH_NOT_COMPLETED":
-      return [
-        403,
-        {
-          error: "Batch must be archived to add a rating",
-          code: "BATCH_NOT_COMPLETED",
-        },
-      ];
-
-    default:
-      // For unexpected errors, return generic server error
-      console.error("Unexpected service error:", error);
-      return [
-        500,
-        {
-          error: "An unexpected error occurred",
-          code: "SERVER_ERROR",
-        },
-      ];
+  // Check if error message matches a known error code
+  const mappedError = errorMap[message];
+  if (mappedError) {
+    return [
+      mappedError.status,
+      {
+        error: mappedError.message,
+        code: mappedError.code,
+      },
+    ];
   }
+
+  // Default to 500 Internal Server Error for unknown errors
+  return [
+    500,
+    {
+      error: "Internal server error",
+      code: "INTERNAL_SERVER_ERROR",
+    },
+  ];
 }
