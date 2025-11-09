@@ -96,3 +96,26 @@ export const advanceStageSchema = z.object({
   note: stageAdvancementNoteSchema.optional(),
 });
 
+/**
+ * Validator for creating a new note
+ */
+export const createNoteSchema = z.object({
+  action: z.string().min(1, "Action cannot be empty").max(200, "Action must not exceed 200 characters"),
+  observations: z.string().max(200, "Observations must not exceed 200 characters").optional(),
+});
+
+/**
+ * Validator for updating a note (partial update)
+ */
+export const updateNoteSchema = z.object({
+  action: z.string().min(1, "Action cannot be empty").max(200, "Action must not exceed 200 characters").optional(),
+  observations: z.string().max(200, "Observations must not exceed 200 characters").optional(),
+});
+
+/**
+ * Validator for note ID parameter
+ */
+export const noteIdParamSchema = z.object({
+  note_id: uuidSchema,
+});
+

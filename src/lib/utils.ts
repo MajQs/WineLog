@@ -79,6 +79,15 @@ export function mapServiceErrorToHttp(error: Error): [number, ErrorResponseDto] 
         },
       ];
 
+    case "NOTE_NOT_FOUND":
+      return [
+        404,
+        {
+          error: "Note not found or you don't have access to it",
+          code: "NOT_FOUND",
+        },
+      ];
+
     default:
       // For unexpected errors, return generic server error
       console.error("Unexpected service error:", error);
