@@ -328,6 +328,37 @@ Każdy szablon zawiera:
 
 ### 5.1 Uwierzytelnianie i autoryzacja
 
+#### US-000: Ekran powitalny dla niezalogowanych
+**Tytuł:** Wyświetlenie strony powitalnej z zachętą do rejestracji/logowania
+
+**Opis:** Jako niezalogowany użytkownik chcę zobaczyć stronę powitalną prezentującą korzyści aplikacji, dwa przyciski „Zarejestruj się" i „Zaloguj się" oraz kilka statycznych screenshotów z danymi przykładowymi, abym wiedział czego się spodziewać.
+
+**Kryteria akceptacji:**
+- Gdy użytkownik nie jest uwierzytelniony i wchodzi na `/", wyświetla się landing page.
+- Strona zawiera: nagłówek, krótki opis korzyści, przyciski „Zarejestruj się" i „Zaloguj się", trzy statyczne zrzuty ekranu przedstawiające dashboard, szczegóły nastawu i timeline notatek.
+- Kliknięcie „Zarejestruj się" przekierowuje do `/register".
+- Kliknięcie „Zaloguj się" przekierowuje do `/login".
+- Każda próba wejścia na chroniony adres (`/app` lub inne) bez sesji przekierowuje na landing page.
+- Strona jest w pełni responsywna (320px – 4K) i ładuje się poniżej 2 s na 4G.
+- Teksty i przyciski w języku polskim.
+
+#### US-006: Reset hasła przez e-mail
+**Tytuł:** Resetowanie hasła użytkownika linkiem e-mail
+
+**Opis:** Jako użytkownik, który zapomniał hasła, chcę zresetować je poprzez link wysłany na mój e-mail, aby odzyskać dostęp do konta.
+
+**Kryteria akceptacji:**
+- Na ekranie logowania dostępny jest link „Nie pamiętasz hasła?"
+- Kliknięcie otwiera formularz z polem e-mail.
+- System waliduje format e-mail (RFC 5322). Przy niepoprawnym formacie wyświetla komunikat.
+- Po wysłaniu poprawnego e-maila system generuje jednorazowy token ważny 1 h i wysyła link resetujący.
+- Użytkownik otrzymuje e-mail z linkiem; treść w języku polskim, link ważny 1 h.
+- Kliknięcie w link otwiera formularz ustawienia nowego hasła (2× pola hasło, walidacja zgodnie z polityką haseł).
+- Po pomyślnym ustawieniu nowego hasła wyświetla się komunikat „Hasło zostało zmienione. Zaloguj się ponownie." oraz przekierowanie do `/login".
+- Jeśli token jest nieważny lub wykorzystany, wyświetla się komunikat „Link wygasł lub został już użyty."
+- Wszystkie komunikaty są w języku polskim.
+- Po zresetowaniu hasła poprzednie sesje zostają unieważnione.
+
 #### US-001: Rejestracja nowego użytkownika
 **Tytuł:** Rejestracja poprzez e-mail i hasło
 
