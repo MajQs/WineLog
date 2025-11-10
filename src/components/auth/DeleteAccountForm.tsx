@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { deleteAccountSchema } from "@/lib/auth-validation";
+import { useAuth, getAuthToken } from "./AuthProvider";
 import type { ZodError } from "zod";
 
 interface DeleteAccountFormProps {
@@ -23,6 +24,7 @@ interface DeleteAccountFormState {
 }
 
 export function DeleteAccountForm({ onSuccess, onCancel }: DeleteAccountFormProps) {
+  const { signOut } = useAuth();
   const [formData, setFormData] = useState<DeleteAccountFormState>({
     password: "",
     confirmation: "",
@@ -52,25 +54,45 @@ export function DeleteAccountForm({ onSuccess, onCancel }: DeleteAccountFormProp
     setIsSubmitting(true);
 
     try {
-      // TODO: Implement account deletion
-      // 1. Verify password
-      // 2. Delete user data from database
-      // 3. Delete user from Supabase Auth
-      // const response = await fetch("/api/auth/delete-account", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify({ password: result.data.password }),
-      // });
+      const token = getAuthToken();
 
-      // Simulated API call
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      if (!token) {
+        setGlobalError("Nie jesteś zalogowany.");
+        return;
+      }
 
-      console.log("Account deletion confirmed");
+      // Call delete account API endpoint
+      const response = await fetch("/api/auth/delete-account", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ 
+          password: result.data.password,
+          confirmation: result.data.confirmation,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        // Handle API errors
+        if (response.status === 401) {
+          setGlobalError("Nieprawidłowe hasło.");
+        } else {
+          setGlobalError(data.error || "Wystąpił błąd podczas usuwania konta. Spróbuj ponownie.");
+        }
+        return;
+      }
 
       // Sign out and redirect
-      onSuccess?.();
-      // await supabase.auth.signOut();
-      // window.location.href = "/?deleted=true";
+      if (onSuccess) {
+        onSuccess();
+      } else {
+        await signOut();
+        window.location.href = "/?deleted=true";
+      }
     } catch (error) {
       setGlobalError("Wystąpił błąd podczas usuwania konta. Spróbuj ponownie.");
       console.error("Delete account error:", error);

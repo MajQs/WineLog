@@ -4,10 +4,10 @@
  * Handles new user registration
  */
 import AuthLayout from "@/layouts/AuthLayout.astro";
-import { RegisterForm } from "@/components/auth";
+import { RegisterFormWithProvider } from "@/components/auth";
 ---
 
 <AuthLayout title="Zarejestruj się - WineLog">
-  <RegisterForm client:only="react" />
+  <RegisterFormWithProvider client:load />
 </AuthLayout>
 

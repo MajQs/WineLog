@@ -60,7 +60,7 @@ export function ButtonCompleteBatch({
       
       // Redirect to dashboard after a short delay
       setTimeout(() => {
-        window.location.href = "/";
+        window.location.href = "/dashboard";
       }, 1500);
     },
     onError: (error) => {

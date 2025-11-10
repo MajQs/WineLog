@@ -100,7 +100,7 @@ Reguły haseł:
 - Używa AppLayout i AccountSettings
 - Tylko dla zalogowanych użytkowników (TODO: middleware)
 
-#### `/app/index.astro`
+#### `/dashboard/index.astro`
 - Główny dashboard dla zalogowanych użytkowników
 - Używa AppLayout i DashboardView
 - TODO: wymaga dodania middleware autentykacji
@@ -142,9 +142,9 @@ Następne kroki (backend):
    - Udostępnienie `user`, `session`, `signOut()` dla React components
 
 3. **Middleware**
-   - Ochrona tras `/app/**` w `src/middleware/index.ts`
+   - Ochrona tras `/dashboard`, `/account`, `/archived`, `/batches` w `src/middleware/index.ts`
    - Przekierowanie niezalogowanych na `/login`
-   - Przekierowanie zalogowanych z `/` na `/app`
+   - Przekierowanie zalogowanych z auth forms na `/dashboard`
 
 4. **API Endpoints** (`src/pages/api/auth/`)
    - `/api/auth/register.ts` - rejestracja
@@ -226,7 +226,7 @@ Strony dostępne po uruchomieniu:
 - `/register` - Rejestracja
 - `/forgot-password` - Reset hasła
 - `/account` - Ustawienia konta
-- `/app` - Dashboard (wymaga autentykacji)
+- `/dashboard` - Dashboard (wymaga autentykacji)
 
 ## 📸 Strony do przetestowania
 
@@ -236,5 +236,5 @@ Strony dostępne po uruchomieniu:
 4. http://localhost:4321/forgot-password
 5. http://localhost:4321/reset-password/sample-token
 6. http://localhost:4321/account
-7. http://localhost:4321/app
+7. http://localhost:4321/dashboard
 

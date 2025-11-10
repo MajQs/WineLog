@@ -10,13 +10,16 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { registerSchema, type RegisterFormData } from "@/lib/auth-validation";
+import { useAuth } from "./AuthProvider";
 import type { ZodError } from "zod";
+import type { Session } from "@supabase/supabase-js";
 
 interface RegisterFormProps {
   onSuccess?: () => void;
 }
 
 export function RegisterForm({ onSuccess }: RegisterFormProps) {
+  const { setSession } = useAuth();
   const [formData, setFormData] = useState<RegisterFormData>({
     email: "",
     password: "",
@@ -47,20 +50,40 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
     setIsSubmitting(true);
 
     try {
-      // TODO: Implement Supabase registration
-      // const { data, error } = await supabase.auth.signUp({
-      //   email: result.data.email,
-      //   password: result.data.password,
-      // });
+      // Call register API endpoint
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(result.data),
+      });
 
-      // Simulated API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const data = await response.json();
 
-      console.log("Register attempt:", result.data);
+      if (!response.ok) {
+        // Handle API errors
+        setGlobalError(data.error || "Wystąpił błąd podczas rejestracji. Spróbuj ponownie.");
+        return;
+      }
 
-      // If successful, redirect to app or call onSuccess
-      onSuccess?.();
-      // window.location.href = "/app";
+      // Check if session is available (soft verification - auto login)
+      if (data.session) {
+        // Store session in AuthProvider (which saves to localStorage)
+        setSession(data.session as Session);
+        
+        // Call success callback or redirect
+        if (onSuccess) {
+          onSuccess();
+        } else {
+          // Server-side redirect (full page reload)
+          window.location.href = "/dashboard";
+        }
+      } else if (data.requiresConfirmation) {
+        // User needs to confirm email before logging in
+        // For now, just redirect to login with a message
+        window.location.href = "/login?registered=true";
+      }
     } catch (error) {
       setGlobalError("Wystąpił błąd podczas rejestracji. Spróbuj ponownie.");
       console.error("Register error:", error);

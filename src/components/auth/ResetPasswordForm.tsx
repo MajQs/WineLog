@@ -47,15 +47,27 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
     setIsSubmitting(true);
 
     try {
-      // TODO: Implement Supabase password update
-      // const { error } = await supabase.auth.updateUser({
-      //   password: result.data.password,
-      // });
+      // Call reset password API endpoint with token in Authorization header
+      const response = await fetch("/api/auth/reset-password", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(result.data),
+      });
 
-      // Simulated API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const data = await response.json();
 
-      console.log("Password reset with token:", token);
+      if (!response.ok) {
+        // Handle API errors
+        if (response.status === 400) {
+          setGlobalError("Link wygasł lub został już użyty.");
+        } else {
+          setGlobalError(data.error || "Wystąpił błąd podczas resetowania hasła. Spróbuj ponownie.");
+        }
+        return;
+      }
 
       setIsSuccess(true);
 

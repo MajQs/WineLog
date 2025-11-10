@@ -42,16 +42,24 @@ export function ForgotPasswordForm() {
     setIsSubmitting(true);
 
     try {
-      // TODO: Implement Supabase password reset
-      // const { error } = await supabase.auth.resetPasswordForEmail(result.data.email, {
-      //   redirectTo: `${window.location.origin}/reset-password`,
-      // });
+      // Call forgot password API endpoint
+      const response = await fetch("/api/auth/forgot-password", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(result.data),
+      });
 
-      // Simulated API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const data = await response.json();
 
-      console.log("Password reset request:", result.data);
+      if (!response.ok) {
+        // Handle API errors
+        setGlobalError(data.error || "Wystąpił błąd podczas wysyłania e-maila. Spróbuj ponownie.");
+        return;
+      }
 
+      // Always show success for security (don't reveal if email exists)
       setIsSuccess(true);
     } catch (error) {
       setGlobalError("Wystąpił błąd podczas wysyłania e-maila. Spróbuj ponownie.");

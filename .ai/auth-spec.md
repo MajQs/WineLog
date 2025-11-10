@@ -11,11 +11,11 @@
 | `/login` | `AuthLayout.astro` | Strona logowania – osadza komponent `LoginForm.tsx`. | Public |
 | `/forgot-password` | `AuthLayout.astro` | Formularz wysyłający link resetu hasła – `ForgotPasswordForm.tsx`. | Public |
 | `/reset-password/[token]` | `AuthLayout.astro` | Ustawienie nowego hasła – `ResetPasswordForm.tsx`. | Public (z tokenem) |
-| `/app/*` | `AppLayout.astro` | Aplikacja właściwa (dashboard, nastawy itd.). | Wymagane uwierzytelnienie |
+| `/dashboard` | `AppLayout.astro` | Main dashboard - właściwa aplikacja. | Wymagane uwierzytelnienie |
 | `/account` | `AppLayout.astro` | Ustawienia konta (podgląd danych, reset hasła, usunięcie konta) – osadza komponent `AccountSettings.tsx`. | Wymagane uwierzytelnienie |
 
 Uwagi:
-* **Routing chroniony** – w `src/middleware/index.ts` dodajemy ochronę tras `/app/**` oraz fallback przekierowujący niezalogowanego na `/`.
+* **Routing chroniony** – w `src/middleware/index.ts` dodajemy ochronę tras `/dashboard`, `/account`, `/archived`, `/batches` oraz fallback przekierowujący niezalogowanego na `/`.
 * **SSR awareness** – Layouty Astro renderowane po stronie serwera; komponenty formularzy React hydratują się tylko na przeglądarce (`client:load`).
 
 ### 1.2 Layouty
@@ -50,9 +50,9 @@ Walidacja formularzy za pomocą biblioteki **Zod** + `@hookform/resolvers/zod`:
 
 1. **Rejestracja**
    * Użytkownik wprowadza dane → walidacja klient → POST `/api/auth/register` (SSR) lub bezpośrednio Supabase klient.
-   * Po sukcesie: automatyczne zalogowanie, przekierowanie do `/app`.
+   * Po sukcesie: automatyczne zalogowanie, przekierowanie do `/dashboard`.
 2. **Logowanie**
-   * Analogicznie, przekierowanie do `redirectTo` lub `/app`.
+   * Analogicznie, przekierowanie do `redirectTo` lub `/dashboard`.
 3. **Reset hasła (link)**
    * `ForgotPasswordForm` wysyła link (Supabase handle). Po kliknięciu token trafia do `reset-password/[token]`.
 4. **Soft verification e-mail**

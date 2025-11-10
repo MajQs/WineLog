@@ -4,7 +4,7 @@
  * Allows users to set a new password using a reset token from email
  */
 import AuthLayout from "@/layouts/AuthLayout.astro";
-import { ResetPasswordForm } from "@/components/auth";
+import { ResetPasswordFormWithProvider } from "@/components/auth";
 
 // Get the token from URL params
 const { token } = Astro.params;
@@ -16,6 +16,6 @@ if (!token) {
 ---
 
 <AuthLayout title="Resetuj hasło - WineLog">
-  <ResetPasswordForm token={token} client:only="react" />
+  <ResetPasswordFormWithProvider token={token} client:load />
 </AuthLayout>
 

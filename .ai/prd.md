@@ -338,7 +338,7 @@ Każdy szablon zawiera:
 - Strona zawiera: nagłówek, krótki opis korzyści, przyciski „Zarejestruj się" i „Zaloguj się", trzy statyczne zrzuty ekranu przedstawiające dashboard, szczegóły nastawu i timeline notatek.
 - Kliknięcie „Zarejestruj się" przekierowuje do `/register".
 - Kliknięcie „Zaloguj się" przekierowuje do `/login".
-- Każda próba wejścia na chroniony adres (`/app` lub inne) bez sesji przekierowuje na landing page.
+- Każda próba wejścia na chroniony adres (`/dashboard`, `/account`, `/archived`, `/batches`) bez sesji przekierowuje na landing page.
 - Strona jest w pełni responsywna (320px – 4K) i ładuje się poniżej 2 s na 4G.
 - Teksty i przyciski w języku polskim.
 

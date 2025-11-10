@@ -3,11 +3,14 @@
  * New Batch Modal Route
  * Modal page for creating a new batch
  */
-import Layout from "../../layouts/Layout.astro";
-import NewBatchModal from "../../components/batch/NewBatchModal";
+import AppLayout from "@/layouts/AppLayout.astro";
+import { AppContent } from "@/components/AppContent";
+import NewBatchModal from "@/components/batch/NewBatchModal";
 ---
 
-<Layout title="Nowy nastaw - WineLog">
-  <NewBatchModal client:only="react" />
-</Layout>
+<AppLayout title="Nowy nastaw - WineLog">
+  <AppContent client:load>
+    <NewBatchModal client:load />
+  </AppContent>
+</AppLayout>
 

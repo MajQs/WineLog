@@ -68,7 +68,7 @@ function NewBatchModalContent() {
       setIsOpen(false);
       // Navigate back using window.location since we don't have router in Astro SSR
       setTimeout(() => {
-        window.location.href = "/";
+        window.location.href = "/dashboard";
       }, 200); // Small delay for animation
     }
   };

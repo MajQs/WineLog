@@ -25,7 +25,7 @@ export class ApiError extends Error {
  */
 function getAccessToken(): string | null {
   if (typeof window === "undefined") return null;
-  return localStorage.getItem("access_token");
+  return localStorage.getItem("auth.token");
 }
 
 /**
@@ -34,8 +34,8 @@ function getAccessToken(): string | null {
 export function logout(): void {
   if (typeof window === "undefined") return;
   
-  localStorage.removeItem("access_token");
-  localStorage.removeItem("refresh_token");
+  localStorage.removeItem("auth.token");
+  localStorage.removeItem("auth.session");
   window.location.href = "/login";
 }
 

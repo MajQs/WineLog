@@ -10,14 +10,17 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { loginSchema, type LoginFormData } from "@/lib/auth-validation";
+import { useAuth } from "./AuthProvider";
 import type { ZodError } from "zod";
+import type { Session } from "@supabase/supabase-js";
 
 interface LoginFormProps {
   redirectTo?: string;
   onSuccess?: () => void;
 }
 
-export function LoginForm({ redirectTo = "/app", onSuccess }: LoginFormProps) {
+export function LoginForm({ redirectTo = "/dashboard", onSuccess }: LoginFormProps) {
+  const { setSession } = useAuth();
   const [formData, setFormData] = useState<LoginFormData>({
     email: "",
     password: "",
@@ -47,20 +50,33 @@ export function LoginForm({ redirectTo = "/app", onSuccess }: LoginFormProps) {
     setIsSubmitting(true);
 
     try {
-      // TODO: Implement Supabase authentication
-      // const { data, error } = await supabase.auth.signInWithPassword({
-      //   email: result.data.email,
-      //   password: result.data.password,
-      // });
+      // Call login API endpoint
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(result.data),
+      });
 
-      // Simulated API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const data = await response.json();
 
-      console.log("Login attempt:", result.data);
+      if (!response.ok) {
+        // Handle API errors
+        setGlobalError(data.error || "Wystąpił błąd podczas logowania. Spróbuj ponownie.");
+        return;
+      }
+
+      // Store session in AuthProvider (which saves to localStorage)
+      setSession(data.session as Session);
       
-      // If successful, redirect or call onSuccess
-      onSuccess?.();
-      // window.location.href = redirectTo;
+      // Call success callback or redirect
+      if (onSuccess) {
+        onSuccess();
+      } else {
+        // Server-side redirect (full page reload)
+        window.location.href = redirectTo;
+      }
     } catch (error) {
       setGlobalError("Wystąpił błąd podczas logowania. Spróbuj ponownie.");
       console.error("Login error:", error);

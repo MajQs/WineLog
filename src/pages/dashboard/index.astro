@@ -1,0 +1,16 @@
+---
+/**
+ * Dashboard Page
+ * Main application page for authenticated users
+ */
+import AppLayout from "@/layouts/AppLayout.astro";
+import { AppContent } from "@/components/AppContent";
+import DashboardView from "@/components/DashboardView";
+---
+
+<AppLayout title="Dashboard - WineLog">
+  <AppContent client:load>
+    <DashboardView client:load />
+  </AppContent>
+</AppLayout>
+

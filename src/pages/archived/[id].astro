@@ -1,6 +1,7 @@
 ---
-import Layout from "../../layouts/Layout.astro";
-import ArchivedBatchView from "../../components/ArchivedBatchView";
+import AppLayout from "@/layouts/AppLayout.astro";
+import { AppContent } from "@/components/AppContent";
+import ArchivedBatchView from "@/components/ArchivedBatchView";
 
 // Get batch ID from URL params
 const { id } = Astro.params;
@@ -10,9 +11,11 @@ if (!id) {
 }
 ---
 
-<Layout title="Archiwum - WineLog">
-  <ArchivedBatchView client:only="react" batchId={id} />
-</Layout>
+<AppLayout title="Archiwum - WineLog">
+  <AppContent client:load>
+    <ArchivedBatchView client:load batchId={id} />
+  </AppContent>
+</AppLayout>
 
 
 
