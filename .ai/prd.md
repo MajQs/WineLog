@@ -65,11 +65,13 @@ WineLog rozwiązuje te problemy poprzez:
 - Automatyczne wylogowanie po 30 dniach nieaktywności
 - Komunikat o konieczności ponownego zalogowania przy wygaśnięciu sesji
 - Token sesji z automatycznym odświeżaniem
+- Widoczny na wszystkich widokach dropdown w prawym górnym rogu z adresem e-mail i przyciskiem „Wyloguj”
+- Po pomyślnym logowaniu lub rejestracji użytkownik jest przekierowywany do dashboardu
 - Możliwość wylogowania przez użytkownika
 
 #### 3.1.3 Zarządzanie kontem
 - Podgląd danych konta (e-mail, data rejestracji)
-- Reset hasła przez e-mail (brak zmiany hasła w ustawieniach w MVP)
+- Reset hasła poprzez link wysyłany na adres e-mail (jedyna dostępna ścieżka zmiany hasła w MVP)
 - Usunięcie konta wraz z wszystkimi danymi (z potwierdzeniem)
 - Brak eksportu danych w MVP (planowane na później)
 
