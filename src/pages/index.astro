@@ -1,8 +1,136 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import DashboardView from "../components/DashboardView";
+/**
+ * Landing Page
+ * Welcome page for unauthenticated users
+ * TODO: Add auth check - redirect authenticated users to /app
+ */
+import Layout from "@/layouts/Layout.astro";
+import { Button } from "@/components/ui/button";
 ---
 
-<Layout title="Dashboard - WineLog">
-  <DashboardView client:only="react" />
+<Layout title="WineLog - Dziennik Winiarza">
+  <div class="min-h-screen bg-gradient-to-b from-neutral-50 to-neutral-100 dark:from-neutral-950 dark:to-neutral-900">
+    <!-- Hero Section -->
+    <section class="container mx-auto px-4 py-16 md:py-24">
+      <div class="max-w-4xl mx-auto text-center space-y-8">
+        <!-- Logo/Title -->
+        <div class="space-y-4">
+          <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight">
+            <span class="bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-400 dark:to-pink-400 bg-clip-text text-transparent">
+              WineLog
+            </span>
+          </h1>
+          <p class="text-xl md:text-2xl text-muted-foreground">
+            Dziennik Winiarza
+          </p>
+        </div>
+
+        <!-- Description -->
+        <div class="max-w-2xl mx-auto space-y-4">
+          <p class="text-lg md:text-xl text-foreground/80">
+            Śledź proces fermentacji swoich nastaw wina krok po kroku.
+            Dokumentuj postępy, notatki i oceny w jednym miejscu.
+          </p>
+        </div>
+
+        <!-- CTA Buttons -->
+        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center pt-6">
+          <a href="/register" class="w-full sm:w-auto">
+            <Button size="lg" class="w-full sm:w-auto px-8 text-base">
+              Zarejestruj się
+            </Button>
+          </a>
+          <a href="/login" class="w-full sm:w-auto">
+            <Button variant="outline" size="lg" class="w-full sm:w-auto px-8 text-base">
+              Zaloguj się
+            </Button>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="container mx-auto px-4 py-16">
+      <div class="max-w-5xl mx-auto">
+        <div class="grid md:grid-cols-3 gap-8">
+          <!-- Feature 1 -->
+          <div class="bg-card rounded-xl border shadow-sm p-6 space-y-3">
+            <div class="w-12 h-12 rounded-lg bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6 text-purple-600 dark:text-purple-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+                ></path>
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold">Dokumentuj proces</h3>
+            <p class="text-sm text-muted-foreground">
+              Zapisuj wszystkie kroki fermentacji - od przygotowania po butelkowanie.
+            </p>
+          </div>
+
+          <!-- Feature 2 -->
+          <div class="bg-card rounded-xl border shadow-sm p-6 space-y-3">
+            <div class="w-12 h-12 rounded-lg bg-pink-100 dark:bg-pink-900/30 flex items-center justify-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6 text-pink-600 dark:text-pink-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                ></path>
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold">Dodawaj notatki</h3>
+            <p class="text-sm text-muted-foreground">
+              Zapisuj obserwacje, zapachy i wszystkie ważne szczegóły w każdym etapie.
+            </p>
+          </div>
+
+          <!-- Feature 3 -->
+          <div class="bg-card rounded-xl border shadow-sm p-6 space-y-3">
+            <div class="w-12 h-12 rounded-lg bg-yellow-100 dark:bg-yellow-900/30 flex items-center justify-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6 text-yellow-600 dark:text-yellow-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"
+                ></path>
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold">Oceniaj rezultaty</h3>
+            <p class="text-sm text-muted-foreground">
+              Wystawiaj oceny gotowym nastawom i analizuj, co działa najlepiej.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="container mx-auto px-4 py-8 text-center text-sm text-muted-foreground border-t">
+      <p>© 2025 WineLog. Narzędzie dla pasjonatów domowego winarstwa.</p>
+    </footer>
+  </div>
 </Layout>

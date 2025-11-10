@@ -1,0 +1,18 @@
+---
+/**
+ * App Dashboard Page
+ * Main application page for authenticated users
+ * TODO: Add authentication check - redirect to /login if not authenticated
+ */
+import AppLayout from "@/layouts/AppLayout.astro";
+import DashboardView from "@/components/DashboardView";
+
+// TODO: Check if user is authenticated
+// const { data: { user } } = await getUser();
+// if (!user) return Astro.redirect("/login");
+---
+
+<AppLayout title="Dashboard - WineLog">
+  <DashboardView client:only="react" />
+</AppLayout>
+

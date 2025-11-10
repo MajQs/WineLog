@@ -1,0 +1,29 @@
+---
+/**
+ * Account Settings Page
+ * Allows users to view and manage their account settings
+ * TODO: Add authentication check and redirect if not logged in
+ */
+import AppLayout from "@/layouts/AppLayout.astro";
+import { AccountSettings } from "@/components/auth/AccountSettings";
+
+// TODO: Get user from Supabase session
+// const { data: { user } } = await getUser();
+// if (!user) return Astro.redirect("/login");
+---
+
+<AppLayout title="Ustawienia konta - WineLog">
+  <div class="container mx-auto px-4 py-6 md:py-8">
+    <div class="max-w-2xl mx-auto">
+      <div class="mb-8">
+        <h1 class="text-2xl font-bold md:text-3xl">Ustawienia konta</h1>
+        <p class="text-muted-foreground mt-2">
+          Zarządzaj swoim kontem i ustawieniami prywatności
+        </p>
+      </div>
+
+      <AccountSettings client:only="react" />
+    </div>
+  </div>
+</AppLayout>
+

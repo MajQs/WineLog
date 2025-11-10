@@ -1,0 +1,42 @@
+---
+/**
+ * AuthLayout
+ * Minimal layout for authentication pages (login, register, password reset)
+ * Features a centered form panel on a neutral background
+ */
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+}
+
+const { title = "WineLog - Autentykacja" } = Astro.props;
+---
+
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body class="bg-neutral-50 dark:bg-neutral-950">
+    <main class="min-h-screen flex items-center justify-center px-4 py-8">
+      <div class="w-full max-w-md">
+        <slot />
+      </div>
+    </main>
+  </body>
+</html>
+
+<style>
+  html,
+  body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+  }
+</style>
+

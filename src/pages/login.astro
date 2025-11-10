@@ -1,0 +1,13 @@
+---
+/**
+ * Login Page
+ * Handles user authentication
+ */
+import AuthLayout from "@/layouts/AuthLayout.astro";
+import { LoginForm } from "@/components/auth";
+---
+
+<AuthLayout title="Zaloguj się - WineLog">
+  <LoginForm client:only="react" />
+</AuthLayout>
+

@@ -1,0 +1,13 @@
+---
+/**
+ * Register Page
+ * Handles new user registration
+ */
+import AuthLayout from "@/layouts/AuthLayout.astro";
+import { RegisterForm } from "@/components/auth";
+---
+
+<AuthLayout title="Zarejestruj się - WineLog">
+  <RegisterForm client:only="react" />
+</AuthLayout>
+
