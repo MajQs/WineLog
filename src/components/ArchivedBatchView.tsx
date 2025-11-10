@@ -54,18 +54,6 @@ function ArchivedBatchPageContent({ batchId }: ArchivedBatchViewProps) {
       <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8 max-w-7xl">
         {/* Back to Archive Button and Delete */}
         <div className="mb-4 flex items-center justify-between">
-          <Button
-            variant="ghost"
-            size="sm"
-            asChild
-            className="text-muted-foreground hover:text-foreground"
-          >
-            <a href="/archived">
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Wróć do archiwum
-            </a>
-          </Button>
-          
           <ButtonDeleteBatch batchId={batchId} batchName={data.name} />
         </div>
 

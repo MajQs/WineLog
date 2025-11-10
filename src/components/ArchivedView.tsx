@@ -37,21 +37,6 @@ function ArchivedContent() {
   // Success state
   return (
     <div className="container mx-auto px-4 py-6 md:py-8">
-      {/* Back to Dashboard Button */}
-      <div className="mb-4">
-        <Button
-          variant="ghost"
-          size="sm"
-          asChild
-          className="text-muted-foreground hover:text-foreground"
-        >
-          <a href="/">
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Wróć do dashboardu
-          </a>
-        </Button>
-      </div>
-
       {/* Header */}
       <header className="mb-8">
         <h1 className="text-2xl font-bold md:text-3xl">Archiwum</h1>

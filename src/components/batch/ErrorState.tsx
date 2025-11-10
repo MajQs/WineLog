@@ -130,20 +130,6 @@ export function ErrorState({ error, onRetry }: ErrorStateProps) {
                 Spróbuj ponownie
               </Button>
             )}
-            
-            {display.showDashboard && (
-              <Button
-                asChild
-                variant={display.showRetry ? "outline" : "default"}
-                size="lg"
-                className="w-full sm:w-auto"
-              >
-                <a href="/">
-                  <Home className="mr-2 h-4 w-4" />
-                  Wróć do dashboardu
-                </a>
-              </Button>
-            )}
           </div>
         </div>
       </div>

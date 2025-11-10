@@ -24,15 +24,6 @@ export function EmptyState() {
             Gdy zakończysz swoje pierwsze nastawy, pojawią się tutaj.
           </p>
         </div>
-
-        <Button
-          asChild
-          variant="default"
-          size="lg"
-          aria-label="Wróć do dashboard"
-        >
-          <a href="/">Wróć do Dashboard</a>
-        </Button>
       </div>
     </div>
   );

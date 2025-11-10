@@ -51,21 +51,6 @@ function BatchPageContent({ batchId }: BatchViewProps) {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8 max-w-7xl">
-        {/* Back to Dashboard Button */}
-        <div className="mb-4">
-          <Button
-            variant="ghost"
-            size="sm"
-            asChild
-            className="text-muted-foreground hover:text-foreground"
-          >
-            <a href="/">
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Wróć do dashboardu
-            </a>
-          </Button>
-        </div>
-
         {/* Header Section */}
         <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6 mb-4 sm:mb-6">
           <EditableHeading name={data.name} batchId={batchId} />
