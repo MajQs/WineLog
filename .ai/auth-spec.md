@@ -12,6 +12,7 @@
 | `/forgot-password` | `AuthLayout.astro` | Formularz wysyłający link resetu hasła – `ForgotPasswordForm.tsx`. | Public |
 | `/reset-password/[token]` | `AuthLayout.astro` | Ustawienie nowego hasła – `ResetPasswordForm.tsx`. | Public (z tokenem) |
 | `/app/*` | `AppLayout.astro` | Aplikacja właściwa (dashboard, nastawy itd.). | Wymagane uwierzytelnienie |
+| `/account` | `AppLayout.astro` | Ustawienia konta (podgląd danych, reset hasła, usunięcie konta) – osadza komponent `AccountSettings.tsx`. | Wymagane uwierzytelnienie |
 
 Uwagi:
 * **Routing chroniony** – w `src/middleware/index.ts` dodajemy ochronę tras `/app/**` oraz fallback przekierowujący niezalogowanego na `/`.
@@ -37,6 +38,8 @@ Uwagi:
 | `ForgotPasswordForm.tsx` | Wysyła e-mail resetu przez `supabase.auth.resetPasswordForEmail`. | – |
 | `ResetPasswordForm.tsx` | Ustawia nowe hasło przez `supabase.auth.updateUser({ password })`. | `token` (z URL) |
 | `ProtectedRoute.tsx` | HOC/osłona client-side dla podkomponentów wymagających zalogowania; fallback skeleton. | – |
+| `AccountSettings.tsx` | Widok ustawień konta. Pokazuje e-mail, datę rejestracji, przycisk **Usuń konto**. | – |
+| `DeleteAccountForm.tsx` | Formularz potwierdzający usunięcie konta (pole hasło). | – |
 
 Walidacja formularzy za pomocą biblioteki **Zod** + `@hookform/resolvers/zod`:
 * Reguły haseł (min 8 znaków, wielka, mała, cyfra, znak specjalny).
@@ -56,6 +59,9 @@ Walidacja formularzy za pomocą biblioteki **Zod** + `@hookform/resolvers/zod`:
    * Po rejestracji banner w `AppLayout` informuje o potrzebie weryfikacji (jeśli `user.email_confirmed_at` null).
 5. **Wylogowanie**
    * Dropdown → `supabase.auth.signOut` → redirect `/`.
+5. **Usunięcie konta**
+   * `AccountSettings` → otwiera `DeleteAccountForm` → POST `/api/auth/delete-account`.
+   * Po sukcesie: wylogowanie (`supabase.auth.signOut`) i redirect `/` z toastem „Konto zostało usunięte.”.
 
 ## 2. Logika backendowa (Astro `src/pages/api`)
 
@@ -67,6 +73,7 @@ Walidacja formularzy za pomocą biblioteki **Zod** + `@hookform/resolvers/zod`:
 | `POST` | `/api/auth/login` | Wrapper dla `supabase.auth.signInWithPassword` (opcjonalnie – można robić client‐side). |
 | `POST` | `/api/auth/reset-password` | Ustawienie nowego hasła – wymaga tokenu i hasła. |
 | `POST` | `/api/auth/logout` | Serwerowe unieważnienie sesji + usunięcie cookie. |
+| `POST` | `/api/auth/delete-account` | Weryfikuje hasło, usuwa użytkownika przez `supabase.auth.admin.deleteUser` oraz wszystkie dane domenowe. |
 
 Decyzja: część operacji może być wykonywana w przeglądarce (Supabase JS), ale endpointy serwerowe pozwalają później łatwo przejść na własny backend bez refaktoryzacji frontu.
 
@@ -161,3 +168,4 @@ src/
 * **Skalowalność** – użycie Supabase pozwala na późniejszą migrację do własnego serwera poprzez zachowanie spójnych interfejsów REST.
 * **Zgodność z PRD** – spełnione wszystkie historyjki US-000, US-001, US-002, US-003, US-006; soft verification; wiadomości PL.
 * **Bezpieczeństwo & UX** – token auto-refresh, guard na trasie, pełne komunikaty i walidacja po obu stronach.
+* **Nowe**: endpoint `/api/auth/delete-account` spełnia US-005 (usunięcie konta).
