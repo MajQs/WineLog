@@ -8,8 +8,8 @@ export default defineConfig({
     // Enable globals like describe, test, expect without imports
     globals: true,
 
-    // Use jsdom for DOM testing (React components)
-    environment: "jsdom",
+    // Use happy-dom for DOM testing (React components) - faster and more stable than jsdom
+    environment: "happy-dom",
 
     // Setup files to run before each test file
     setupFiles: ["./src/test/setup.ts"],
