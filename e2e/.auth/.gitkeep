@@ -1,0 +1,3 @@
+# This file ensures the .auth directory is tracked in git
+# The actual authentication state files (*.json) are gitignored
+

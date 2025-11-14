@@ -1,6 +1,9 @@
 /**
  * E2E Test: Authentication - Login Flow
  * Tests user login functionality
+ * 
+ * NOTE: These tests run in 'chromium-no-auth' project without saved storage state
+ * This ensures we're actually testing the login flow, not using cached authentication
  */
 
 import { test, expect } from "@playwright/test";
@@ -70,12 +73,12 @@ test.describe("Login Flow", () => {
     // ACT
     // ═══════════════════════════════════════════════════════════════════
     await loginPage.navigate();
-    await loginPage.fillEmail("invalid@example.com");
+    await loginPage.fillEmail("invaliduser@email.com");
     await loginPage.fillPassword("wrongpassword");
     await loginPage.clickSubmit();
 
     // Wait a bit for potential error message
-    await page.waitForTimeout(2000);
+    await page.waitForTimeout(3000);
 
     // ═══════════════════════════════════════════════════════════════════
     // ASSERT

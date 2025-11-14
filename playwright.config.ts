@@ -13,7 +13,8 @@ dotenv.config({ path: path.resolve(process.cwd(), ".env.test") });
  * See https://playwright.dev/docs/test-configuration
  */
 export default defineConfig({
-
+  /* Global setup - performs authentication once before all tests */
+  globalSetup: path.resolve(process.cwd(), "./e2e/global-setup.ts"),
 
   testDir: "./e2e",
   
@@ -40,6 +41,9 @@ export default defineConfig({
     /* Base URL to use in actions like `await page.goto('/')` */
     baseURL: process.env.BASE_URL || "http://localhost:3000",
     
+    /* Load authenticated storage state (from global setup) */
+    storageState: "./e2e/.auth/user.json",
+    
     /* Collect trace when retrying the failed test */
     trace: "on-first-retry",
     
@@ -61,6 +65,15 @@ export default defineConfig({
     {
       name: "chromium",
       use: { ...devices["Desktop Chrome"] },
+    },
+    // Separate project for auth tests that need clean state (no storage)
+    {
+      name: "chromium-no-auth",
+      use: { 
+        ...devices["Desktop Chrome"],
+        storageState: undefined, // Override to not use saved auth state
+      },
+      testMatch: /auth-login\.spec\.ts/, // Only run auth-login tests in this project
     },
   ],
 

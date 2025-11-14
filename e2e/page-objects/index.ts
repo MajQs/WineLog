@@ -5,6 +5,7 @@
 
 export { BasePage } from "./BasePage";
 export { DashboardPage } from "./DashboardPage";
+export { BatchDetailPage } from "./BatchDetailPage";
 export { NewBatchModal } from "./NewBatchModal";
 export { LoginPage } from "./LoginPage";
 
