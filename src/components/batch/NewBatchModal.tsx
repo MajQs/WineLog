@@ -210,7 +210,7 @@ function NewBatchModalContent() {
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && handleClose()}>
-      <DialogContent className="sm:max-w-2xl">
+      <DialogContent className="sm:max-w-2xl" data-testid="dialog-new-batch">
         <DialogHeader>
           <DialogTitle>Nowy nastaw</DialogTitle>
           <DialogDescription>
@@ -270,6 +270,7 @@ function NewBatchModalContent() {
             variant="outline"
             onClick={handleClose}
             disabled={formState.isSubmitting}
+            data-testid="button-cancel-batch"
           >
             Anuluj
           </Button>
@@ -277,6 +278,7 @@ function NewBatchModalContent() {
             type="button"
             onClick={handleSubmit}
             disabled={isSubmitDisabled}
+            data-testid="button-submit-batch"
           >
             {formState.isSubmitting ? (
               <>

@@ -59,6 +59,10 @@ Command | Purpose
 `npm run lint` | Lint all files with ESLint
 `npm run lint:fix` | Lint and auto-fix issues
 `npm run format` | Format code with Prettier
+`npm test` | Run unit tests with Vitest
+`npm run test:ui` | Run unit tests in interactive UI mode
+`npm run test:e2e` | Run E2E tests with Playwright (see [e2e/README.md](e2e/README.md))
+`npm run test:e2e:ui` | Run E2E tests in interactive UI mode
 
 ## Project Scope (MVP)
 - **User Accounts** – Email/password registration, soft email verification, 30-day sessions, account deletion.

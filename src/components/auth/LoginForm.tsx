@@ -70,6 +70,9 @@ export function LoginForm({ redirectTo = "/dashboard", onSuccess }: LoginFormPro
       // Store session in AuthProvider (which saves to localStorage)
       setSession(data.session as Session);
       
+// Wait a tick to ensure localStorage is written
+await new Promise(resolve => setTimeout(resolve, 0));
+
       // Call success callback or redirect
       if (onSuccess) {
         onSuccess();

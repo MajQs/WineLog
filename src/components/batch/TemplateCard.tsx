@@ -38,6 +38,7 @@ export function TemplateCard({ template, selected, onClick }: TemplateCardProps)
       role="button"
       aria-pressed={selected}
       aria-label={`${selected ? "Odznacz" : "Wybierz"} szablon ${template.name}`}
+      data-testid={`template-card-${template.id}`}
     >
       {/* Selected indicator */}
       {selected && (

@@ -32,6 +32,7 @@ export function TemplatePickerGrid({
         className="grid gap-4 sm:grid-cols-2"
         role="radiogroup"
         aria-label="Dostępne szablony produkcji"
+        data-testid="template-picker-grid"
       >
         {templates.map((template) => (
           <TemplateCard
