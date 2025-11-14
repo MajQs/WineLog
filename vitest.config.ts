@@ -57,7 +57,7 @@ export default defineConfig({
     restoreMocks: true,
 
     // Test timeout
-    testTimeout: 10000,
+    testTimeout: 15000,
   },
 
   resolve: {

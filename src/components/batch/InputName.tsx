@@ -48,6 +48,7 @@ export function InputName({
         maxLength={maxLength}
         aria-invalid={hasError}
         aria-describedby={hasError ? "name-error" : "name-hint"}
+        data-testid="input-batch-name"
       />
       
       <div className="flex items-center justify-between gap-2">

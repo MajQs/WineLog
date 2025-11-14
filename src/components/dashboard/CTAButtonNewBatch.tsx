@@ -22,6 +22,7 @@ export function CTAButtonNewBatch({ className }: CTAButtonNewBatchProps) {
       size="lg"
       className={className}
       aria-label="Utwórz nowy nastaw wina"
+      data-testid="button-new-batch"
     >
       <a href="/batches/new">
         <Plus aria-hidden="true" />
