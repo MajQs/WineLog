@@ -41,13 +41,14 @@ export function ButtonDeleteBatch({ batchId, batchName }: ButtonDeleteBatchProps
         size="sm"
         onClick={() => setIsDialogOpen(true)}
         disabled={deleteMutation.isPending}
+        data-testid="button-delete-batch"
       >
         <Trash2 className="mr-2 h-4 w-4" />
         Usuń nastaw
       </Button>
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent>
+        <DialogContent data-testid="dialog-delete-batch">
           <DialogHeader>
             <DialogTitle>Czy na pewno chcesz usunąć ten nastaw?</DialogTitle>
             <DialogDescription>
@@ -62,6 +63,7 @@ export function ButtonDeleteBatch({ batchId, batchName }: ButtonDeleteBatchProps
               variant="outline"
               onClick={() => setIsDialogOpen(false)}
               disabled={deleteMutation.isPending}
+              data-testid="button-cancel-delete"
             >
               Anuluj
             </Button>
@@ -69,6 +71,7 @@ export function ButtonDeleteBatch({ batchId, batchName }: ButtonDeleteBatchProps
               variant="destructive"
               onClick={handleDelete}
               disabled={deleteMutation.isPending}
+              data-testid="button-confirm-delete"
             >
               {deleteMutation.isPending ? "Usuwanie..." : "Usuń nastaw"}
             </Button>

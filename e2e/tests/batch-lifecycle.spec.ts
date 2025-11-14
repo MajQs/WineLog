@@ -4,7 +4,7 @@
  */
 
 import { test, expect } from "../fixtures/auth.fixture";
-import { BatchDetailPage } from "../page-objects";
+import { BatchDetailPage, ArchivedPage, ArchivedBatchPage } from "../page-objects";
 
 test.describe("Batch Lifecycle - Stage Progression", () => {
   test("should complete full batch lifecycle with notes and rating", async ({ authenticatedPage }) => {
@@ -138,6 +138,9 @@ test.describe("Batch Lifecycle - Stage Progression", () => {
     // Verify complete batch button is visible
     await expect(batchDetailPage.getCompleteBatchButton()).toBeVisible({ timeout: 10000 });
     
+    // Save the batch ID before completing (for later verification)
+    const batchId = batchDetailPage.getBatchIdFromUrl();
+    
     // Complete the batch with a 4-star rating
     await batchDetailPage.completeBatchWithRating(4);
     
@@ -149,8 +152,100 @@ test.describe("Batch Lifecycle - Stage Progression", () => {
     await dashboardPage.getPage().waitForURL("/dashboard", { timeout: 30000 });
     expect(dashboardPage.url()).toContain("/dashboard");
     
-    // Verify the batch is no longer in active batches (it's archived)
     // We can verify this by checking that the dashboard loaded successfully
+    await expect(dashboardPage.getNewBatchButton()).toBeVisible();
+    
+    // ═══════════════════════════════════════════════════════════════════
+    // ACT & ASSERT - Navigate to archived view
+    // ═══════════════════════════════════════════════════════════════════
+    
+    // Click the archived link in the dashboard
+    await dashboardPage.clickArchived();
+    
+    // Verify we're on the archived page
+    await dashboardPage.getPage().waitForURL("/archived", { timeout: 30000 });
+    expect(dashboardPage.url()).toContain("/archived");
+    
+    // ═══════════════════════════════════════════════════════════════════
+    // ASSERT - Verify batch is visible in archived view
+    // ═══════════════════════════════════════════════════════════════════
+    
+    const archivedPage = new ArchivedPage(dashboardPage.getPage());
+    
+    // Wait for the page to load
+    await archivedPage.waitForPageLoad();
+    await dashboardPage.getPage().waitForTimeout(5000);
+    
+    // Verify the batch is visible
+    const isBatchVisible = await archivedPage.isBatchVisible(batchId);
+    expect(isBatchVisible).toBe(true);
+    
+    // ═══════════════════════════════════════════════════════════════════
+    // ASSERT - Verify rating is visible
+    // ═══════════════════════════════════════════════════════════════════
+    
+    const isRatingVisible = await archivedPage.isBatchRatingVisible(batchId);
+    expect(isRatingVisible).toBe(true);
+    
+    // ═══════════════════════════════════════════════════════════════════
+    // ACT - Enter archived batch detail view
+    // ═══════════════════════════════════════════════════════════════════
+    
+    await archivedPage.clickBatch(batchId);
+    
+    // Verify we're on the archived batch detail page
+    await dashboardPage.getPage().waitForURL(`/archived/${batchId}`, { timeout: 30000 });
+    expect(dashboardPage.url()).toContain(`/archived/${batchId}`);
+    
+    // ═══════════════════════════════════════════════════════════════════
+    // ASSERT - Verify notes are visible
+    // ═══════════════════════════════════════════════════════════════════
+    
+    const archivedBatchPage = new ArchivedBatchPage(dashboardPage.getPage());
+    await archivedBatchPage.waitForBatchDataLoaded();
+    
+    // Verify batch name is displayed
+    const archivedBatchName = await archivedBatchPage.getBatchName();
+    expect(archivedBatchName).toContain(batchName);
+    
+    // Verify notes are visible (we added notes during the test)
+    const areNotesVisible = await archivedBatchPage.areNotesVisible();
+    expect(areNotesVisible).toBe(true);
+    
+    const archivedNotesCount = await archivedBatchPage.getNotesCount();
+    expect(archivedNotesCount).toBeGreaterThan(0);
+    
+    // ═══════════════════════════════════════════════════════════════════
+    // ACT - Delete the batch
+    // ═══════════════════════════════════════════════════════════════════
+    
+    await archivedBatchPage.deleteBatch();
+    
+    // Verify we're redirected back to the archived page
+    await dashboardPage.getPage().waitForURL("/archived", { timeout: 30000 });
+    expect(dashboardPage.url()).toContain("/archived");
+    
+    // ═══════════════════════════════════════════════════════════════════
+    // ASSERT - Verify batch is no longer visible in archived view
+    // ═══════════════════════════════════════════════════════════════════
+    
+    // Wait for the page to reload after deletion
+    await dashboardPage.getPage().waitForTimeout(1000);
+    
+    // Verify the batch is no longer visible
+    const isBatchStillVisible = await archivedPage.isBatchVisible(batchId);
+    expect(isBatchStillVisible).toBe(false);
+    
+    // ═══════════════════════════════════════════════════════════════════
+    // ACT & ASSERT - Navigate to dashboard and verify batch is gone
+    // ═══════════════════════════════════════════════════════════════════
+    
+    await dashboardPage.navigate();
+    
+    // Verify we're on the dashboard
+    expect(dashboardPage.url()).toContain("/dashboard");
+    
+    // Verify the dashboard loaded successfully
     await expect(dashboardPage.getNewBatchButton()).toBeVisible();
   });
 
@@ -306,20 +401,20 @@ test.describe("Batch Lifecycle - Stage Progression", () => {
     // ═══════════════════════════════════════════════════════════════════
     
     // Get the submit button
-    const submitButton = batchDetailPage.getByTestId("button-submit-note");
+    const submitButton = batchDetailPage.getPage().getByTestId("button-submit-note");
     
     // Submit button should be disabled when action is empty
     await expect(submitButton).toBeDisabled();
     
     // Fill only observations (action is required)
-    const observationsInput = batchDetailPage.getByTestId("textarea-note-observations");
+    const observationsInput = batchDetailPage.getPage().getByTestId("textarea-note-observations");
     await observationsInput.fill("Tylko obserwacje");
     
     // Button should still be disabled
     await expect(submitButton).toBeDisabled();
     
     // Fill action field
-    const actionInput = batchDetailPage.getByTestId("textarea-note-action");
+    const actionInput = batchDetailPage.getPage().getByTestId("textarea-note-action");
     await actionInput.fill("Akcja wymagana");
     
     // Button should now be enabled
@@ -413,7 +508,7 @@ test.describe("Batch Lifecycle - Stage Progression", () => {
     await batchDetailPage.clickNextStage();
     
     // Verify dialog is open
-    const dialog = batchDetailPage.getByTestId("dialog-next-stage");
+    const dialog = batchDetailPage.getPage().getByTestId("dialog-next-stage");
     await expect(dialog).toBeVisible();
     
     // Cancel
@@ -429,6 +524,96 @@ test.describe("Batch Lifecycle - Stage Progression", () => {
     // Verify we're still on the same stage
     const currentStage = await batchDetailPage.getCurrentStagePosition();
     expect(currentStage).toBe(initialStage);
+  });
+
+  test("should create batch with minimal data (template only)", async ({ authenticatedPage }) => {
+    // ═══════════════════════════════════════════════════════════════════
+    // ARRANGE - Already authenticated
+    // ═══════════════════════════════════════════════════════════════════
+    const dashboardPage = authenticatedPage;
+
+    // ═══════════════════════════════════════════════════════════════════
+    // ACT
+    // ═══════════════════════════════════════════════════════════════════
+
+    const modal = await dashboardPage.clickNewBatch();
+    await modal.waitForModalOpen();
+
+    // Only select template, don't fill name
+    await modal.selectFirstTemplate();
+
+    // Submit
+    await modal.clickSubmit();
+
+    // ═══════════════════════════════════════════════════════════════════
+    // ASSERT
+    // ═══════════════════════════════════════════════════════════════════
+
+    // Should still create batch successfully
+    await dashboardPage.getPage().waitForURL(/\/batches\/[a-f0-9-]{36}/, {
+      timeout: 30000,
+      waitUntil: "domcontentloaded"
+    });
+    expect(dashboardPage.url()).toMatch(/\/batches\/[a-f0-9-]{36}/);
+  });
+
+  test("should validate batch creation form", async ({ authenticatedPage }) => {
+    // ═══════════════════════════════════════════════════════════════════
+    // ARRANGE - Already authenticated
+    // ═══════════════════════════════════════════════════════════════════
+    const dashboardPage = authenticatedPage;
+
+    // ═══════════════════════════════════════════════════════════════════
+    // ACT
+    // ═══════════════════════════════════════════════════════════════════
+
+    const modal = await dashboardPage.clickNewBatch();
+    await modal.waitForModalOpen();
+
+    // ═══════════════════════════════════════════════════════════════════
+    // ASSERT - Validation
+    // ═══════════════════════════════════════════════════════════════════
+
+    // Submit button should be disabled when no template is selected
+    await expect(modal.getSubmitButton()).toBeDisabled();
+
+    // Select template
+    await modal.selectFirstTemplate();
+
+    // Submit button should be enabled after template selection
+    await expect(modal.getSubmitButton()).toBeEnabled();
+  });
+
+  test("should allow canceling batch creation", async ({ authenticatedPage }) => {
+    // ═══════════════════════════════════════════════════════════════════
+    // ARRANGE - Already authenticated
+    // ═══════════════════════════════════════════════════════════════════
+    const dashboardPage = authenticatedPage;
+
+    // ═══════════════════════════════════════════════════════════════════
+    // ACT
+    // ═══════════════════════════════════════════════════════════════════
+
+    const modal = await dashboardPage.clickNewBatch();
+    await modal.waitForModalOpen();
+
+    // Fill some data
+    await modal.selectFirstTemplate();
+    await modal.fillBatchName("Test Batch");
+
+    // Cancel instead of submitting
+    await modal.clickCancel();
+
+    // ═══════════════════════════════════════════════════════════════════
+    // ASSERT
+    // ═══════════════════════════════════════════════════════════════════
+
+    // Should return to dashboard
+    await dashboardPage.getPage().waitForURL("/dashboard");
+    expect(dashboardPage.url()).toContain("/dashboard");
+
+    // Modal should be closed
+    await expect(modal.getDialog()).not.toBeVisible();
   });
 });
 

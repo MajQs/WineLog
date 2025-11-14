@@ -86,6 +86,7 @@ export function BatchCardArchived({ batch }: BatchCardArchivedProps) {
         tabIndex={0}
         role="button"
         aria-label={`Otwórz szczegóły zakończonego nastawu ${batch.name}`}
+        data-testid={`archived-batch-card-${batch.id}`}
       >
         <CardHeader>
           <CardTitle className="truncate">
@@ -98,7 +99,7 @@ export function BatchCardArchived({ batch }: BatchCardArchivedProps) {
           <TypeBadge type={batch.type} />
 
           {/* Rating */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2" data-testid={`archived-batch-rating-${batch.id}`}>
             <StarRating rating={batch.rating} />
           </div>
 
