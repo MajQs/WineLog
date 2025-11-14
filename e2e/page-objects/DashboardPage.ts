@@ -14,10 +14,12 @@ import { NewBatchModal } from "./NewBatchModal";
 export class DashboardPage extends BasePage {
   // Locators
   private readonly newBatchButton: Locator;
+  private readonly archivedLink: Locator;
 
   constructor(page: Page) {
     super(page);
     this.newBatchButton = this.getByTestId("button-new-batch");
+    this.archivedLink = this.getByTestId("link-archived");
   }
 
   /**
@@ -58,6 +60,28 @@ export class DashboardPage extends BasePage {
    */
   getNewBatchButton(): Locator {
     return this.newBatchButton;
+  }
+
+  /**
+   * Click the archived link to navigate to archived page
+   */
+  async clickArchived(): Promise<void> {
+    await this.archivedLink.click();
+    await this.page.waitForURL("/archived", { timeout: 30000 });
+  }
+
+  /**
+   * Get the archived link locator (for assertions)
+   */
+  getArchivedLink(): Locator {
+    return this.archivedLink;
+  }
+
+  /**
+   * Check if the archived link is visible
+   */
+  async isArchivedLinkVisible(): Promise<boolean> {
+    return await this.archivedLink.isVisible();
   }
 }
 

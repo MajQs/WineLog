@@ -18,7 +18,7 @@ export function SectionArchive({ count }: SectionArchiveProps) {
   return (
     <section aria-labelledby="archive-heading">
       <Card className="transition-colors hover:bg-accent/50">
-        <a href="/archived" className="block" aria-label={`Zobacz archiwum (${count} ${count === 1 ? "nastaw" : "nastawy"})`}>
+        <a href="/archived" className="block" aria-label={`Zobacz archiwum (${count} ${count === 1 ? "nastaw" : "nastawy"})`} data-testid="link-archived">
           <CardContent className="flex items-center justify-between py-6">
             <div className="flex items-center gap-4">
               <div className="text-muted-foreground flex items-center justify-center rounded-full bg-accent p-3">

@@ -8,4 +8,6 @@ export { DashboardPage } from "./DashboardPage";
 export { BatchDetailPage } from "./BatchDetailPage";
 export { NewBatchModal } from "./NewBatchModal";
 export { LoginPage } from "./LoginPage";
+export { ArchivedPage } from "./ArchivedPage";
+export { ArchivedBatchPage } from "./ArchivedBatchPage";
 
