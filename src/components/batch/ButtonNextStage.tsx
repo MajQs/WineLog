@@ -137,6 +137,7 @@ export function ButtonNextStage({
         disabled={disabled || mutation.isPending}
         size="lg"
         className="w-full sm:w-auto"
+        data-testid="button-next-stage"
       >
         {mutation.isPending ? (
           <>
@@ -152,7 +153,7 @@ export function ButtonNextStage({
       </Button>
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="sm:max-w-[500px]">
+        <DialogContent className="sm:max-w-[500px]" data-testid="dialog-next-stage">
           <DialogHeader>
             <DialogTitle>Przejdź do następnego etapu</DialogTitle>
             <DialogDescription>
@@ -185,6 +186,7 @@ export function ButtonNextStage({
                 rows={3}
                 aria-invalid={!!errors.action}
                 aria-describedby={errors.action ? "action-error" : undefined}
+                data-testid="textarea-advance-action"
               />
               {errors.action && (
                 <p id="action-error" className="text-sm text-red-600" role="alert">
@@ -213,6 +215,7 @@ export function ButtonNextStage({
                 rows={3}
                 aria-invalid={!!errors.observations}
                 aria-describedby={errors.observations ? "observations-error" : undefined}
+                data-testid="textarea-advance-observations"
               />
               {errors.observations && (
                 <p id="observations-error" className="text-sm text-red-600" role="alert">
@@ -231,6 +234,7 @@ export function ButtonNextStage({
               variant="outline"
               onClick={handleCancel}
               disabled={mutation.isPending}
+              data-testid="button-cancel-next-stage"
             >
               Anuluj
             </Button>
@@ -238,6 +242,7 @@ export function ButtonNextStage({
               type="button"
               onClick={handleAdvance}
               disabled={mutation.isPending}
+              data-testid="button-confirm-next-stage"
             >
               {mutation.isPending ? (
                 <>

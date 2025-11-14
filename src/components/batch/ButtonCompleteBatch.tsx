@@ -97,6 +97,7 @@ export function ButtonCompleteBatch({
         disabled={disabled || completeMutation.isPending}
         size="lg"
         className="w-full sm:w-auto bg-green-600 hover:bg-green-700"
+        data-testid="button-complete-batch"
       >
         {completeMutation.isPending ? (
           <>
@@ -112,7 +113,7 @@ export function ButtonCompleteBatch({
       </Button>
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="sm:max-w-[500px]">
+        <DialogContent className="sm:max-w-[500px]" data-testid="dialog-complete-batch">
           <DialogHeader>
             <DialogTitle>Zakończ nastaw</DialogTitle>
             <DialogDescription>
@@ -139,6 +140,7 @@ export function ButtonCompleteBatch({
                     disabled={completeMutation.isPending}
                     className="transition-transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded"
                     aria-label={`Oceń ${rating} ${rating === 1 ? "gwiazdkę" : "gwiazdek"}`}
+                    data-testid={`button-rating-${rating}`}
                   >
                     <Star
                       className={`h-8 w-8 transition-colors ${
@@ -169,6 +171,7 @@ export function ButtonCompleteBatch({
               variant="outline"
               onClick={handleCancel}
               disabled={completeMutation.isPending}
+              data-testid="button-cancel-complete"
             >
               Anuluj
             </Button>
@@ -177,6 +180,7 @@ export function ButtonCompleteBatch({
               onClick={handleComplete}
               disabled={completeMutation.isPending}
               className="bg-green-600 hover:bg-green-700"
+              data-testid="button-confirm-complete"
             >
               {completeMutation.isPending ? (
                 <>

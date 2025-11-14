@@ -60,6 +60,9 @@ export class LoginPage extends BasePage {
    * @param password - User password
    */
   async login(email: string, password: string): Promise<void> {
+    // Wait for React to hydrate (client:load) before interacting
+    await this.page.waitForLoadState('networkidle');
+    
     await this.fillEmail(email);
     await this.fillPassword(password);
     await this.clickSubmit();

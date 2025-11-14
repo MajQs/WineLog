@@ -123,12 +123,12 @@ export function NoteForm({ batchId, onCreated }: NoteFormProps) {
   };
 
   return (
-    <Card>
+    <Card data-testid="card-note-form">
       <CardHeader>
         <CardTitle className="text-lg">Dodaj notatkę</CardTitle>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4" data-testid="form-note">
           <div className="space-y-2">
             <label 
               htmlFor="note-action" 
@@ -147,6 +147,7 @@ export function NoteForm({ batchId, onCreated }: NoteFormProps) {
               aria-invalid={!!errors.action}
               aria-describedby={errors.action ? "action-error" : undefined}
               required
+              data-testid="textarea-note-action"
             />
             {errors.action && (
               <p id="action-error" className="text-sm text-red-600" role="alert">
@@ -175,6 +176,7 @@ export function NoteForm({ batchId, onCreated }: NoteFormProps) {
               rows={3}
               aria-invalid={!!errors.observations}
               aria-describedby={errors.observations ? "observations-error" : undefined}
+              data-testid="textarea-note-observations"
             />
             {errors.observations && (
               <p id="observations-error" className="text-sm text-red-600" role="alert">
@@ -190,6 +192,7 @@ export function NoteForm({ batchId, onCreated }: NoteFormProps) {
             type="submit"
             disabled={mutation.isPending || !action.trim()}
             className="w-full"
+            data-testid="button-submit-note"
           >
             {mutation.isPending ? (
               <>
