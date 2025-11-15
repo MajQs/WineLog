@@ -23,17 +23,17 @@ import { toast } from "sonner";
 
 // Validation schema for optional note
 const advanceStageSchema = z.object({
-  note: z.object({
-    action: z.string()
-      .min(1, "Akcja jest wymagana")
-      .max(200, "Akcja nie może przekraczać 200 znaków")
-      .trim()
-      .optional(),
-    observations: z.string()
-      .max(200, "Obserwacje nie mogą przekraczać 200 znaków")
-      .trim()
-      .optional(),
-  }).optional(),
+  note: z
+    .object({
+      action: z
+        .string()
+        .min(1, "Akcja jest wymagana")
+        .max(200, "Akcja nie może przekraczać 200 znaków")
+        .trim()
+        .optional(),
+      observations: z.string().max(200, "Obserwacje nie mogą przekraczać 200 znaków").trim().optional(),
+    })
+    .optional(),
 });
 
 interface ButtonNextStageProps {
@@ -44,8 +44,8 @@ interface ButtonNextStageProps {
   onAdvanced?: () => void;
 }
 
-export function ButtonNextStage({ 
-  batchId, 
+export function ButtonNextStage({
+  batchId,
   disabled = false,
   currentStagePosition,
   nextStagePosition,
@@ -64,7 +64,7 @@ export function ButtonNextStage({
       toast.success("Przejście do kolejnego etapu zakończone sukcesem", {
         description: `Obecnie: ${data.current_stage.name}`,
       });
-      
+
       // Reset form
       setAction("");
       setObservations("");
@@ -102,7 +102,7 @@ export function ButtonNextStage({
   const handleAdvance = () => {
     // Build command
     const command: AdvanceStageCommand = {};
-    
+
     // Add note if action is provided
     if (action.trim()) {
       command.note = {
@@ -113,7 +113,7 @@ export function ButtonNextStage({
 
     // Validate
     const result = advanceStageSchema.safeParse(command);
-    
+
     if (!result.success) {
       const fieldErrors: { action?: string; observations?: string } = {};
       result.error.errors.forEach((err) => {
@@ -170,10 +170,7 @@ export function ButtonNextStage({
 
           <div className="space-y-4 py-4">
             <div className="space-y-2">
-              <label 
-                htmlFor="action" 
-                className="text-sm font-medium text-gray-700"
-              >
+              <label htmlFor="action" className="text-sm font-medium text-gray-700">
                 Akcja (opcjonalna)
               </label>
               <Textarea
@@ -193,16 +190,11 @@ export function ButtonNextStage({
                   {errors.action}
                 </p>
               )}
-              <p className="text-xs text-gray-500">
-                {action.length}/200 znaków
-              </p>
+              <p className="text-xs text-gray-500">{action.length}/200 znaków</p>
             </div>
 
             <div className="space-y-2">
-              <label 
-                htmlFor="observations" 
-                className="text-sm font-medium text-gray-700"
-              >
+              <label htmlFor="observations" className="text-sm font-medium text-gray-700">
                 Obserwacje (opcjonalne)
               </label>
               <Textarea
@@ -222,9 +214,7 @@ export function ButtonNextStage({
                   {errors.observations}
                 </p>
               )}
-              <p className="text-xs text-gray-500">
-                {observations.length}/200 znaków
-              </p>
+              <p className="text-xs text-gray-500">{observations.length}/200 znaków</p>
             </div>
           </div>
 
@@ -259,4 +249,3 @@ export function ButtonNextStage({
     </>
   );
 }
-

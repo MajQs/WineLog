@@ -9,7 +9,7 @@ import { fetchTemplates } from "../api/template";
 
 /**
  * Hook for templates list with React Query
- * 
+ *
  * @param type - Optional batch type filter
  * @returns Query state with templates data
  */
@@ -21,4 +21,3 @@ export function useTemplates(type?: BatchType) {
     retry: 1,
   });
 }
-

@@ -46,27 +46,25 @@ export function BatchCard({ batch }: BatchCardProps) {
         aria-label={`Otwórz szczegóły nastawu ${batch.name}`}
       >
         <CardHeader>
-          <CardTitle className="truncate">
-            {truncateText(batch.name, 100)}
-          </CardTitle>
+          <CardTitle className="truncate">{truncateText(batch.name, 100)}</CardTitle>
         </CardHeader>
-        
+
         <CardContent className="space-y-4">
           {/* Current Stage Badge */}
           <div className="flex items-center gap-2">
             <span className="bg-primary/10 text-primary inline-flex items-center rounded-full px-3 py-1 text-xs font-medium">
               Etap {batch.currentStagePosition}
             </span>
-            <span className="text-muted-foreground text-sm">
-              {batch.currentStageDescription}
-            </span>
+            <span className="text-muted-foreground text-sm">{batch.currentStageDescription}</span>
           </div>
 
           {/* Days Elapsed */}
           {batch.currentStageDaysElapsed !== undefined && (
             <div className="text-muted-foreground flex items-center gap-2 text-sm">
               <Clock className="size-4" aria-hidden="true" />
-              <span>{batch.currentStageDaysElapsed} {batch.currentStageDaysElapsed === 1 ? "dzień" : "dni"} w etapie</span>
+              <span>
+                {batch.currentStageDaysElapsed} {batch.currentStageDaysElapsed === 1 ? "dzień" : "dni"} w etapie
+              </span>
             </div>
           )}
 
@@ -95,4 +93,3 @@ export function BatchCard({ batch }: BatchCardProps) {
     </li>
   );
 }
-

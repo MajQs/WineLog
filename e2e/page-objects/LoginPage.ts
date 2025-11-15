@@ -61,24 +61,24 @@ export class LoginPage extends BasePage {
    */
   async login(email: string, password: string): Promise<void> {
     // Wait for React to hydrate (client:load) before interacting
-    await this.page.waitForLoadState('networkidle');
-    
+    await this.page.waitForLoadState("networkidle");
+
     await this.fillEmail(email);
     await this.fillPassword(password);
     await this.clickSubmit();
-    
+
     // Wait for navigation after successful login
     // Use domcontentloaded to avoid waiting for all resources
     // Increase timeout for cold starts (first run)
-    await this.page.waitForURL(/\/dashboard/, { 
+    await this.page.waitForURL(/\/dashboard/, {
       timeout: 30000,
-      waitUntil: "domcontentloaded"
+      waitUntil: "domcontentloaded",
     });
-    
+
     // Wait for the dashboard to be ready by checking for key UI element
-    await this.page.getByTestId("user-email").waitFor({ 
-      state: "visible", 
-      timeout: 10000 
+    await this.page.getByTestId("user-email").waitFor({
+      state: "visible",
+      timeout: 10000,
     });
   }
 
@@ -93,7 +93,7 @@ export class LoginPage extends BasePage {
    * Get error message text
    */
   async getErrorMessage(): Promise<string> {
-    return await this.errorMessage.textContent() || "";
+    return (await this.errorMessage.textContent()) || "";
   }
 
   /**
@@ -117,5 +117,3 @@ export class LoginPage extends BasePage {
     return this.submitButton;
   }
 }
-
-

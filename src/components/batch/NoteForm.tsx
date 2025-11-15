@@ -16,14 +16,8 @@ import { toast } from "sonner";
 
 // Validation schema
 const noteSchema = z.object({
-  action: z.string()
-    .min(1, "Akcja jest wymagana")
-    .max(200, "Akcja nie może przekraczać 200 znaków")
-    .trim(),
-  observations: z.string()
-    .max(200, "Obserwacje nie mogą przekraczać 200 znaków")
-    .trim()
-    .optional(),
+  action: z.string().min(1, "Akcja jest wymagana").max(200, "Akcja nie może przekraczać 200 znaków").trim(),
+  observations: z.string().max(200, "Obserwacje nie mogą przekraczać 200 znaków").trim().optional(),
 });
 
 interface NoteFormProps {
@@ -48,13 +42,14 @@ export function NoteForm({ batchId, onCreated }: NoteFormProps) {
       const previousStage = queryClient.getQueryData(["batch", batchId, "current-stage"]);
 
       // Optimistically add the new note
-      queryClient.setQueryData(["batch", batchId, "current-stage"], (old: any) => {
+      queryClient.setQueryData(["batch", batchId, "current-stage"], (old: unknown) => {
         if (!old) return old;
-        
+        const currentStage = old as { id: string; notes?: NoteDto[] };
+
         const optimisticNote: NoteDto = {
           id: `temp-${Date.now()}`,
           batch_id: batchId,
-          stage_id: old.id,
+          stage_id: currentStage.id,
           user_id: "temp-user",
           action: newNote.action,
           observations: newNote.observations || null,
@@ -74,14 +69,14 @@ export function NoteForm({ batchId, onCreated }: NoteFormProps) {
       if (context?.previousStage) {
         queryClient.setQueryData(["batch", batchId, "current-stage"], context.previousStage);
       }
-      
+
       toast.error("Nie udało się dodać notatki", {
         description: error.message,
       });
     },
     onSuccess: (data) => {
       toast.success("Notatka dodana");
-      
+
       // Reset form
       setAction("");
       setObservations("");
@@ -130,10 +125,7 @@ export function NoteForm({ batchId, onCreated }: NoteFormProps) {
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4" data-testid="form-note">
           <div className="space-y-2">
-            <label 
-              htmlFor="note-action" 
-              className="text-sm font-medium text-gray-700"
-            >
+            <label htmlFor="note-action" className="text-sm font-medium text-gray-700">
               Akcja <span className="text-red-500">*</span>
             </label>
             <Textarea
@@ -154,16 +146,11 @@ export function NoteForm({ batchId, onCreated }: NoteFormProps) {
                 {errors.action}
               </p>
             )}
-            <p className="text-xs text-gray-500">
-              {action.length}/200 znaków
-            </p>
+            <p className="text-xs text-gray-500">{action.length}/200 znaków</p>
           </div>
 
           <div className="space-y-2">
-            <label 
-              htmlFor="note-observations" 
-              className="text-sm font-medium text-gray-700"
-            >
+            <label htmlFor="note-observations" className="text-sm font-medium text-gray-700">
               Obserwacje (opcjonalne)
             </label>
             <Textarea
@@ -183,9 +170,7 @@ export function NoteForm({ batchId, onCreated }: NoteFormProps) {
                 {errors.observations}
               </p>
             )}
-            <p className="text-xs text-gray-500">
-              {observations.length}/200 znaków
-            </p>
+            <p className="text-xs text-gray-500">{observations.length}/200 znaków</p>
           </div>
 
           <Button
@@ -211,4 +196,3 @@ export function NoteForm({ batchId, onCreated }: NoteFormProps) {
     </Card>
   );
 }
-

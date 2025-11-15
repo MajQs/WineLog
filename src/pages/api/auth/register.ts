@@ -1,7 +1,7 @@
 /**
  * Register API Endpoint
  * Handles new user registration with email and password
- * 
+ *
  * POST /api/auth/register
  * Body: { email: string, password: string, confirmPassword: string }
  * Returns: { session: Session, user: User } or error
@@ -110,4 +110,3 @@ export const POST: APIRoute = async ({ request, locals }) => {
     );
   }
 };
-

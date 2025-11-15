@@ -15,10 +15,7 @@ import { toast } from "sonner";
 
 // Validation schema
 const batchNameSchema = z.object({
-  name: z.string()
-    .min(1, "Nazwa nie może być pusta")
-    .max(100, "Nazwa nie może przekraczać 100 znaków")
-    .trim(),
+  name: z.string().min(1, "Nazwa nie może być pusta").max(100, "Nazwa nie może przekraczać 100 znaków").trim(),
 });
 
 interface EditableHeadingProps {
@@ -53,9 +50,9 @@ export function EditableHeading({ name, batchId, onUpdated }: EditableHeadingPro
       const previousBatch = queryClient.getQueryData(["batch", batchId]);
 
       // Optimistically update to the new value
-      queryClient.setQueryData(["batch", batchId], (old: any) => {
+      queryClient.setQueryData(["batch", batchId], (old: unknown) => {
         if (!old) return old;
-        return { ...old, name: variables.name };
+        return { ...(old as Record<string, unknown>), name: variables.name };
       });
 
       return { previousBatch };
@@ -65,7 +62,7 @@ export function EditableHeading({ name, batchId, onUpdated }: EditableHeadingPro
       if (context?.previousBatch) {
         queryClient.setQueryData(["batch", batchId], context.previousBatch);
       }
-      
+
       toast.error("Nie udało się zaktualizować nazwy", {
         description: error.message,
       });
@@ -97,7 +94,7 @@ export function EditableHeading({ name, batchId, onUpdated }: EditableHeadingPro
   const handleSubmit = () => {
     // Validate
     const result = batchNameSchema.safeParse({ name: value });
-    
+
     if (!result.success) {
       setError(result.error.errors[0].message);
       return;
@@ -186,4 +183,3 @@ export function EditableHeading({ name, batchId, onUpdated }: EditableHeadingPro
     </div>
   );
 }
-

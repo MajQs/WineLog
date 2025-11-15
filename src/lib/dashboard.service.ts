@@ -4,24 +4,16 @@
  */
 
 import type { SupabaseClient } from "../db/supabase.client";
-import type {
-  DashboardDto,
-  DashboardBatchDto,
-  CurrentStageInfoDto,
-  LatestNoteDto,
-} from "../types";
+import type { DashboardDto, DashboardBatchDto, CurrentStageInfoDto, LatestNoteDto } from "../types";
 
 /**
  * Gets dashboard data for a user including active batches and archived count
- * 
+ *
  * @param supabase - Supabase client instance
  * @param userId - User ID from JWT token
  * @returns Dashboard data with active batches and archived count
  */
-export async function getDashboardData(
-  supabase: SupabaseClient,
-  userId: string
-): Promise<DashboardDto> {
+export async function getDashboardData(supabase: SupabaseClient, userId: string): Promise<DashboardDto> {
   try {
     // 1. Fetch active batches with current stage and latest note
     const activeBatches = await getActiveBatches(supabase, userId);
@@ -41,15 +33,12 @@ export async function getDashboardData(
 
 /**
  * Fetches active batches with current stage and latest note information
- * 
+ *
  * @param supabase - Supabase client instance
  * @param userId - User ID from JWT token
  * @returns Array of active batches with details
  */
-async function getActiveBatches(
-  supabase: SupabaseClient,
-  userId: string
-): Promise<DashboardBatchDto[]> {
+async function getActiveBatches(supabase: SupabaseClient, userId: string): Promise<DashboardBatchDto[]> {
   // Fetch active batches
   const { data: batches, error: batchesError } = await supabase
     .from("batches")
@@ -93,15 +82,12 @@ async function getActiveBatches(
 
 /**
  * Gets current stage information for a batch
- * 
+ *
  * @param supabase - Supabase client instance
  * @param batchId - Batch UUID
  * @returns Current stage information
  */
-async function getCurrentStageInfo(
-  supabase: SupabaseClient,
-  batchId: string
-): Promise<CurrentStageInfoDto> {
+async function getCurrentStageInfo(supabase: SupabaseClient, batchId: string): Promise<CurrentStageInfoDto> {
   const { data: stageData, error: stageError } = await supabase
     .from("batch_stages")
     .select(
@@ -146,7 +132,8 @@ async function getCurrentStageInfo(
       .maybeSingle();
 
     if (lastStage) {
-      const templateStage = (lastStage as any).template_stages;
+      const templateStage = (lastStage as { template_stages: { position: number; name: string; description: string } })
+        .template_stages;
       return {
         position: templateStage.position,
         name: templateStage.name,
@@ -163,7 +150,9 @@ async function getCurrentStageInfo(
     };
   }
 
-  const templateStage = (stageData as any).template_stages;
+  const templateStage = (
+    stageData as { template_stages: { position: number; name: string; description: string }; started_at: string | null }
+  ).template_stages;
 
   return {
     position: templateStage.position,
@@ -175,15 +164,12 @@ async function getCurrentStageInfo(
 
 /**
  * Gets the latest note for a batch
- * 
+ *
  * @param supabase - Supabase client instance
  * @param batchId - Batch UUID
  * @returns Latest note or null if no notes exist
  */
-async function getLatestNote(
-  supabase: SupabaseClient,
-  batchId: string
-): Promise<LatestNoteDto | null> {
+async function getLatestNote(supabase: SupabaseClient, batchId: string): Promise<LatestNoteDto | null> {
   const { data: noteData, error: noteError } = await supabase
     .from("notes")
     .select("id, action, created_at")
@@ -210,15 +196,12 @@ async function getLatestNote(
 
 /**
  * Counts archived batches for a user
- * 
+ *
  * @param supabase - Supabase client instance
  * @param userId - User ID from JWT token
  * @returns Count of archived batches
  */
-async function getArchivedBatchesCount(
-  supabase: SupabaseClient,
-  userId: string
-): Promise<number> {
+async function getArchivedBatchesCount(supabase: SupabaseClient, userId: string): Promise<number> {
   const { count, error } = await supabase
     .from("batches")
     .select("*", { count: "exact", head: true })
@@ -235,7 +218,7 @@ async function getArchivedBatchesCount(
 
 /**
  * Helper function to calculate days elapsed from a date
- * 
+ *
  * @param startDate - Start date as string (YYYY-MM-DD)
  * @returns Number of days elapsed
  */
@@ -249,4 +232,3 @@ function calculateDaysElapsed(startDate: string | null): number | undefined {
 
   return diffDays;
 }
-

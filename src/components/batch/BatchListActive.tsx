@@ -26,11 +26,8 @@ export function BatchListActive({ batches }: BatchListActiveProps) {
       <h2 id="active-batches-heading" className="mb-4 text-lg font-semibold">
         Aktywne nastawy
       </h2>
-      
-      <ul
-        role="list"
-        className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
-      >
+
+      <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {batches.map((batch) => (
           <BatchCard key={batch.id} batch={batch} />
         ))}
@@ -38,4 +35,3 @@ export function BatchListActive({ batches }: BatchListActiveProps) {
     </section>
   );
 }
-

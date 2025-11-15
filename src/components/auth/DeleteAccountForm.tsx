@@ -68,7 +68,7 @@ export function DeleteAccountForm({ onSuccess, onCancel }: DeleteAccountFormProp
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           password: result.data.password,
           confirmation: result.data.confirmation,
         }),
@@ -108,18 +108,12 @@ export function DeleteAccountForm({ onSuccess, onCancel }: DeleteAccountFormProp
           <AlertTriangle className="h-5 w-5 text-destructive" />
           <CardTitle className="text-xl font-bold text-destructive">Usuń konto</CardTitle>
         </div>
-        <CardDescription>
-          Ta operacja jest nieodwracalna. Wszystkie Twoje dane zostaną trwale usunięte.
-        </CardDescription>
+        <CardDescription>Ta operacja jest nieodwracalna. Wszystkie Twoje dane zostaną trwale usunięte.</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
           {globalError && (
-            <div
-              className="rounded-md bg-destructive/10 p-3 text-sm text-destructive"
-              role="alert"
-              aria-live="polite"
-            >
+            <div className="rounded-md bg-destructive/10 p-3 text-sm text-destructive" role="alert" aria-live="polite">
               {globalError}
             </div>
           )}
@@ -176,21 +170,10 @@ export function DeleteAccountForm({ onSuccess, onCancel }: DeleteAccountFormProp
           </div>
 
           <div className="flex gap-3 pt-2">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={onCancel}
-              disabled={isSubmitting}
-              className="flex-1"
-            >
+            <Button type="button" variant="outline" onClick={onCancel} disabled={isSubmitting} className="flex-1">
               Anuluj
             </Button>
-            <Button
-              type="submit"
-              variant="destructive"
-              disabled={isSubmitting}
-              className="flex-1"
-            >
+            <Button type="submit" variant="destructive" disabled={isSubmitting} className="flex-1">
               {isSubmitting ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -206,4 +189,3 @@ export function DeleteAccountForm({ onSuccess, onCancel }: DeleteAccountFormProp
     </Card>
   );
 }
-

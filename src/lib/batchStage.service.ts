@@ -12,13 +12,12 @@ import type {
   StageSummaryDto,
   NoteDto,
   StageName,
-  NoteStageContextDto,
 } from "../types";
 
 /**
  * Advances batch to the next stage
  * Closes current stage and optionally creates a note
- * 
+ *
  * @param supabase - Supabase client instance
  * @param userId - User ID from JWT token
  * @param batchId - Batch UUID
@@ -75,8 +74,19 @@ export async function advanceToNextStage(
     throw new Error("NO_STAGES_FOUND");
   }
 
+  interface StageWithTemplate {
+    id: string;
+    completed_at: string | null;
+    started_at: string | null;
+    template_stages: {
+      position: number;
+      name: string;
+      description: string;
+    };
+  }
+
   // Find current stage (first non-completed)
-  const stages = allStages as any[];
+  const stages = allStages as StageWithTemplate[];
   const currentStageIndex = stages.findIndex((s) => !s.completed_at);
 
   if (currentStageIndex === -1) {
@@ -178,7 +188,7 @@ export async function advanceToNextStage(
 
 /**
  * Gets current stage details with notes
- * 
+ *
  * @param supabase - Supabase client instance
  * @param userId - User ID from JWT token
  * @param batchId - Batch UUID
@@ -229,8 +239,25 @@ export async function getCurrentStageDetails(
     throw new Error("NO_STAGES_FOUND");
   }
 
+  interface CurrentStageWithTemplate {
+    id: string;
+    batch_id: string;
+    template_stage_id: string;
+    started_at: string | null;
+    completed_at: string | null;
+    template_stages: {
+      position: number;
+      name: string;
+      description: string;
+      instructions: string | null;
+      materials: string[] | null;
+      days_min: number | null;
+      days_max: number | null;
+    };
+  }
+
   // Find current stage (first incomplete or last stage if all complete)
-  const stages = currentStageData as any[];
+  const stages = currentStageData as CurrentStageWithTemplate[];
   const currentStage = stages.find((s) => !s.completed_at) || stages[stages.length - 1];
   const templateStage = currentStage.template_stages;
 
@@ -276,11 +303,21 @@ export async function getCurrentStageDetails(
 /**
  * Helper function to build BatchStageDto from database data
  */
+interface TemplateStageData {
+  position: number;
+  name: string;
+  description: string;
+  instructions: string | null;
+  materials: string[] | null;
+  days_min: number | null;
+  days_max: number | null;
+}
+
 function buildBatchStageDto(
   id: string,
   batch_id: string,
   template_stage_id: string,
-  templateStage: any,
+  templateStage: TemplateStageData,
   started_at: string | null,
   completed_at: string | null
 ): BatchStageDto {
@@ -317,4 +354,3 @@ function calculateDaysElapsed(startDate: string | null): number | undefined {
 
   return diffDays;
 }
-

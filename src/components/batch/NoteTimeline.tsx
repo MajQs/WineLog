@@ -15,9 +15,7 @@ interface NoteTimelineProps {
 
 export function NoteTimeline({ notes, batchId, onDelete }: NoteTimelineProps) {
   // Sort notes by created_at (newest first)
-  const sortedNotes = [...notes].sort(
-    (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-  );
+  const sortedNotes = [...notes].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
 
   if (sortedNotes.length === 0) {
     return (
@@ -33,14 +31,9 @@ export function NoteTimeline({ notes, batchId, onDelete }: NoteTimelineProps) {
     <div className="space-y-4" role="list" aria-label="Lista notatek">
       {sortedNotes.map((note) => (
         <div key={note.id} role="listitem">
-          <NoteCard 
-            note={note} 
-            batchId={batchId}
-            onDelete={onDelete}
-          />
+          <NoteCard note={note} batchId={batchId} onDelete={onDelete} />
         </div>
       ))}
     </div>
   );
 }
-

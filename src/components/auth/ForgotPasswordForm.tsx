@@ -80,10 +80,10 @@ export function ForgotPasswordForm() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="rounded-md bg-accent p-4 text-sm">
-            <p className="mb-2">Link jest ważny przez <strong>1 godzinę</strong>.</p>
-            <p className="text-muted-foreground">
-              Jeśli nie widzisz wiadomości, sprawdź folder spam.
+            <p className="mb-2">
+              Link jest ważny przez <strong>1 godzinę</strong>.
             </p>
+            <p className="text-muted-foreground">Jeśli nie widzisz wiadomości, sprawdź folder spam.</p>
           </div>
         </CardContent>
         <CardFooter>
@@ -102,18 +102,12 @@ export function ForgotPasswordForm() {
     <Card>
       <CardHeader className="space-y-1">
         <CardTitle className="text-2xl font-bold">Zapomniałeś hasła?</CardTitle>
-        <CardDescription>
-          Wprowadź swój adres e-mail, a wyślemy Ci link do resetowania hasła
-        </CardDescription>
+        <CardDescription>Wprowadź swój adres e-mail, a wyślemy Ci link do resetowania hasła</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
           {globalError && (
-            <div
-              className="rounded-md bg-destructive/10 p-3 text-sm text-destructive"
-              role="alert"
-              aria-live="polite"
-            >
+            <div className="rounded-md bg-destructive/10 p-3 text-sm text-destructive" role="alert" aria-live="polite">
               {globalError}
             </div>
           )}
@@ -161,4 +155,3 @@ export function ForgotPasswordForm() {
     </Card>
   );
 }
-

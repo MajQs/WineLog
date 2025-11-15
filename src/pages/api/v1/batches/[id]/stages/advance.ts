@@ -106,12 +106,7 @@ export const POST: APIRoute = async ({ params, request, locals }) => {
 
     // Advance stage using service
     try {
-      const response: AdvanceStageResponseDto = await advanceToNextStage(
-        supabase,
-        userId,
-        idValidation.data,
-        command
-      );
+      const response: AdvanceStageResponseDto = await advanceToNextStage(supabase, userId, idValidation.data, command);
 
       return createSuccessResponse(response);
     } catch (error) {
@@ -135,4 +130,3 @@ export const POST: APIRoute = async ({ params, request, locals }) => {
     );
   }
 };
-

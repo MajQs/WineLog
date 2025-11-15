@@ -91,15 +91,11 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
             <CheckCircle2 className="h-6 w-6 text-green-600" />
             <CardTitle className="text-2xl font-bold">Hasło zostało zmienione</CardTitle>
           </div>
-          <CardDescription>
-            Twoje hasło zostało pomyślnie zmienione
-          </CardDescription>
+          <CardDescription>Twoje hasło zostało pomyślnie zmienione</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="rounded-md bg-accent p-4 text-sm">
-            <p className="text-muted-foreground">
-              Za chwilę zostaniesz przekierowany do strony logowania...
-            </p>
+            <p className="text-muted-foreground">Za chwilę zostaniesz przekierowany do strony logowania...</p>
           </div>
         </CardContent>
         <CardFooter>
@@ -115,18 +111,12 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
     <Card>
       <CardHeader className="space-y-1">
         <CardTitle className="text-2xl font-bold">Ustaw nowe hasło</CardTitle>
-        <CardDescription>
-          Wprowadź nowe hasło dla swojego konta
-        </CardDescription>
+        <CardDescription>Wprowadź nowe hasło dla swojego konta</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
           {globalError && (
-            <div
-              className="rounded-md bg-destructive/10 p-3 text-sm text-destructive"
-              role="alert"
-              aria-live="polite"
-            >
+            <div className="rounded-md bg-destructive/10 p-3 text-sm text-destructive" role="alert" aria-live="polite">
               {globalError}
             </div>
           )}
@@ -189,4 +179,3 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
     </Card>
   );
 }
-

@@ -1,7 +1,7 @@
 /**
  * Login API Endpoint
  * Handles user authentication with email and password
- * 
+ *
  * POST /api/auth/login
  * Body: { email: string, password: string }
  * Returns: { session: Session, user: User } or error
@@ -82,4 +82,3 @@ export const POST: APIRoute = async ({ request, locals }) => {
     );
   }
 };
-

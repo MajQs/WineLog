@@ -137,4 +137,3 @@ export const upsertRatingSchema = z.object({
 export const dashboardQuerySchema = z.object({
   // Future query params can be added here (e.g., limit, filters)
 });
-

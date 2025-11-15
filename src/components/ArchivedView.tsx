@@ -9,8 +9,6 @@ import { SkeletonArchive } from "./archived/SkeletonArchive";
 import { ErrorState } from "./archived/ErrorState";
 import { EmptyState } from "./archived/EmptyState";
 import { BatchListArchived } from "./archived/BatchListArchived";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
 
 /**
  * Archived Content Component
@@ -40,9 +38,7 @@ function ArchivedContent() {
       {/* Header */}
       <header className="mb-8">
         <h1 className="text-2xl font-bold md:text-3xl">Archiwum</h1>
-        <p className="text-muted-foreground mt-2">
-          Przeglądaj zakończone nastawy i sprawdź swoje osiągnięcia
-        </p>
+        <p className="text-muted-foreground mt-2">Przeglądaj zakończone nastawy i sprawdź swoje osiągnięcia</p>
       </header>
 
       {/* Archived Batches List */}
@@ -62,4 +58,3 @@ export default function ArchivedView() {
     </QueryProvider>
   );
 }
-

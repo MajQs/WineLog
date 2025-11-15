@@ -22,22 +22,16 @@ export function ErrorState({ onRetry, message = "Wystąpił błąd podczas łado
         <div className="text-destructive flex items-center justify-center rounded-full bg-destructive/10 p-4">
           <AlertCircle className="size-12" aria-hidden="true" />
         </div>
-        
+
         <div className="space-y-2">
           <h2 className="text-xl font-semibold">Coś poszło nie tak</h2>
           <p className="text-muted-foreground">{message}</p>
         </div>
 
-        <Button
-          onClick={onRetry}
-          variant="default"
-          size="lg"
-          aria-label="Spróbuj ponownie załadować dane"
-        >
+        <Button onClick={onRetry} variant="default" size="lg" aria-label="Spróbuj ponownie załadować dane">
           Spróbuj ponownie
         </Button>
       </div>
     </div>
   );
 }
-

@@ -48,7 +48,6 @@ export const GET: APIRoute = async ({ request, locals }) => {
     const userId = authResult.userId;
 
     // Parse and validate query parameters (currently empty, but prepared for future)
-    const url = new URL(request.url);
     const queryParams: Record<string, string | undefined> = {
       // Future query params can be added here (e.g., limit, filters)
     };
@@ -82,4 +81,3 @@ export const GET: APIRoute = async ({ request, locals }) => {
     );
   }
 };
-

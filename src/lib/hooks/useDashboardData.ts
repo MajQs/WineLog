@@ -38,15 +38,13 @@ function transformBatchToVM(batch: DashboardBatchDto): BatchCardVM {
     currentStagePosition: batch.current_stage.position,
     currentStageDaysElapsed: batch.current_stage.days_elapsed,
     latestNoteAction: batch.latest_note?.action,
-    latestNoteDateHuman: batch.latest_note
-      ? format(new Date(batch.latest_note.created_at), "dd.MM.yyyy")
-      : undefined,
+    latestNoteDateHuman: batch.latest_note ? format(new Date(batch.latest_note.created_at), "dd.MM.yyyy") : undefined,
   };
 }
 
 /**
  * Hook for dashboard data with React Query
- * 
+ *
  * @returns Query state with dashboard data and batch view models
  */
 export function useDashboardData() {
@@ -73,4 +71,3 @@ export function useDashboardData() {
     refetch: query.refetch,
   };
 }
-

@@ -36,10 +36,7 @@ export interface BatchVM {
 /**
  * Transform BatchDto to BatchVM with formatted dates
  */
-function transformBatchToVM(
-  batch: BatchDto, 
-  currentStage?: CurrentStageDetailsDto
-): BatchVM {
+function transformBatchToVM(batch: BatchDto, currentStage?: CurrentStageDetailsDto): BatchVM {
   return {
     id: batch.id,
     name: batch.name,
@@ -48,9 +45,7 @@ function transformBatchToVM(
     started_at: batch.started_at,
     completed_at: batch.completed_at,
     startedAtHuman: format(new Date(batch.started_at), "dd.MM.yyyy"),
-    completedAtHuman: batch.completed_at 
-      ? format(new Date(batch.completed_at), "dd.MM.yyyy") 
-      : undefined,
+    completedAtHuman: batch.completed_at ? format(new Date(batch.completed_at), "dd.MM.yyyy") : undefined,
     current_stage_position: batch.current_stage_position,
     stages: batch.stages,
     currentStageDetails: currentStage,
@@ -62,7 +57,7 @@ function transformBatchToVM(
 /**
  * Hook for batch data with React Query
  * Fetches batch and current stage in parallel
- * 
+ *
  * @param batchId - Batch ID
  * @returns Query state with batch data and view model
  */
@@ -91,8 +86,7 @@ export function useBatch(batchId: string) {
   }, [batchQuery.data, currentStageQuery.data]);
 
   // Combined loading state
-  const isLoading = batchQuery.isLoading || 
-    (batchQuery.data?.status === "active" && currentStageQuery.isLoading);
+  const isLoading = batchQuery.isLoading || (batchQuery.data?.status === "active" && currentStageQuery.isLoading);
 
   // Combined error state
   const isError = batchQuery.isError || currentStageQuery.isError;
@@ -111,4 +105,3 @@ export function useBatch(batchId: string) {
     },
   };
 }
-

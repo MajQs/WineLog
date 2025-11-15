@@ -16,22 +16,20 @@ interface TemplatePickerGridProps {
  * Template Picker Grid Component
  * Displays templates in a responsive grid with single selection
  */
-export function TemplatePickerGrid({ 
-  templates, 
-  selectedId, 
-  onSelect 
-}: TemplatePickerGridProps) {
+export function TemplatePickerGrid({ templates, selectedId, onSelect }: TemplatePickerGridProps) {
   return (
     <div>
-      <label className="mb-3 block text-sm font-medium">
+      <div className="mb-3 block text-sm font-medium" id="template-picker-label">
         Wybierz szablon produkcji
-        <span className="text-destructive ml-1" aria-label="wymagane">*</span>
-      </label>
-      
-      <div 
+        <span className="text-destructive ml-1" aria-label="wymagane">
+          *
+        </span>
+      </div>
+
+      <div
         className="grid gap-4 sm:grid-cols-2"
         role="radiogroup"
-        aria-label="Dostępne szablony produkcji"
+        aria-labelledby="template-picker-label"
         data-testid="template-picker-grid"
       >
         {templates.map((template) => (
@@ -46,4 +44,3 @@ export function TemplatePickerGrid({
     </div>
   );
 }
-
