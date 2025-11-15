@@ -107,8 +107,67 @@ jobs:
           name: build-output
           path: dist/
 
+      - name: Verify Cloudflare configuration
+        run: |
+          echo "🔍 Verifying Cloudflare configuration..."
+          echo "Account ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}"
+          echo "Project Name: ${{ secrets.CLOUDFLARE_PROJECT_NAME }}"
+          if [ -z "${{ secrets.CLOUDFLARE_API_TOKEN }}" ]; then
+            echo "❌ CLOUDFLARE_API_TOKEN is not set!"
+            exit 1
+          fi
+          if [ -z "${{ secrets.CLOUDFLARE_ACCOUNT_ID }}" ]; then
+            echo "❌ CLOUDFLARE_ACCOUNT_ID is not set!"
+            exit 1
+          fi
+          if [ -z "${{ secrets.CLOUDFLARE_PROJECT_NAME }}" ]; then
+            echo "❌ CLOUDFLARE_PROJECT_NAME is not set!"
+            exit 1
+          fi
+          echo "✅ All required secrets are configured"
+
+      - name: Check if project exists and create if needed
+        run: |
+          echo "🔍 Checking if Cloudflare Pages project exists..."
+          
+          # Try to list projects and check if ours exists
+          if npx wrangler pages project list 2>&1 | grep -q "${{ secrets.CLOUDFLARE_PROJECT_NAME }}"; then
+            echo "✅ Project '${{ secrets.CLOUDFLARE_PROJECT_NAME }}' exists"
+          else
+            echo "⚠️  Project '${{ secrets.CLOUDFLARE_PROJECT_NAME }}' not found"
+            echo "🔨 Creating project..."
+            npx wrangler pages project create "${{ secrets.CLOUDFLARE_PROJECT_NAME }}" --production-branch=main || {
+              echo "❌ Failed to create project automatically"
+              echo "Please create it manually in Cloudflare Dashboard:"
+              echo "https://dash.cloudflare.com/${{ secrets.CLOUDFLARE_ACCOUNT_ID }}/pages"
+              exit 1
+            }
+            echo "✅ Project created successfully"
+          fi
+
       - name: Deploy to Cloudflare Pages
         run: npx wrangler pages deploy dist --project-name=${{ secrets.CLOUDFLARE_PROJECT_NAME }}
+        
+      - name: Deployment troubleshooting info
+        if: failure()
+        run: |
+          echo "❌ Deployment failed!"
+          echo ""
+          echo "Common issues:"
+          echo "1. Project not found (8000007):"
+          echo "   → Create project in Cloudflare Dashboard: Workers & Pages → Pages → Create project"
+          echo "   → URL: https://dash.cloudflare.com/${{ secrets.CLOUDFLARE_ACCOUNT_ID }}/pages"
+          echo "   → Ensure CLOUDFLARE_PROJECT_NAME matches exactly (case-sensitive)"
+          echo ""
+          echo "2. Authentication error:"
+          echo "   → Verify CLOUDFLARE_API_TOKEN has 'Cloudflare Pages - Edit' permission"
+          echo "   → Create token at: https://dash.cloudflare.com/profile/api-tokens"
+          echo ""
+          echo "3. Account not found:"
+          echo "   → Verify CLOUDFLARE_ACCOUNT_ID is correct"
+          echo "   → Find it at: https://dash.cloudflare.com/ (right sidebar or URL)"
+          echo ""
+          echo "📖 See .ai/cloudflare-setup-guide.md for detailed setup instructions"
 
   status-comment:
     name: Post Deployment Status
