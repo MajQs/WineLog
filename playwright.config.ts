@@ -16,6 +16,9 @@ export default defineConfig({
   /* Global setup - performs authentication once before all tests */
   globalSetup: path.resolve(process.cwd(), "./e2e/global-setup.ts"),
 
+  /* Global teardown - cleans up database after all tests */
+  globalTeardown: path.resolve(process.cwd(), "./e2e/global-teardown.ts"),
+
   testDir: "./e2e",
   
   /* Maximum time one test can run */

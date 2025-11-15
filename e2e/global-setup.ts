@@ -52,7 +52,7 @@ async function globalSetup(config: FullConfig) {
         console.log('🔴 [Browser Error]:', msg.text());
       }
     });
-    
+  
     // Navigate to login page
     await page.goto('/login');
     await page.waitForLoadState('domcontentloaded');
