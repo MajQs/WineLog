@@ -217,7 +217,3 @@ export class NewBatchModal extends BasePage {
     return this.cancelButton;
   }
 }
-
-
-
-
