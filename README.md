@@ -38,7 +38,7 @@ $ npm install
 
 # 3. Start the development server
 $ npm run dev
-# The app is now available at http://localhost:4321
+# The app is now available at http://localhost:3000
 
 # 4. Build for production
 $ npm run build
