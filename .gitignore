@@ -15,6 +15,7 @@ pnpm-debug.log*
 
 # environment variables
 .env
+.env.test
 .env.production
 
 # macOS-specific files
@@ -30,3 +31,6 @@ playwright/.cache/
 e2e/.auth/*.json
 e2e/.auth/*.png
 *.zip
+.env.test
+
+
