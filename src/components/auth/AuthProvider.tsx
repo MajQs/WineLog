@@ -48,20 +48,20 @@ function AuthProviderInternal({ children, initialSession = null, enableRouteGuar
       try {
         const storedSession = localStorage.getItem(SESSION_KEY);
         console.log("[AuthProvider] Stored session:", !!storedSession);
-        
+
         if (storedSession) {
           const parsedSession = JSON.parse(storedSession) as Session;
-          
+
           // Check if token is expired
           const expiresAt = parsedSession.expires_at ?? 0;
           const now = Math.floor(Date.now() / 1000);
-          
+
           console.log("[AuthProvider] Token expiry check:", {
             expiresAt,
             now,
             isExpired: expiresAt <= now,
           });
-          
+
           if (expiresAt > now) {
             console.log("[AuthProvider] Session loaded successfully");
             setSessionState(parsedSession);
@@ -145,7 +145,7 @@ function AuthProviderInternal({ children, initialSession = null, enableRouteGuar
   const signOut = async () => {
     try {
       const token = localStorage.getItem(TOKEN_KEY);
-      
+
       if (token) {
         // Call logout endpoint
         await fetch("/api/auth/logout", {
@@ -169,7 +169,7 @@ function AuthProviderInternal({ children, initialSession = null, enableRouteGuar
   const refreshSession = async () => {
     try {
       const token = localStorage.getItem(TOKEN_KEY);
-      
+
       if (!token) {
         setSession(null);
         return;
@@ -182,7 +182,7 @@ function AuthProviderInternal({ children, initialSession = null, enableRouteGuar
         const parsedSession = JSON.parse(storedSession) as Session;
         const expiresAt = parsedSession.expires_at ?? 0;
         const now = Math.floor(Date.now() / 1000);
-        
+
         if (expiresAt <= now) {
           // Token expired
           setSession(null);
@@ -213,11 +213,11 @@ function AuthProviderInternal({ children, initialSession = null, enableRouteGuar
  */
 export function useAuth() {
   const context = useContext(AuthContext);
-  
+
   if (context === undefined) {
     throw new Error("useAuth must be used within AuthProvider");
   }
-  
+
   return context;
 }
 
@@ -254,4 +254,3 @@ export function AuthProviderWithoutGuard({ children, initialSession }: AuthProvi
     </AuthProviderInternal>
   );
 }
-

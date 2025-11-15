@@ -69,9 +69,9 @@ export function LoginForm({ redirectTo = "/dashboard", onSuccess }: LoginFormPro
 
       // Store session in AuthProvider (which saves to localStorage)
       setSession(data.session as Session);
-      
-// Wait a tick to ensure localStorage is written
-await new Promise(resolve => setTimeout(resolve, 0));
+
+      // Wait a tick to ensure localStorage is written
+      await new Promise((resolve) => setTimeout(resolve, 0));
 
       // Call success callback or redirect
       if (onSuccess) {
@@ -92,18 +92,12 @@ await new Promise(resolve => setTimeout(resolve, 0));
     <Card>
       <CardHeader className="space-y-1">
         <CardTitle className="text-2xl font-bold">Zaloguj się</CardTitle>
-        <CardDescription>
-          Wprowadź swoje dane, aby uzyskać dostęp do konta
-        </CardDescription>
+        <CardDescription>Wprowadź swoje dane, aby uzyskać dostęp do konta</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
           {globalError && (
-            <div
-              className="rounded-md bg-destructive/10 p-3 text-sm text-destructive"
-              role="alert"
-              aria-live="polite"
-            >
+            <div className="rounded-md bg-destructive/10 p-3 text-sm text-destructive" role="alert" aria-live="polite">
               {globalError}
             </div>
           )}
@@ -182,4 +176,3 @@ await new Promise(resolve => setTimeout(resolve, 0));
     </Card>
   );
 }
-

@@ -9,7 +9,7 @@ import { fetchNotes } from "../api/note";
 
 /**
  * Hook for all batch notes with React Query
- * 
+ *
  * @param batchId - Batch ID
  * @returns Query state with notes data
  */
@@ -24,4 +24,3 @@ export function useAllNotes(batchId: string) {
     retry: 1,
   });
 }
-

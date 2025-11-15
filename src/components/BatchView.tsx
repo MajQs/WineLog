@@ -6,21 +6,19 @@
 import { QueryProvider } from "@/lib/providers/QueryProvider";
 import { useBatch } from "@/lib/hooks/useBatch";
 import { useAllNotes } from "@/lib/hooks/useAllNotes";
-import { 
-  EditableHeading, 
-  MetaInfoBar, 
-  StageTimeline, 
-  StageCardCurrent, 
+import {
+  EditableHeading,
+  MetaInfoBar,
+  StageTimeline,
+  StageCardCurrent,
   ButtonNextStage,
   ButtonCompleteBatch,
   NoteForm,
   NoteHistory,
   ErrorState,
-  SkeletonBatchView
+  SkeletonBatchView,
 } from "./batch";
 import { Toaster } from "@/components/ui/sonner";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
 
 interface BatchViewProps {
   batchId: string;
@@ -62,13 +60,8 @@ function BatchPageContent({ batchId }: BatchViewProps) {
           {/* Left Column - Stage Timeline */}
           <div className="lg:col-span-1">
             <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6">
-              <h2 className="text-base sm:text-lg font-semibold text-gray-900 mb-4">
-                Etapy produkcji
-              </h2>
-              <StageTimeline 
-                stages={data.stages} 
-                currentStageId={currentStage?.id}
-              />
+              <h2 className="text-base sm:text-lg font-semibold text-gray-900 mb-4">Etapy produkcji</h2>
+              <StageTimeline stages={data.stages} currentStageId={currentStage?.id} />
             </div>
           </div>
 
@@ -78,9 +71,7 @@ function BatchPageContent({ batchId }: BatchViewProps) {
               {/* Current Stage Card */}
               {currentStage && (
                 <div>
-                  <h2 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">
-                    Bieżący etap
-                  </h2>
+                  <h2 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">Bieżący etap</h2>
                   <StageCardCurrent stage={currentStage} />
                 </div>
               )}
@@ -89,20 +80,14 @@ function BatchPageContent({ batchId }: BatchViewProps) {
               {currentStage && data.status === "active" && (
                 <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6">
                   {/* Check if this is the last stage */}
-                  {currentStage.position === Math.max(...data.stages.map(s => s.position)) ? (
-                    <ButtonCompleteBatch
-                      batchId={batchId}
-                      batchName={data.name}
-                      disabled={data.status !== "active"}
-                    />
+                  {currentStage.position === Math.max(...data.stages.map((s) => s.position)) ? (
+                    <ButtonCompleteBatch batchId={batchId} batchName={data.name} disabled={data.status !== "active"} />
                   ) : (
                     <ButtonNextStage
                       batchId={batchId}
                       disabled={data.status !== "active"}
                       currentStagePosition={currentStage.position}
-                      nextStagePosition={
-                        data.stages.find(s => s.position === currentStage.position + 1)?.position
-                      }
+                      nextStagePosition={data.stages.find((s) => s.position === currentStage.position + 1)?.position}
                     />
                   )}
                 </div>
@@ -111,10 +96,8 @@ function BatchPageContent({ batchId }: BatchViewProps) {
               {/* Notes Section */}
               {currentStage && (
                 <div>
-                  <h2 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">
-                    Notatki
-                  </h2>
-                  
+                  <h2 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">Notatki</h2>
+
                   {/* Note Form */}
                   <div className="mb-4 sm:mb-6">
                     <NoteForm batchId={batchId} />
@@ -122,19 +105,13 @@ function BatchPageContent({ batchId }: BatchViewProps) {
 
                   {/* Note History - All notes grouped by stages */}
                   <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6">
-                    <h3 className="text-sm sm:text-base font-semibold text-gray-900 mb-4">
-                      Historia notatek
-                    </h3>
+                    <h3 className="text-sm sm:text-base font-semibold text-gray-900 mb-4">Historia notatek</h3>
                     {isLoadingNotes ? (
                       <div className="text-center py-8 text-gray-500">
                         <p className="text-sm">Ładowanie notatek...</p>
                       </div>
                     ) : (
-                      <NoteHistory 
-                        notes={allNotes || []} 
-                        stages={data.stages}
-                        batchId={batchId}
-                      />
+                      <NoteHistory notes={allNotes || []} stages={data.stages} batchId={batchId} />
                     )}
                   </div>
                 </div>
@@ -144,12 +121,8 @@ function BatchPageContent({ batchId }: BatchViewProps) {
               {!currentStage && data.status === "completed" && (
                 <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6">
                   <div className="text-center py-6 sm:py-8">
-                    <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2">
-                      Nastaw ukończony
-                    </h3>
-                    <p className="text-sm sm:text-base text-gray-600">
-                      Wszystkie etapy zostały ukończone.
-                    </p>
+                    <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2">Nastaw ukończony</h3>
+                    <p className="text-sm sm:text-base text-gray-600">Wszystkie etapy zostały ukończone.</p>
                   </div>
                 </div>
               )}
@@ -172,4 +145,3 @@ export default function BatchView({ batchId }: BatchViewProps) {
     </QueryProvider>
   );
 }
-

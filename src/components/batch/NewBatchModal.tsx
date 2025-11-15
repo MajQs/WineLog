@@ -53,10 +53,10 @@ const initialFormState: CreateBatchViewModel = {
 function NewBatchModalContent() {
   const [formState, setFormState] = useState<CreateBatchViewModel>(initialFormState);
   const [isOpen, setIsOpen] = useState(true);
-  
+
   // Fetch templates
   const { data: templates, isLoading: isLoadingTemplates, isError: isTemplatesError } = useTemplates();
-  
+
   // Create batch mutation
   const createBatchMutation = useCreateBatch();
 
@@ -90,7 +90,7 @@ function NewBatchModalContent() {
   const handleNameChange = (value: string) => {
     // Validate max length
     const fieldError = value.length > 100 ? "Nazwa może mieć maksymalnie 100 znaków" : undefined;
-    
+
     setFormState((prev) => ({
       ...prev,
       name: value,
@@ -141,8 +141,11 @@ function NewBatchModalContent() {
 
     try {
       // Create batch
+      if (!formState.templateId) {
+        throw new Error("Template ID is required");
+      }
       const batch = await createBatchMutation.mutateAsync({
-        template_id: formState.templateId!,
+        template_id: formState.templateId,
         name: formState.name || undefined,
       });
 
@@ -154,14 +157,14 @@ function NewBatchModalContent() {
     } catch (error) {
       // Handle error
       let errorMessage = "Wystąpił błąd podczas tworzenia nastawu";
-      
+
       if (error instanceof Error) {
         errorMessage = error.message;
-        
+
         // Handle specific error codes (if ApiError is used)
-        if ('code' in error) {
-          const code = (error as any).code;
-          
+        if ("code" in error) {
+          const code = (error as { code: string }).code;
+
           if (code === "NAME_TOO_LONG") {
             setFormState((prev) => ({
               ...prev,
@@ -173,7 +176,7 @@ function NewBatchModalContent() {
             }));
             return;
           }
-          
+
           if (code === "RESOURCE_NOT_FOUND") {
             toast.error("Wybrany szablon nie jest już dostępny");
             // Reset template selection
@@ -185,13 +188,13 @@ function NewBatchModalContent() {
             }));
             return;
           }
-          
+
           if (code === "NETWORK_ERROR" || code === "TIMEOUT") {
             errorMessage = "Brak połączenia z serwerem. Sprawdź swoje połączenie internetowe.";
           }
         }
       }
-      
+
       setFormState((prev) => ({
         ...prev,
         error: errorMessage,
@@ -203,19 +206,14 @@ function NewBatchModalContent() {
   /**
    * Determine if submit button should be disabled
    */
-  const isSubmitDisabled = 
-    formState.isSubmitting || 
-    !formState.templateId || 
-    !!formState.fieldErrors?.name;
+  const isSubmitDisabled = formState.isSubmitting || !formState.templateId || !!formState.fieldErrors?.name;
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && handleClose()}>
       <DialogContent className="sm:max-w-2xl" data-testid="dialog-new-batch">
         <DialogHeader>
           <DialogTitle>Nowy nastaw</DialogTitle>
-          <DialogDescription>
-            Wybierz szablon produkcji i opcjonalnie nadaj nazwę nastawowi
-          </DialogDescription>
+          <DialogDescription>Wybierz szablon produkcji i opcjonalnie nadaj nazwę nastawowi</DialogDescription>
         </DialogHeader>
 
         <div className="space-y-6 py-4">
@@ -274,12 +272,7 @@ function NewBatchModalContent() {
           >
             Anuluj
           </Button>
-          <Button
-            type="button"
-            onClick={handleSubmit}
-            disabled={isSubmitDisabled}
-            data-testid="button-submit-batch"
-          >
+          <Button type="button" onClick={handleSubmit} disabled={isSubmitDisabled} data-testid="button-submit-batch">
             {formState.isSubmitting ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -307,4 +300,3 @@ export default function NewBatchModal() {
     </QueryProvider>
   );
 }
-

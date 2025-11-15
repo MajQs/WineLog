@@ -16,7 +16,7 @@ import type {
 
 /**
  * Creates a new note for the current stage of a batch
- * 
+ *
  * @param supabase - Supabase client instance
  * @param userId - User ID from JWT token
  * @param batchId - Batch UUID
@@ -87,7 +87,9 @@ export async function createNote(
   // 4. Build response with stage context
   let stageContext: NoteStageContextDto | undefined;
   if (currentStageData) {
-    const templateStage = (currentStageData as any).template_stages;
+    const templateStage = (
+      currentStageData as { template_stages: { position: number; name: string; description: string } }
+    ).template_stages;
     stageContext = {
       position: templateStage.position,
       name: templateStage.name as StageName,
@@ -110,7 +112,7 @@ export async function createNote(
 
 /**
  * Lists notes for a batch with optional filtering and sorting
- * 
+ *
  * @param supabase - Supabase client instance
  * @param userId - User ID from JWT token
  * @param batchId - Batch UUID
@@ -174,8 +176,25 @@ export async function listNotes(
     throw new Error(`Failed to fetch notes: ${notesError.message}`);
   }
 
+  interface NoteWithStage {
+    id: string;
+    batch_id: string;
+    stage_id: string;
+    user_id: string;
+    action: string;
+    observations: string | null;
+    created_at: string;
+    batch_stages?: {
+      template_stages?: {
+        position: number;
+        name: string;
+        description: string;
+      };
+    };
+  }
+
   // 3. Transform data to DTOs
-  const notes: NoteDto[] = (notesData || []).map((note: any) => {
+  const notes: NoteDto[] = (notesData || []).map((note: NoteWithStage) => {
     let stageContext: NoteStageContextDto | undefined;
     let stageName: StageName | undefined;
 
@@ -210,7 +229,7 @@ export async function listNotes(
 
 /**
  * Deletes a note (hard delete)
- * 
+ *
  * @param supabase - Supabase client instance
  * @param userId - User ID from JWT token
  * @param batchId - Batch UUID
@@ -272,4 +291,3 @@ export async function deleteNote(
     message: "Note deleted successfully",
   };
 }
-

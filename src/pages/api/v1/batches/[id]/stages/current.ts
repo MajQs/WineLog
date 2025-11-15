@@ -74,11 +74,7 @@ export const GET: APIRoute = async ({ params, request, locals }) => {
 
     // Get current stage details using service
     try {
-      const response: CurrentStageDetailsDto = await getCurrentStageDetails(
-        supabase,
-        userId,
-        validation.data
-      );
+      const response: CurrentStageDetailsDto = await getCurrentStageDetails(supabase, userId, validation.data);
 
       return createSuccessResponse(response);
     } catch (error) {
@@ -102,4 +98,3 @@ export const GET: APIRoute = async ({ params, request, locals }) => {
     );
   }
 };
-

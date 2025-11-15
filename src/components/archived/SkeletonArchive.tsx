@@ -5,8 +5,6 @@
 
 import { Skeleton } from "@/components/ui/skeleton";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
 
 /**
  * Skeleton Archive Component
@@ -15,7 +13,6 @@ import { ArrowLeft } from "lucide-react";
 export function SkeletonArchive() {
   return (
     <div className="container mx-auto px-4 py-6 md:py-8">
-
       {/* Header skeleton */}
       <div className="mb-8 space-y-2">
         <Skeleton className="h-8 w-48" />
@@ -33,14 +30,14 @@ export function SkeletonArchive() {
             <CardContent className="space-y-4">
               {/* Type badge skeleton */}
               <Skeleton className="h-6 w-20 rounded-full" />
-              
+
               {/* Rating skeleton */}
               <div className="flex items-center gap-1">
                 {[1, 2, 3, 4, 5].map((star) => (
                   <Skeleton key={star} className="size-4 rounded-full" />
                 ))}
               </div>
-              
+
               {/* Dates skeleton */}
               <div className="space-y-2 border-t pt-4">
                 <Skeleton className="h-4 w-full" />
@@ -53,4 +50,3 @@ export function SkeletonArchive() {
     </div>
   );
 }
-

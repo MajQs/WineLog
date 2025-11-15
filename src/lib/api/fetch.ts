@@ -33,7 +33,7 @@ function getAccessToken(): string | null {
  */
 export function logout(): void {
   if (typeof window === "undefined") return;
-  
+
   localStorage.removeItem("auth.token");
   localStorage.removeItem("auth.session");
   window.location.href = "/login";
@@ -41,18 +41,15 @@ export function logout(): void {
 
 /**
  * Fetch with authentication and error handling
- * 
+ *
  * @param url - API endpoint URL
  * @param options - Fetch options
  * @returns Response data
  * @throws ApiError on non-2xx responses
  */
-export async function fetchWithAuth<T>(
-  url: string,
-  options: RequestInit = {}
-): Promise<T> {
+export async function fetchWithAuth<T>(url: string, options: RequestInit = {}): Promise<T> {
   const token = getAccessToken();
-  
+
   // Add Authorization header if token exists
   const headers = new Headers(options.headers);
   if (token) {
@@ -86,12 +83,7 @@ export async function fetchWithAuth<T>(
         code: "UNKNOWN_ERROR",
       }));
 
-      throw new ApiError(
-        errorData.error,
-        errorData.code,
-        response.status,
-        errorData.details
-      );
+      throw new ApiError(errorData.error, errorData.code, response.status, errorData.details);
     }
 
     // Parse and return JSON response
@@ -106,28 +98,15 @@ export async function fetchWithAuth<T>(
 
     // Handle fetch abort (timeout)
     if (error instanceof Error && error.name === "AbortError") {
-      throw new ApiError(
-        "Request timeout - please try again",
-        "TIMEOUT",
-        408
-      );
+      throw new ApiError("Request timeout - please try again", "TIMEOUT", 408);
     }
 
     // Handle network errors
     if (error instanceof Error) {
-      throw new ApiError(
-        "Network error - check your connection",
-        "NETWORK_ERROR",
-        0
-      );
+      throw new ApiError("Network error - check your connection", "NETWORK_ERROR", 0);
     }
 
     // Unknown error
-    throw new ApiError(
-      "An unexpected error occurred",
-      "UNKNOWN_ERROR",
-      500
-    );
+    throw new ApiError("An unexpected error occurred", "UNKNOWN_ERROR", 500);
   }
 }
-

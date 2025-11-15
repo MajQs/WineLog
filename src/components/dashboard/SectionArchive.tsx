@@ -18,7 +18,12 @@ export function SectionArchive({ count }: SectionArchiveProps) {
   return (
     <section aria-labelledby="archive-heading">
       <Card className="transition-colors hover:bg-accent/50">
-        <a href="/archived" className="block" aria-label={`Zobacz archiwum (${count} ${count === 1 ? "nastaw" : "nastawy"})`} data-testid="link-archived">
+        <a
+          href="/archived"
+          className="block"
+          aria-label={`Zobacz archiwum (${count} ${count === 1 ? "nastaw" : "nastawy"})`}
+          data-testid="link-archived"
+        >
           <CardContent className="flex items-center justify-between py-6">
             <div className="flex items-center gap-4">
               <div className="text-muted-foreground flex items-center justify-center rounded-full bg-accent p-3">
@@ -29,24 +34,18 @@ export function SectionArchive({ count }: SectionArchiveProps) {
                   Archiwum
                 </h2>
                 <p className="text-muted-foreground text-sm">
-                  {count} {count === 1 ? "zakończony nastaw" : count < 5 && count > 1 ? "zakończone nastawy" : "zakończonych nastawów"}
+                  {count}{" "}
+                  {count === 1
+                    ? "zakończony nastaw"
+                    : count < 5 && count > 1
+                      ? "zakończone nastawy"
+                      : "zakończonych nastawów"}
                 </p>
               </div>
             </div>
             <div className="text-muted-foreground">
-              <svg
-                className="size-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5l7 7-7 7"
-                />
+              <svg className="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </div>
           </CardContent>
@@ -55,4 +54,3 @@ export function SectionArchive({ count }: SectionArchiveProps) {
     </section>
   );
 }
-

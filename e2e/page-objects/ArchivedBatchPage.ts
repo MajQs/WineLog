@@ -41,7 +41,7 @@ export class ArchivedBatchPage extends BasePage {
    */
   async waitForBatchDataLoaded(): Promise<void> {
     // Wait for the batch name heading to be visible
-    const heading = this.page.getByRole('heading', { level: 1 }).first();
+    const heading = this.page.getByRole("heading", { level: 1 }).first();
     await heading.waitFor({ state: "visible", timeout: 15000 });
 
     // Wait for network to be idle
@@ -55,8 +55,8 @@ export class ArchivedBatchPage extends BasePage {
    * Get the batch name from the page heading
    */
   async getBatchName(): Promise<string> {
-    const heading = this.page.getByRole('heading', { level: 1 }).first();
-    return await heading.textContent() || "";
+    const heading = this.page.getByRole("heading", { level: 1 }).first();
+    return (await heading.textContent()) || "";
   }
 
   /**
@@ -145,5 +145,3 @@ export class ArchivedBatchPage extends BasePage {
     return match ? match[1] : "";
   }
 }
-
-

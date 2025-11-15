@@ -8,7 +8,7 @@ export function cn(...inputs: ClassValue[]) {
 
 /**
  * Maps service layer errors to HTTP status codes and error responses
- * 
+ *
  * @param error - Error thrown by service layer
  * @returns Tuple of [statusCode, errorResponse]
  */

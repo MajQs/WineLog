@@ -84,5 +84,3 @@ export class DashboardPage extends BasePage {
     return await this.archivedLink.isVisible();
   }
 }
-
-

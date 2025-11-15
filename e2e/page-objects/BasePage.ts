@@ -49,7 +49,7 @@ export abstract class BasePage {
    * @param locator - The locator to wait for
    * @param timeout - Optional timeout in milliseconds (default: 10000)
    */
-  async waitForElement(locator: Locator, timeout: number = 10000): Promise<void> {
+  async waitForElement(locator: Locator, timeout = 10000): Promise<void> {
     await locator.waitFor({ state: "visible", timeout });
   }
 
@@ -60,7 +60,7 @@ export abstract class BasePage {
   async waitForAuthReady(): Promise<void> {
     // Wait for network to settle
     await this.page.waitForLoadState("networkidle", { timeout: 15000 });
-    
+
     // Wait for user email element (indicates auth state is loaded)
     const userEmail = this.page.getByTestId("user-email");
     await userEmail.waitFor({ state: "visible", timeout: 10000 }).catch(() => {
@@ -83,5 +83,3 @@ export abstract class BasePage {
     return this.page;
   }
 }
-
-

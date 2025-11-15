@@ -10,7 +10,7 @@ import { createBatch } from "../api/batch";
 /**
  * Hook for creating a batch with React Query
  * Automatically invalidates batches and dashboard cache on success
- * 
+ *
  * @returns Mutation state and mutate function
  */
 export function useCreateBatch() {
@@ -26,4 +26,3 @@ export function useCreateBatch() {
     },
   });
 }
-

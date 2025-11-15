@@ -16,15 +16,11 @@ interface UseRatingMutationOptions {
 
 /**
  * Hook for rating mutation with optimistic updates
- * 
+ *
  * @param options - Mutation options with batchId and callbacks
  * @returns Mutation object with mutate function
  */
-export function useRatingMutation({ 
-  batchId, 
-  onSuccess, 
-  onError 
-}: UseRatingMutationOptions) {
+export function useRatingMutation({ batchId, onSuccess, onError }: UseRatingMutationOptions) {
   const queryClient = useQueryClient();
 
   return useMutation<RatingDto, Error, number>({
@@ -35,7 +31,7 @@ export function useRatingMutation({
       }
       return upsertBatchRating(batchId, rating);
     },
-    
+
     // Optimistic update
     onMutate: async (newRating: number) => {
       // Cancel any outgoing refetches
@@ -70,15 +66,12 @@ export function useRatingMutation({
       if (context?.previousBatch) {
         queryClient.setQueryData(["batch", batchId], context.previousBatch);
       }
-      
+
       toast.error("Nie udało się zapisać oceny", {
         description: error.message || "Spróbuj ponownie później",
       });
-      
+
       onError?.(error);
     },
   });
 }
-
-
-

@@ -3,7 +3,7 @@
  * Frontend-specific types for component display
  */
 
-import type { BatchType, BatchDto, NoteDto, BatchStageDto } from "../types";
+import type { BatchType, NoteDto, BatchStageDto } from "../types";
 
 /**
  * View model for archived batch card
@@ -13,11 +13,11 @@ export interface ArchivedBatchCardVM {
   id: string;
   name: string;
   type: BatchType;
-  startedAt: string;        // ISO date string
-  completedAt: string;      // ISO date string
-  startedAtHuman: string;   // Formatted date for display
+  startedAt: string; // ISO date string
+  completedAt: string; // ISO date string
+  startedAtHuman: string; // Formatted date for display
   completedAtHuman: string; // Formatted date for display
-  rating: number | null;    // 1-5 or null
+  rating: number | null; // 1-5 or null
 }
 
 /**
@@ -43,4 +43,3 @@ export interface ArchivedBatchViewModel {
   rating?: number | null;
   notesCount: number;
 }
-

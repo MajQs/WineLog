@@ -25,11 +25,7 @@ function truncateText(text: string, maxLength: number): string {
  */
 function StarRating({ rating }: { rating: number | null }) {
   if (rating === null) {
-    return (
-      <span className="text-muted-foreground text-xs italic">
-        Brak oceny
-      </span>
-    );
+    return <span className="text-muted-foreground text-xs italic">Brak oceny</span>;
   }
 
   return (
@@ -37,11 +33,7 @@ function StarRating({ rating }: { rating: number | null }) {
       {[1, 2, 3, 4, 5].map((star) => (
         <Star
           key={star}
-          className={`size-4 ${
-            star <= rating 
-              ? "fill-yellow-400 text-yellow-400" 
-              : "text-muted-foreground/30"
-          }`}
+          className={`size-4 ${star <= rating ? "fill-yellow-400 text-yellow-400" : "text-muted-foreground/30"}`}
           aria-hidden="true"
         />
       ))}
@@ -89,11 +81,9 @@ export function BatchCardArchived({ batch }: BatchCardArchivedProps) {
         data-testid={`archived-batch-card-${batch.id}`}
       >
         <CardHeader>
-          <CardTitle className="truncate">
-            {truncateText(batch.name, 100)}
-          </CardTitle>
+          <CardTitle className="truncate">{truncateText(batch.name, 100)}</CardTitle>
         </CardHeader>
-        
+
         <CardContent className="space-y-4">
           {/* Type Badge */}
           <TypeBadge type={batch.type} />
@@ -119,4 +109,3 @@ export function BatchCardArchived({ batch }: BatchCardArchivedProps) {
     </li>
   );
 }
-

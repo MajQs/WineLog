@@ -1,7 +1,7 @@
 /**
  * Forgot Password API Endpoint
  * Sends password reset link to user's email
- * 
+ *
  * POST /api/auth/forgot-password
  * Body: { email: string }
  * Returns: success message
@@ -76,4 +76,3 @@ export const POST: APIRoute = async ({ request, locals }) => {
     );
   }
 };
-

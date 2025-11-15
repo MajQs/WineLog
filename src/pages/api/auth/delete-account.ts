@@ -1,7 +1,7 @@
 /**
  * Delete Account API Endpoint
  * Permanently deletes user account and all associated data
- * 
+ *
  * POST /api/auth/delete-account
  * Body: { password: string, confirmation: string }
  * Headers: Authorization: Bearer <token>
@@ -19,11 +19,18 @@ export const POST: APIRoute = async ({ request, locals }) => {
     // Verify authentication
     const authResult = await verifyAuthToken(request, locals.supabase);
 
-    if (!authResult.success) {
-      return createErrorResponse(authResult.error!, authResult.status!);
+    if (!authResult.success || !authResult.error || !authResult.status) {
+      return createErrorResponse(
+        authResult.error || { error: "Unauthorized", code: "UNAUTHORIZED" },
+        authResult.status || 401
+      );
     }
 
-    const userId = authResult.userId!;
+    if (!authResult.userId) {
+      return createErrorResponse({ error: "Unauthorized", code: "UNAUTHORIZED" }, 401);
+    }
+
+    const userId = authResult.userId;
 
     // Parse request body
     const body = await request.json().catch(() => null);
@@ -91,10 +98,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     // Delete all user data from database
     // Note: This assumes RLS policies allow user to delete their own data
     // Delete batches (cascades to stages and notes via foreign keys)
-    const { error: deleteBatchesError } = await locals.supabase
-      .from("batches")
-      .delete()
-      .eq("user_id", userId);
+    const { error: deleteBatchesError } = await locals.supabase.from("batches").delete().eq("user_id", userId);
 
     if (deleteBatchesError) {
       console.error("Error deleting user batches:", deleteBatchesError);
@@ -140,4 +144,3 @@ export const POST: APIRoute = async ({ request, locals }) => {
     );
   }
 };
-
