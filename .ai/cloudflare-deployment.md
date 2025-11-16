@@ -35,14 +35,13 @@ Utworzono nowy workflow `.github/workflows/master.yml` do deploymentu na Cloudfl
 
 Wszystkie actions zaktualizowane zgodnie z github-action rules:
 
-| Action | Stara wersja | Nowa wersja | Status |
-|--------|--------------|-------------|---------|
-| actions/checkout | v4 | v5 | ✅ Aktywne |
-| actions/setup-node | v4 | v6 | ✅ Aktywne |
-| actions/upload-artifact | v4 | v5 | ✅ Aktywne |
-| actions/download-artifact | v4 | v6 | ✅ Aktywne |
-| actions/github-script | v7 | v8 | ✅ Aktywne |
-| cloudflare/pages-action | v1 | - | ❌ Zarchiwizowane (zastąpione Wrangler CLI) |
+| Action | Aktualna wersja | Status |
+|--------|-----------------|---------|
+| actions/checkout | v5 | ✅ Aktywne |
+| actions/setup-node | v6 | ✅ Aktywne |
+| actions/upload-artifact | v5 | ✅ Aktywne |
+| actions/download-artifact | v5 | ✅ Aktywne |
+| cloudflare/wrangler-action | v3 | ✅ Aktywne (oficjalnie wspierane) |
 
 ### 4. README.md
 
@@ -58,10 +57,21 @@ Aby uruchomić deployment, skonfiguruj następujące sekrety w GitHub:
 ```
 CLOUDFLARE_API_TOKEN        - API token z uprawnieniami do Cloudflare Pages
 CLOUDFLARE_ACCOUNT_ID       - ID konta Cloudflare
-CLOUDFLARE_PROJECT_NAME     - Nazwa projektu w Cloudflare Pages
-SUPABASE_URL               - URL projektu Supabase
-SUPABASE_KEY               - Supabase anonymous key
+SUPABASE_URL               - URL projektu Supabase (tylko dla buildu)
+SUPABASE_KEY               - Supabase anonymous key (tylko dla buildu)
 ```
+
+## Wymagane zmienne środowiskowe w Cloudflare Pages
+
+**WAŻNE**: Zmienne środowiskowe używane w runtime (np. SUPABASE_URL, SUPABASE_KEY) muszą być również skonfigurowane w Cloudflare Pages:
+
+1. Zaloguj się do [Cloudflare Dashboard](https://dash.cloudflare.com/)
+2. Przejdź do: Workers & Pages → Twój projekt → Settings → Environment variables
+3. Dodaj następujące zmienne dla środowiska **Production**:
+   - `SUPABASE_URL` - URL projektu Supabase
+   - `SUPABASE_KEY` - Supabase anonymous key
+
+**Uwaga**: Zmienne w GitHub Secrets są używane tylko podczas buildu. Zmienne w Cloudflare Pages są używane w runtime aplikacji.
 
 ## Jak uzyskać Cloudflare API Token
 
@@ -133,18 +143,44 @@ npm run dev
 
 ## Rozwiązywanie problemów
 
+### ERROR: Missing entry-point to Worker script or to assets directory
+
+**Problem**: Cloudflare próbuje użyć `wrangler deploy` (dla Workers) zamiast `wrangler pages deploy` (dla Pages).
+
+**Rozwiązanie**: 
+- Projekt został utworzony jako **Worker** zamiast **Pages**
+- Usuń projekt w Cloudflare Dashboard
+- Utwórz nowy projekt wybierając **Pages** (nie Workers)
+- Zobacz szczegółowy przewodnik: [cloudflare-pages-setup-guide.md](cloudflare-pages-setup-guide.md)
+
+### ERROR 500: Internal Server Error (NS_ERROR_NET_ERROR_RESPONSE)
+
+**Problem**: Aplikacja została zdeployowana, ale zwraca błąd 500 przy próbie otwarcia strony.
+
+**Przyczyna**: Brakujące zmienne środowiskowe w Cloudflare Pages (SUPABASE_URL, SUPABASE_KEY).
+
+**Rozwiązanie**:
+1. W Cloudflare Dashboard → Workers & Pages → winelog → Settings → Environment variables
+2. Dodaj zmienne dla środowiska **Production**:
+   - `SUPABASE_URL` - URL projektu Supabase
+   - `SUPABASE_KEY` - Supabase anon/public key
+3. Wykonaj **redeploy** (zmienne nie są stosowane retroaktywnie)
+4. Zobacz szczegółowy przewodnik: [cloudflare-env-variables-fix.md](cloudflare-env-variables-fix.md)
+
 ### Build fails
 - Sprawdź czy wszystkie zmienne środowiskowe są ustawione
 - Sprawdź logi w GitHub Actions
+- Upewnij się, że `NODE_VERSION=22.14.0` jest ustawiona w Cloudflare Pages
 
 ### Deployment fails
 - Upewnij się, że CLOUDFLARE_API_TOKEN ma odpowiednie uprawnienia
-- Sprawdź czy CLOUDFLARE_PROJECT_NAME odpowiada nazwie projektu w Cloudflare
-- Sprawdź czy projekt Cloudflare Pages został utworzony wcześniej
+- Sprawdź czy nazwa projektu w komendzie deploy odpowiada nazwie w Cloudflare
+- Sprawdź czy projekt Cloudflare Pages został utworzony jako **Pages** (nie Worker)
 
 ### Runtime errors po deploymencie
 - Sprawdź czy wszystkie zmienne środowiskowe są ustawione w Cloudflare Pages
-- Sprawdź logi w Cloudflare Dashboard → Pages → projekt → Logs
+- Sprawdź logi w Cloudflare Dashboard → Pages → projekt → Functions → Logs
+- Upewnij się, że adapter w `astro.config.mjs` to `@astrojs/cloudflare`
 
 ## Dalsze kroki
 

@@ -19,3 +19,11 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
+
+// Cloudflare Pages runtime environment
+type CloudflareRuntime = {
+  env: {
+    SUPABASE_URL: string;
+    SUPABASE_KEY: string;
+  };
+};
