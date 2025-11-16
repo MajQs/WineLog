@@ -3,10 +3,22 @@ import { createClient } from "@supabase/supabase-js";
 
 import type { Database } from "../db/database.types";
 
-const supabaseUrl = import.meta.env.SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.SUPABASE_KEY;
-
 export const onRequest = defineMiddleware(async (context, next) => {
+  // Get environment variables from runtime context (Cloudflare Pages)
+  // @ts-expect-error - runtime.env is available in Cloudflare adapter
+  const supabaseUrl = context.runtime?.env?.SUPABASE_URL || import.meta.env.SUPABASE_URL;
+  // @ts-expect-error - runtime.env is available in Cloudflare adapter
+  const supabaseAnonKey = context.runtime?.env?.SUPABASE_KEY || import.meta.env.SUPABASE_KEY;
+
+  // Validate environment variables
+  if (!supabaseUrl || !supabaseAnonKey) {
+    console.error("Missing Supabase environment variables", {
+      hasUrl: !!supabaseUrl,
+      hasKey: !!supabaseAnonKey,
+    });
+    throw new Error("Supabase configuration missing. Please set SUPABASE_URL and SUPABASE_KEY environment variables.");
+  }
+
   // Get JWT token from Authorization header (used by API endpoints)
   const authHeader = context.request.headers.get("Authorization");
   const token = authHeader?.replace("Bearer ", "");
