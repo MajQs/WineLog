@@ -7,14 +7,8 @@ export const onRequest = defineMiddleware(async (context, next) => {
   // Get Supabase credentials from environment
   // Priority: CloudFlare runtime > import.meta.env > process.env
   const runtime = context.locals.runtime;
-  const supabaseUrl = 
-    runtime?.env?.SUPABASE_URL || 
-    import.meta.env.SUPABASE_URL || 
-    process.env.SUPABASE_URL;
-  const supabaseAnonKey = 
-    runtime?.env?.SUPABASE_KEY || 
-    import.meta.env.SUPABASE_KEY || 
-    process.env.SUPABASE_KEY;
+  const supabaseUrl = runtime?.env?.SUPABASE_URL || import.meta.env.SUPABASE_URL || process.env.SUPABASE_URL;
+  const supabaseAnonKey = runtime?.env?.SUPABASE_KEY || import.meta.env.SUPABASE_KEY || process.env.SUPABASE_KEY;
 
   if (!supabaseUrl || !supabaseAnonKey) {
     console.error("Missing SUPABASE_URL or SUPABASE_KEY in environment variables");
