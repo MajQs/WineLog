@@ -15,4 +15,3 @@ export { LoginFormWithProvider } from "./LoginFormWithProvider";
 export { RegisterFormWithProvider } from "./RegisterFormWithProvider";
 export { ForgotPasswordFormWithProvider } from "./ForgotPasswordFormWithProvider";
 export { ResetPasswordFormWithProvider } from "./ResetPasswordFormWithProvider";
-

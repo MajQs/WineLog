@@ -11,4 +11,3 @@ export function ForgotPasswordFormWithProvider() {
   // But we keep the wrapper for API consistency
   return <ForgotPasswordForm />;
 }
-

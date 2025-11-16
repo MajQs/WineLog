@@ -48,11 +48,12 @@ export function NoteCard({ note, batchId, onDelete }: NoteCardProps) {
       const previousStage = queryClient.getQueryData(["batch", batchId, "current-stage"]);
 
       // Optimistically remove the note
-      queryClient.setQueryData(["batch", batchId, "current-stage"], (old: any) => {
-        if (!old) return old;
+      queryClient.setQueryData(["batch", batchId, "current-stage"], (old: unknown) => {
+        if (!old || typeof old !== "object") return old;
+        const oldData = old as { notes?: NoteDto[] };
         return {
-          ...old,
-          notes: old.notes?.filter((n: NoteDto) => n.id !== note.id) || [],
+          ...oldData,
+          notes: oldData.notes?.filter((n: NoteDto) => n.id !== note.id) || [],
         };
       });
 
@@ -63,7 +64,7 @@ export function NoteCard({ note, batchId, onDelete }: NoteCardProps) {
       if (context?.previousStage) {
         queryClient.setQueryData(["batch", batchId, "current-stage"], context.previousStage);
       }
-      
+
       toast.error("Nie udało się usunąć notatki", {
         description: error.message,
       });
@@ -96,9 +97,7 @@ export function NoteCard({ note, batchId, onDelete }: NoteCardProps) {
             {/* Header with delete button */}
             <div className="flex items-start justify-between gap-2">
               <div className="flex-1">
-                <h4 className="font-semibold text-gray-900 mb-1">
-                  {note.action}
-                </h4>
+                <h4 className="font-semibold text-gray-900 mb-1">{note.action}</h4>
               </div>
               <Button
                 variant="ghost"
@@ -112,11 +111,7 @@ export function NoteCard({ note, batchId, onDelete }: NoteCardProps) {
             </div>
 
             {/* Observations */}
-            {note.observations && (
-              <p className="text-sm text-gray-600 whitespace-pre-wrap">
-                {note.observations}
-              </p>
-            )}
+            {note.observations && <p className="text-sm text-gray-600 whitespace-pre-wrap">{note.observations}</p>}
 
             {/* Metadata */}
             <div className="flex flex-wrap items-center gap-4 text-xs text-gray-500 pt-2 border-t border-gray-100">
@@ -134,9 +129,7 @@ export function NoteCard({ note, batchId, onDelete }: NoteCardProps) {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Usuń notatkę</DialogTitle>
-            <DialogDescription>
-              Czy na pewno chcesz usunąć tę notatkę? Tej operacji nie można cofnąć.
-            </DialogDescription>
+            <DialogDescription>Czy na pewno chcesz usunąć tę notatkę? Tej operacji nie można cofnąć.</DialogDescription>
           </DialogHeader>
           <DialogFooter>
             <Button
@@ -161,4 +154,3 @@ export function NoteCard({ note, batchId, onDelete }: NoteCardProps) {
     </>
   );
 }
-

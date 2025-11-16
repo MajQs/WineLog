@@ -103,7 +103,10 @@ export async function createBatch(
 
   // 6. Build complete BatchDto response
   const stages: BatchStageDto[] = batchStages.map((bs) => {
-    const templateStage = templateStages.find((ts) => ts.id === bs.template_stage_id)!;
+    const templateStage = templateStages.find((ts) => ts.id === bs.template_stage_id);
+    if (!templateStage) {
+      throw new Error(`Template stage not found for batch stage: ${bs.id}`);
+    }
     return {
       id: bs.id,
       batch_id: bs.batch_id,
@@ -224,12 +227,16 @@ export async function listBatches(
         .order("template_stages(position)", { ascending: true });
 
       let currentStage: CurrentStageInfoDto;
-      
+
       if (batchStages && batchStages.length > 0) {
         // Find first non-completed stage or use last stage
         const activeStage = batchStages.find((bs) => !bs.completed_at) || batchStages[batchStages.length - 1];
-        const templateStage = (activeStage as any).template_stages;
-        
+        const templateStage = activeStage.template_stages as {
+          position: number;
+          name: string;
+          description: string | null;
+        };
+
         currentStage = {
           position: templateStage.position,
           name: templateStage.name,
@@ -362,25 +369,42 @@ export async function getBatchById(
     throw new Error(`Failed to fetch batch stages: ${stagesError.message}`);
   }
 
-  const stages: BatchStageDto[] = (batchStagesData || []).map((bs: any) => {
-    const ts = bs.template_stages;
-    return {
-      id: bs.id,
-      batch_id: bs.batch_id,
-      template_stage_id: bs.template_stage_id,
-      position: ts.position,
-      name: ts.name,
-      description: ts.description,
-      instructions: ts.instructions,
-      materials: ts.materials,
-      days_min: ts.days_min,
-      days_max: ts.days_max,
-      started_at: bs.started_at,
-      completed_at: bs.completed_at,
-      status: bs.completed_at ? "completed" : bs.started_at ? "in_progress" : "pending",
-      days_elapsed: bs.started_at ? calculateDaysElapsed(bs.started_at) : undefined,
-    };
-  });
+  const stages: BatchStageDto[] = (batchStagesData || []).map(
+    (bs: {
+      id: string;
+      batch_id: string;
+      template_stage_id: string;
+      started_at: string | null;
+      completed_at: string | null;
+      template_stages: {
+        position: number;
+        name: string;
+        description: string | null;
+        instructions: string | null;
+        materials: string[] | null;
+        days_min: number | null;
+        days_max: number | null;
+      };
+    }) => {
+      const ts = bs.template_stages;
+      return {
+        id: bs.id,
+        batch_id: bs.batch_id,
+        template_stage_id: bs.template_stage_id,
+        position: ts.position,
+        name: ts.name,
+        description: ts.description,
+        instructions: ts.instructions,
+        materials: ts.materials,
+        days_min: ts.days_min,
+        days_max: ts.days_max,
+        started_at: bs.started_at,
+        completed_at: bs.completed_at,
+        status: bs.completed_at ? "completed" : bs.started_at ? "in_progress" : "pending",
+        days_elapsed: bs.started_at ? calculateDaysElapsed(bs.started_at) : undefined,
+      };
+    }
+  );
 
   // Determine current stage
   const currentStage = stages.find((s) => s.status === "in_progress");
@@ -522,7 +546,7 @@ export async function completeBatch(
     id: batch.id,
     name: batch.name,
     status: batch.status,
-    completed_at: batch.completed_at!,
+    completed_at: batch.completed_at || new Date().toISOString(),
     message: "Batch completed successfully",
   };
 }
@@ -578,4 +602,3 @@ function calculateDaysElapsed(startDate: string | null): number | undefined {
 
   return diffDays;
 }
-

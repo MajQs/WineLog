@@ -93,7 +93,7 @@ export const POST: APIRoute = async ({ params, request, locals }) => {
 
     if (!bodyValidation.success) {
       const errors = bodyValidation.error.flatten().fieldErrors;
-      
+
       // Map specific error codes
       if (errors.action) {
         const errorMsg = errors.action[0];
@@ -244,12 +244,7 @@ export const GET: APIRoute = async ({ params, request, locals }) => {
 
     // List notes using service
     try {
-      const response: NoteListResponseDto = await listNotes(
-        supabase,
-        userId,
-        idValidation.data,
-        params_validated
-      );
+      const response: NoteListResponseDto = await listNotes(supabase, userId, idValidation.data, params_validated);
 
       return createSuccessResponse(response);
     } catch (error) {
@@ -273,4 +268,3 @@ export const GET: APIRoute = async ({ params, request, locals }) => {
     );
   }
 };
-

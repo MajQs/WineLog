@@ -17,24 +17,16 @@ export function EmptyState() {
         <div className="text-muted-foreground flex items-center justify-center rounded-full bg-accent p-4">
           <Wine className="size-12" aria-hidden="true" />
         </div>
-        
+
         <div className="space-y-2">
           <h2 className="text-xl font-semibold">Brak aktywnych nastawów</h2>
-          <p className="text-muted-foreground">
-            Rozpocznij swoją przygodę z winem, tworząc pierwszy nastaw.
-          </p>
+          <p className="text-muted-foreground">Rozpocznij swoją przygodę z winem, tworząc pierwszy nastaw.</p>
         </div>
 
-        <Button
-          asChild
-          variant="default"
-          size="lg"
-          aria-label="Utwórz nowy nastaw"
-        >
+        <Button asChild variant="default" size="lg" aria-label="Utwórz nowy nastaw">
           <a href="/batches/new">Nowy nastaw</a>
         </Button>
       </div>
     </div>
   );
 }
-

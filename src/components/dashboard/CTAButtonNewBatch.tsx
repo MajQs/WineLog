@@ -31,4 +31,3 @@ export function CTAButtonNewBatch({ className }: CTAButtonNewBatchProps) {
     </Button>
   );
 }
-

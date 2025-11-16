@@ -14,20 +14,20 @@ export class BatchDetailPage extends BasePage {
   // Locators
   private readonly nextStageButton: Locator;
   private readonly completeBatchButton: Locator;
-  
+
   // Note form locators
   private readonly noteForm: Locator;
   private readonly noteActionInput: Locator;
   private readonly noteObservationsInput: Locator;
   private readonly submitNoteButton: Locator;
-  
+
   // Next stage dialog locators
   private readonly nextStageDialog: Locator;
   private readonly advanceActionInput: Locator;
   private readonly advanceObservationsInput: Locator;
   private readonly confirmNextStageButton: Locator;
   private readonly cancelNextStageButton: Locator;
-  
+
   // Complete batch dialog locators
   private readonly completeBatchDialog: Locator;
   private readonly confirmCompleteButton: Locator;
@@ -35,24 +35,24 @@ export class BatchDetailPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    
+
     // Action buttons
     this.nextStageButton = this.getByTestId("button-next-stage");
     this.completeBatchButton = this.getByTestId("button-complete-batch");
-    
+
     // Note form
     this.noteForm = this.getByTestId("form-note");
     this.noteActionInput = this.getByTestId("textarea-note-action");
     this.noteObservationsInput = this.getByTestId("textarea-note-observations");
     this.submitNoteButton = this.getByTestId("button-submit-note");
-    
+
     // Next stage dialog
     this.nextStageDialog = this.getByTestId("dialog-next-stage");
     this.advanceActionInput = this.getByTestId("textarea-advance-action");
     this.advanceObservationsInput = this.getByTestId("textarea-advance-observations");
     this.confirmNextStageButton = this.getByTestId("button-confirm-next-stage");
     this.cancelNextStageButton = this.getByTestId("button-cancel-next-stage");
-    
+
     // Complete batch dialog
     this.completeBatchDialog = this.getByTestId("dialog-complete-batch");
     this.confirmCompleteButton = this.getByTestId("button-confirm-complete");
@@ -75,12 +75,12 @@ export class BatchDetailPage extends BasePage {
    */
   async waitForBatchDataLoaded(): Promise<void> {
     // Wait for the batch name heading to be visible
-    const heading = this.page.getByRole('heading', { level: 1 }).first();
+    const heading = this.page.getByRole("heading", { level: 1 }).first();
     await heading.waitFor({ state: "visible", timeout: 15000 });
-    
+
     // Wait for network to be idle to ensure all data is loaded
     await this.page.waitForLoadState("networkidle", { timeout: 15000 });
-    
+
     // Additional wait for stage timeline to render
     await this.page.waitForTimeout(500);
   }
@@ -95,11 +95,11 @@ export class BatchDetailPage extends BasePage {
   async getCurrentStageHeading(): Promise<string | null> {
     const currentStageLabel = this.page.locator('text="Aktualny"').first();
     const isVisible = await currentStageLabel.isVisible().catch(() => false);
-    
+
     if (!isVisible) return null;
-    
+
     // Get the stage position from the preceding sibling span element
-    const stagePositionElement = currentStageLabel.locator('xpath=preceding-sibling::span[1]');
+    const stagePositionElement = currentStageLabel.locator("xpath=preceding-sibling::span[1]");
     return await stagePositionElement.textContent();
   }
 
@@ -109,7 +109,7 @@ export class BatchDetailPage extends BasePage {
   async getCurrentStagePosition(): Promise<number | null> {
     const heading = await this.getCurrentStageHeading();
     if (!heading) return null;
-    
+
     const match = heading.match(/Etap (\d+)/);
     return match ? parseInt(match[1], 10) : null;
   }
@@ -134,13 +134,13 @@ export class BatchDetailPage extends BasePage {
    */
   async addNote(action: string, observations?: string): Promise<void> {
     await this.noteActionInput.fill(action);
-    
+
     if (observations) {
       await this.noteObservationsInput.fill(observations);
     }
-    
+
     await this.submitNoteButton.click();
-    
+
     // Wait for the note to be added (toast notification or form reset)
     await this.page.waitForTimeout(500);
   }
@@ -172,14 +172,13 @@ export class BatchDetailPage extends BasePage {
    */
   async getNoteContent(index: number): Promise<{ action: string; observations?: string }> {
     const noteCard = this.getNoteCards().nth(index);
-    const action = await noteCard.locator('p').first().textContent() || "";
-    
+    const action = (await noteCard.locator("p").first().textContent()) || "";
+
     // Try to get observations if they exist
-    const observationElements = await noteCard.locator('p').count();
-    const observations = observationElements > 1 
-      ? await noteCard.locator('p').nth(1).textContent() || undefined
-      : undefined;
-    
+    const observationElements = await noteCard.locator("p").count();
+    const observations =
+      observationElements > 1 ? (await noteCard.locator("p").nth(1).textContent()) || undefined : undefined;
+
     return { action, observations };
   }
 
@@ -201,9 +200,9 @@ export class BatchDetailPage extends BasePage {
   async advanceToNextStage(): Promise<void> {
     await this.clickNextStage();
     await this.confirmNextStageButton.click();
-    
+
     // Wait for the dialog to close and navigation/update to complete
-    await this.nextStageDialog.waitFor({ state: "hidden" }).catch(() => {});
+    await this.nextStageDialog.waitFor({ state: "hidden" }).catch(() => undefined);
     await this.page.waitForLoadState("networkidle", { timeout: 30000 });
   }
 
@@ -214,18 +213,18 @@ export class BatchDetailPage extends BasePage {
    */
   async advanceToNextStageWithNote(action: string, observations?: string): Promise<void> {
     await this.clickNextStage();
-    
+
     // Fill in the note fields in the dialog
     await this.advanceActionInput.fill(action);
-    
+
     if (observations) {
       await this.advanceObservationsInput.fill(observations);
     }
-    
+
     await this.confirmNextStageButton.click();
-    
+
     // Wait for the dialog to close and navigation/update to complete
-    await this.nextStageDialog.waitFor({ state: "hidden" }).catch(() => {});
+    await this.nextStageDialog.waitFor({ state: "hidden" }).catch(() => undefined);
     await this.page.waitForLoadState("networkidle", { timeout: 30000 });
   }
 
@@ -276,7 +275,7 @@ export class BatchDetailPage extends BasePage {
   async completeBatch(): Promise<void> {
     await this.clickCompleteBatch();
     await this.confirmCompleteButton.click();
-    
+
     // Wait for redirect to dashboard (might take a moment)
     await this.page.waitForURL("/dashboard", { timeout: 30000 });
   }
@@ -289,15 +288,15 @@ export class BatchDetailPage extends BasePage {
     if (rating < 1 || rating > 5) {
       throw new Error("Rating must be between 1 and 5");
     }
-    
+
     await this.clickCompleteBatch();
-    
+
     // Click the rating button
     const ratingButton = this.getByTestId(`button-rating-${rating}`);
     await ratingButton.click();
-    
+
     await this.confirmCompleteButton.click();
-    
+
     // Wait for redirect to dashboard (might take a moment)
     await this.page.waitForURL("/dashboard", { timeout: 30000 });
   }
@@ -339,8 +338,8 @@ export class BatchDetailPage extends BasePage {
    * Get the batch name from the page heading
    */
   async getBatchName(): Promise<string> {
-    const heading = this.page.getByRole('heading', { level: 1 }).first();
-    return await heading.textContent() || "";
+    const heading = this.page.getByRole("heading", { level: 1 }).first();
+    return (await heading.textContent()) || "";
   }
 
   /**
@@ -352,4 +351,3 @@ export class BatchDetailPage extends BasePage {
     return match ? match[1] : "";
   }
 }
-

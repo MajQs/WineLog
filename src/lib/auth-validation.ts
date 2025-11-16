@@ -24,12 +24,7 @@ const passwordSchema = z
 /**
  * Email validation using RFC5322 standard
  */
-const emailSchema = z
-  .string()
-  .min(1, "E-mail jest wymagany")
-  .email("Nieprawidłowy adres e-mail")
-  .trim()
-  .toLowerCase();
+const emailSchema = z.string().min(1, "E-mail jest wymagany").email("Nieprawidłowy adres e-mail").trim().toLowerCase();
 
 /**
  * Login form validation schema
@@ -92,4 +87,3 @@ export type RegisterFormData = z.infer<typeof registerSchema>;
 export type ForgotPasswordFormData = z.infer<typeof forgotPasswordSchema>;
 export type ResetPasswordFormData = z.infer<typeof resetPasswordSchema>;
 export type DeleteAccountFormData = z.infer<typeof deleteAccountSchema>;
-

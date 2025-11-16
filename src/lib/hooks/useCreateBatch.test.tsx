@@ -36,9 +36,11 @@ function createWrapper() {
     },
   });
 
-  return ({ children }: { children: ReactNode }) => (
+  const Wrapper = ({ children }: { children: ReactNode }) => (
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   );
+  Wrapper.displayName = "QueryClientProviderWrapper";
+  return Wrapper;
 }
 
 /**
@@ -221,9 +223,7 @@ describe("useCreateBatch", () => {
       const invalidateQueriesSpy = vi.spyOn(queryClient, "invalidateQueries");
 
       const wrapper = ({ children }: { children: ReactNode }) => (
-        <QueryClientProvider client={queryClient}>
-          {children}
-        </QueryClientProvider>
+        <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
       );
 
       // Act
@@ -257,9 +257,7 @@ describe("useCreateBatch", () => {
       const invalidateQueriesSpy = vi.spyOn(queryClient, "invalidateQueries");
 
       const wrapper = ({ children }: { children: ReactNode }) => (
-        <QueryClientProvider client={queryClient}>
-          {children}
-        </QueryClientProvider>
+        <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
       );
 
       // Act
@@ -293,9 +291,7 @@ describe("useCreateBatch", () => {
       const invalidateQueriesSpy = vi.spyOn(queryClient, "invalidateQueries");
 
       const wrapper = ({ children }: { children: ReactNode }) => (
-        <QueryClientProvider client={queryClient}>
-          {children}
-        </QueryClientProvider>
+        <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
       );
 
       // Act
@@ -332,9 +328,7 @@ describe("useCreateBatch", () => {
       const invalidateQueriesSpy = vi.spyOn(queryClient, "invalidateQueries");
 
       const wrapper = ({ children }: { children: ReactNode }) => (
-        <QueryClientProvider client={queryClient}>
-          {children}
-        </QueryClientProvider>
+        <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
       );
 
       // Act
@@ -403,9 +397,7 @@ describe("useCreateBatch", () => {
         template_id: "template-789",
       };
 
-      mockCreateBatch.mockRejectedValue(
-        new Error("Internal server error")
-      );
+      mockCreateBatch.mockRejectedValue(new Error("Internal server error"));
 
       // Act
       const { result } = renderHook(() => useCreateBatch(), {
@@ -426,9 +418,7 @@ describe("useCreateBatch", () => {
         template_id: "invalid-template",
       };
 
-      mockCreateBatch.mockRejectedValue(
-        new Error("Template not found")
-      );
+      mockCreateBatch.mockRejectedValue(new Error("Template not found"));
 
       // Act
       const { result } = renderHook(() => useCreateBatch(), {
@@ -452,7 +442,7 @@ describe("useCreateBatch", () => {
       };
 
       const mockBatch = createMockBatch();
-      
+
       // Create a promise that we can control
       let resolveMutation: (value: BatchDto) => void;
       const mutationPromise = new Promise<BatchDto>((resolve) => {
@@ -474,7 +464,9 @@ describe("useCreateBatch", () => {
       expect(result.current.isError).toBe(false);
 
       // Resolve the mutation
-      resolveMutation!(mockBatch);
+      if (resolveMutation) {
+        resolveMutation(mockBatch);
+      }
 
       await waitFor(() => expect(result.current.isPending).toBe(false));
     });
@@ -840,7 +832,9 @@ describe("useCreateBatch", () => {
       await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
       expect(result.current.data?.started_at).toBe(startedAt);
-      expect(new Date(result.current.data!.started_at).getTime()).toBeGreaterThan(0);
+      if (result.current.data?.started_at) {
+        expect(new Date(result.current.data.started_at).getTime()).toBeGreaterThan(0);
+      }
     });
 
     test("should create batch with first stage as current stage", async () => {
@@ -904,9 +898,7 @@ describe("useCreateBatch", () => {
       const mockBatch1 = createMockBatch({ id: "batch-1", name: "Batch 1" });
       const mockBatch2 = createMockBatch({ id: "batch-2", name: "Batch 2" });
 
-      mockCreateBatch
-        .mockResolvedValueOnce(mockBatch1)
-        .mockResolvedValueOnce(mockBatch2);
+      mockCreateBatch.mockResolvedValueOnce(mockBatch1).mockResolvedValueOnce(mockBatch2);
 
       // Act
       const { result } = renderHook(() => useCreateBatch(), {
@@ -937,9 +929,7 @@ describe("useCreateBatch", () => {
         template_id: "template-789",
       };
 
-      mockCreateBatch
-        .mockRejectedValueOnce(new Error("Template not found"))
-        .mockResolvedValueOnce(createMockBatch());
+      mockCreateBatch.mockRejectedValueOnce(new Error("Template not found")).mockResolvedValueOnce(createMockBatch());
 
       // Act
       const { result } = renderHook(() => useCreateBatch(), {
@@ -984,12 +974,15 @@ describe("useCreateBatch", () => {
 
       // Type assertions
       const batch = result.current.data;
-      const _id: string = batch!.id;
-      const _name: string = batch!.name;
-      const _type: string = batch!.type;
-      const _status: string = batch!.status;
-      const _startedAt: string = batch!.started_at;
-      const _stages: typeof batch!.stages = batch!.stages;
+      if (!batch) {
+        throw new Error("Batch is undefined");
+      }
+      const _id: string = batch.id;
+      const _name: string = batch.name;
+      const _type: string = batch.type;
+      const _status: string = batch.status;
+      const _startedAt: string = batch.started_at;
+      const _stages = batch.stages;
 
       expect(_id).toBeDefined();
       expect(_name).toBeDefined();
@@ -1000,4 +993,3 @@ describe("useCreateBatch", () => {
     });
   });
 });
-

@@ -33,33 +33,21 @@ function AppHeader() {
 
           {/* Navigation Links */}
           <nav className="hidden md:flex items-center gap-6">
-            <a
-              href="/dashboard"
-              className="text-sm font-medium hover:text-primary transition-colors"
-            >
+            <a href="/dashboard" className="text-sm font-medium hover:text-primary transition-colors">
               Dashboard
             </a>
-            <a
-              href="/archived"
-              className="text-sm font-medium hover:text-primary transition-colors"
-            >
+            <a href="/archived" className="text-sm font-medium hover:text-primary transition-colors">
               Archiwum
             </a>
           </nav>
 
           {/* User Dropdown with Logout */}
           <div className="flex items-center gap-2">
-            <div 
-              className="hidden sm:block text-sm text-muted-foreground"
-              data-testid="user-email"
-            >
+            <div className="hidden sm:block text-sm text-muted-foreground" data-testid="user-email">
               {user.email}
             </div>
             <div className="flex items-center gap-2">
-              <a
-                href="/account"
-                className="text-sm font-medium px-3 py-2 rounded-md hover:bg-accent transition-colors"
-              >
+              <a href="/account" className="text-sm font-medium px-3 py-2 rounded-md hover:bg-accent transition-colors">
                 Konto
               </a>
               <button
@@ -82,16 +70,10 @@ function AppHeader() {
 
         {/* Mobile Navigation */}
         <nav className="md:hidden flex items-center gap-4 mt-3 pt-3 border-t">
-          <a
-            href="/dashboard"
-            className="text-sm font-medium hover:text-primary transition-colors"
-          >
+          <a href="/dashboard" className="text-sm font-medium hover:text-primary transition-colors">
             Dashboard
           </a>
-          <a
-            href="/archived"
-            className="text-sm font-medium hover:text-primary transition-colors"
-          >
+          <a href="/archived" className="text-sm font-medium hover:text-primary transition-colors">
             Archiwum
           </a>
         </nav>
@@ -144,4 +126,3 @@ export function AppContent({ children }: AppContentProps) {
     </AuthProviderWithoutGuard>
   );
 }
-

@@ -1,7 +1,7 @@
 /**
  * Reset Password API Endpoint
  * Updates user password using reset token
- * 
+ *
  * POST /api/auth/reset-password
  * Body: { password: string, confirmPassword: string }
  * Headers: Authorization: Bearer <reset_token>
@@ -97,4 +97,3 @@ export const POST: APIRoute = async ({ request, locals }) => {
     );
   }
 };
-

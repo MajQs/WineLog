@@ -4,7 +4,6 @@
  */
 
 import { test as base } from "@playwright/test";
-import { LoginPage } from "../page-objects/LoginPage";
 import { DashboardPage } from "../page-objects/DashboardPage";
 
 /**
@@ -18,29 +17,29 @@ export const test = base.extend<{
     // ═══════════════════════════════════════════════════════════════════
     // ARRANGE - Authentication state already loaded from global setup
     // ═══════════════════════════════════════════════════════════════════
-    
+
     // No login needed! Storage state from global-setup.ts is automatically loaded
     // Just navigate to dashboard and wait for it to be ready
-    
+
     // ═══════════════════════════════════════════════════════════════════
     // ACT - Navigate to dashboard
     // ═══════════════════════════════════════════════════════════════════
-    
+
     await page.goto("/dashboard");
-    
+
     // Wait for page to load
     await page.waitForLoadState("domcontentloaded");
-    
+
     // ═══════════════════════════════════════════════════════════════════
     // ASSERT (implicit) - Verify dashboard is ready
     // ═══════════════════════════════════════════════════════════════════
-    
+
     // Wait for user email to be visible (confirms auth state is working)
-    await page.getByTestId("user-email").waitFor({ 
-      state: "visible", 
-      timeout: 10000 
+    await page.getByTestId("user-email").waitFor({
+      state: "visible",
+      timeout: 10000,
     });
-    
+
     const dashboardPage = new DashboardPage(page);
 
     await use(dashboardPage);
@@ -51,5 +50,3 @@ export const test = base.extend<{
 });
 
 export { expect } from "@playwright/test";
-
-

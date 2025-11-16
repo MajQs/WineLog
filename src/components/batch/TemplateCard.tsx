@@ -48,11 +48,8 @@ export function TemplateCard({ template, selected, onClick }: TemplateCardProps)
       )}
 
       <CardHeader>
-        <CardTitle className="pr-8 text-base">
-          {template.name}
-        </CardTitle>
+        <CardTitle className="pr-8 text-base">{template.name}</CardTitle>
       </CardHeader>
     </Card>
   );
 }
-

@@ -32,7 +32,7 @@ export function SkeletonBatchView() {
           <div className="lg:col-span-1">
             <div className="bg-white rounded-lg shadow-sm p-6">
               <Skeleton className="h-6 w-40 mb-4" />
-              
+
               {/* Timeline Items */}
               <div className="space-y-8">
                 {[1, 2, 3, 4].map((i) => (
@@ -69,7 +69,7 @@ export function SkeletonBatchView() {
                       </div>
                       <Skeleton className="h-2 w-full" />
                     </div>
-                    
+
                     {/* Materials */}
                     <div className="space-y-2">
                       <Skeleton className="h-4 w-24" />
@@ -88,7 +88,7 @@ export function SkeletonBatchView() {
               {/* Notes Section Skeleton */}
               <div>
                 <Skeleton className="h-6 w-24 mb-4" />
-                
+
                 {/* Note Form Skeleton */}
                 <Card className="mb-6">
                   <CardHeader>
@@ -134,4 +134,3 @@ export function SkeletonBatchView() {
     </div>
   );
 }
-

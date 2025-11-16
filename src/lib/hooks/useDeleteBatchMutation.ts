@@ -15,38 +15,35 @@ interface UseDeleteBatchMutationOptions {
 
 /**
  * Hook for delete batch mutation
- * 
+ *
  * @param options - Mutation options with batchId and callbacks
  * @returns Mutation object with mutate function
  */
-export function useDeleteBatchMutation({ 
-  batchId, 
-  onSuccess, 
-  onError 
-}: UseDeleteBatchMutationOptions) {
+export function useDeleteBatchMutation({ batchId, onSuccess, onError }: UseDeleteBatchMutationOptions) {
   const queryClient = useQueryClient();
 
-  return useMutation<{ message: string }, Error, void>({
+  return useMutation<{ message: string }, Error, undefined>({
     mutationFn: () => deleteBatch(batchId),
-    
+
     // On success
     onSuccess: (data) => {
       toast.success("Nastaw został usunięty", {
         description: data.message,
       });
-      
+
       // Invalidate archived batches list
       queryClient.invalidateQueries({ queryKey: ["batches", "archived"] });
-      
+
       // Remove batch from cache
       queryClient.removeQueries({ queryKey: ["batch", batchId] });
-      
-      // Redirect to archive page after a short delay
+
+      // Call onSuccess callback first to allow parent component to handle redirect
+      onSuccess?.();
+
+      // Redirect after delay - this is intentional navigation, not a state mutation
       setTimeout(() => {
         window.location.href = "/archived";
       }, 1000);
-      
-      onSuccess?.();
     },
 
     // On error
@@ -54,11 +51,8 @@ export function useDeleteBatchMutation({
       toast.error("Nie udało się usunąć nastawu", {
         description: error.message || "Spróbuj ponownie później",
       });
-      
+
       onError?.(error);
     },
   });
 }
-
-
-

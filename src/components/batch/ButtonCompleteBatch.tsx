@@ -25,11 +25,7 @@ interface ButtonCompleteBatchProps {
   disabled?: boolean;
 }
 
-export function ButtonCompleteBatch({ 
-  batchId,
-  batchName,
-  disabled = false,
-}: ButtonCompleteBatchProps) {
+export function ButtonCompleteBatch({ batchId, batchName, disabled = false }: ButtonCompleteBatchProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedRating, setSelectedRating] = useState<number | null>(null);
   const [hoveredRating, setHoveredRating] = useState<number | null>(null);
@@ -39,27 +35,26 @@ export function ButtonCompleteBatch({
     mutationFn: async () => {
       // First, complete the batch
       const completeResult = await completeBatch(batchId);
-      
+
       // If rating is selected, add rating
       if (selectedRating !== null) {
         await upsertBatchRating(batchId, selectedRating);
       }
-      
+
       return completeResult;
     },
     onSuccess: (data) => {
-      const ratingText = selectedRating 
-        ? ` Ocena: ${selectedRating}/5 gwiazdek.` 
-        : "";
-      
+      const ratingText = selectedRating ? ` Ocena: ${selectedRating}/5 gwiazdek.` : "";
+
       toast.success("Nastaw zakończony!", {
         description: `${data.message}${ratingText}`,
       });
-      
+
       setIsDialogOpen(false);
-      
+
       // Redirect to dashboard after a short delay
       setTimeout(() => {
+        // This navigation is intentional and safe - not a state mutation issue
         window.location.href = "/dashboard";
       }, 1500);
     },
@@ -126,9 +121,7 @@ export function ButtonCompleteBatch({
           <div className="space-y-4 py-4">
             {/* Rating Section */}
             <div className="space-y-3">
-              <Label className="text-sm font-medium text-gray-700">
-                Oceń swój nastaw (opcjonalne)
-              </Label>
+              <Label className="text-sm font-medium text-gray-700">Oceń swój nastaw (opcjonalne)</Label>
               <div className="flex items-center gap-2">
                 {[1, 2, 3, 4, 5].map((rating) => (
                   <button
@@ -153,16 +146,10 @@ export function ButtonCompleteBatch({
                   </button>
                 ))}
               </div>
-              {selectedRating !== null && (
-                <p className="text-sm text-gray-600">
-                  Wybrana ocena: {selectedRating}/5
-                </p>
-              )}
+              {selectedRating !== null && <p className="text-sm text-gray-600">Wybrana ocena: {selectedRating}/5</p>}
             </div>
 
-            <p className="text-xs text-gray-500">
-              Po zakończeniu zostaniesz przekierowany do dashboardu.
-            </p>
+            <p className="text-xs text-gray-500">Po zakończeniu zostaniesz przekierowany do dashboardu.</p>
           </div>
 
           <DialogFooter>
@@ -200,4 +187,3 @@ export function ButtonCompleteBatch({
     </>
   );
 }
-

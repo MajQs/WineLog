@@ -3,7 +3,7 @@
  * Represents the archived batches list page
  */
 
-import type { Page, Locator } from "@playwright/test";
+import type { Locator } from "@playwright/test";
 import { BasePage } from "./BasePage";
 
 /**
@@ -11,10 +11,6 @@ import { BasePage } from "./BasePage";
  * Provides methods for interacting with the archived batches page
  */
 export class ArchivedPage extends BasePage {
-  constructor(page: Page) {
-    super(page);
-  }
-
   /**
    * Navigate to the archived page
    */
@@ -78,5 +74,3 @@ export class ArchivedPage extends BasePage {
     return await this.getAllBatchCards().count();
   }
 }
-
-

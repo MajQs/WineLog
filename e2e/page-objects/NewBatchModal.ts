@@ -154,7 +154,7 @@ export class NewBatchModal extends BasePage {
   async createBatch(templateId: string, batchName?: string): Promise<void> {
     // Arrange
     await this.selectTemplate(templateId);
-    
+
     if (batchName) {
       await this.fillBatchName(batchName);
     }
@@ -175,7 +175,7 @@ export class NewBatchModal extends BasePage {
   async createBatchWithFirstTemplate(batchName?: string): Promise<void> {
     // Arrange
     await this.selectFirstTemplate();
-    
+
     if (batchName) {
       await this.fillBatchName(batchName);
     }
@@ -217,6 +217,3 @@ export class NewBatchModal extends BasePage {
     return this.cancelButton;
   }
 }
-
-
-

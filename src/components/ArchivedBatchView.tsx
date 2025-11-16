@@ -6,18 +6,16 @@
 import { QueryProvider } from "@/lib/providers/QueryProvider";
 import { useArchivedBatch } from "@/lib/hooks/useArchivedBatch";
 import { useRatingMutation } from "@/lib/hooks/useRatingMutation";
-import { 
-  MetaInfoBar, 
-  StageTimeline, 
+import {
+  MetaInfoBar,
+  StageTimeline,
   NoteTimeline,
   ErrorState,
   SkeletonBatchView,
   StarRating,
-  ButtonDeleteBatch
+  ButtonDeleteBatch,
 } from "./batch";
 import { Toaster } from "@/components/ui/sonner";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
 
 interface ArchivedBatchViewProps {
   batchId: string;
@@ -59,15 +57,13 @@ function ArchivedBatchPageContent({ batchId }: ArchivedBatchViewProps) {
 
         {/* Header Section */}
         <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6 mb-4 sm:mb-6">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">
-            {data.name}
-          </h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">{data.name}</h1>
           <MetaInfoBar batch={data} />
-          
+
           {/* Star Rating */}
           <div className="mt-4 pt-4 border-t border-gray-200">
-            <StarRating 
-              initialRating={data.rating} 
+            <StarRating
+              initialRating={data.rating}
               batchId={batchId}
               onChange={handleRatingChange}
               disabled={ratingMutation.isPending}
@@ -80,14 +76,8 @@ function ArchivedBatchPageContent({ batchId }: ArchivedBatchViewProps) {
           {/* Left Column - Stage Timeline */}
           <div className="lg:col-span-1">
             <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6">
-              <h2 className="text-base sm:text-lg font-semibold text-gray-900 mb-4">
-                Przebieg etapów
-              </h2>
-              <StageTimeline 
-                stages={data.stages} 
-                currentStageId={undefined}
-                isArchived={true}
-              />
+              <h2 className="text-base sm:text-lg font-semibold text-gray-900 mb-4">Przebieg etapów</h2>
+              <StageTimeline stages={data.stages} currentStageId={undefined} isArchived={true} />
             </div>
           </div>
 
@@ -97,15 +87,10 @@ function ArchivedBatchPageContent({ batchId }: ArchivedBatchViewProps) {
               <h2 className="text-base sm:text-lg font-semibold text-gray-900 mb-4">
                 Historia notatek
                 {data.notesCount > 0 && (
-                  <span className="ml-2 text-sm font-normal text-gray-500">
-                    ({data.notesCount})
-                  </span>
+                  <span className="ml-2 text-sm font-normal text-gray-500">({data.notesCount})</span>
                 )}
               </h2>
-              <NoteTimeline 
-                notes={data.notes} 
-                batchId={batchId}
-              />
+              <NoteTimeline notes={data.notes} batchId={batchId} />
             </div>
           </div>
         </div>
@@ -125,4 +110,3 @@ export default function ArchivedBatchView({ batchId }: ArchivedBatchViewProps) {
     </QueryProvider>
   );
 }
-

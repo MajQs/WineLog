@@ -18,12 +18,7 @@ interface InputNameProps {
  * Input Name Component
  * Optional input for batch name with character counter
  */
-export function InputName({ 
-  value, 
-  onChange, 
-  error, 
-  maxLength = 100 
-}: InputNameProps) {
+export function InputName({ value, onChange, error, maxLength = 100 }: InputNameProps) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange(e.target.value);
   };
@@ -38,7 +33,7 @@ export function InputName({
         Nazwa nastawu
         <span className="text-muted-foreground ml-1 text-xs font-normal">(opcjonalna)</span>
       </Label>
-      
+
       <Input
         id="batch-name"
         type="text"
@@ -50,7 +45,7 @@ export function InputName({
         aria-describedby={hasError ? "name-error" : "name-hint"}
         data-testid="input-batch-name"
       />
-      
+
       <div className="flex items-center justify-between gap-2">
         {/* Hint or Error message */}
         <div className="min-w-0 flex-1">
@@ -64,9 +59,9 @@ export function InputName({
             </p>
           )}
         </div>
-        
+
         {/* Character counter */}
-        <p 
+        <p
           className={cn(
             "text-muted-foreground shrink-0 text-xs tabular-nums",
             isNearLimit && "text-warning",
@@ -81,4 +76,3 @@ export function InputName({
     </div>
   );
 }
-

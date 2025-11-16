@@ -3,7 +3,7 @@
  * Tests business rules, edge cases, and data transformations
  */
 
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, expect, vi, beforeEach, afterEach } from "vitest";
 import { renderHook, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { ReactNode } from "react";
@@ -33,9 +33,11 @@ function createWrapper() {
     },
   });
 
-  return ({ children }: { children: ReactNode }) => (
+  const Wrapper = ({ children }: { children: ReactNode }) => (
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   );
+  Wrapper.displayName = "QueryClientProviderWrapper";
+  return Wrapper;
 }
 
 describe("useDashboardData", () => {
@@ -364,10 +366,7 @@ describe("useDashboardData", () => {
       });
 
       // Assert - Wait longer due to retry attempts (2 retries configured in hook)
-      await waitFor(
-        () => expect(result.current.isError).toBe(true),
-        { timeout: 5000 }
-      );
+      await waitFor(() => expect(result.current.isError).toBe(true), { timeout: 5000 });
 
       expect(result.current.isLoading).toBe(false);
       expect(result.current.batches).toEqual([]);
@@ -386,10 +385,7 @@ describe("useDashboardData", () => {
       });
 
       // Assert - Wait longer due to retry attempts (2 retries configured in hook)
-      await waitFor(
-        () => expect(result.current.isError).toBe(true),
-        { timeout: 5000 }
-      );
+      await waitFor(() => expect(result.current.isError).toBe(true), { timeout: 5000 });
 
       expect(result.current.error).toBeInstanceOf(Error);
       expect((result.current.error as Error).message).toBe(errorMessage);
@@ -690,7 +686,7 @@ describe("useDashboardData", () => {
 
       // Assert - TypeScript compilation will fail if types are incorrect
       const batch = result.current.batches[0];
-      
+
       // Required fields
       const _id: string = batch.id;
       const _name: string = batch.name;
@@ -698,12 +694,12 @@ describe("useDashboardData", () => {
       const _startedAtHuman: string = batch.startedAtHuman;
       const _currentStageDescription: string = batch.currentStageDescription;
       const _currentStagePosition: number = batch.currentStagePosition;
-      
+
       // Optional fields
       const _currentStageDaysElapsed: number | undefined = batch.currentStageDaysElapsed;
       const _latestNoteAction: string | undefined = batch.latestNoteAction;
       const _latestNoteDateHuman: string | undefined = batch.latestNoteDateHuman;
-      
+
       // Count
       const _archivedCount: number = result.current.archivedCount;
 
@@ -721,4 +717,3 @@ describe("useDashboardData", () => {
     });
   });
 });
-

@@ -16,22 +16,20 @@ import { fetchBatch } from "../api/batch";
 function transformBatchToVM(batch: BatchDto): ArchivedBatchViewModel {
   // For archived batches, ensure the last stage has completed_at set
   let stages = batch.stages;
-  
+
   if (batch.status === "archived" && batch.completed_at && stages.length > 0) {
     // Find the last stage by position
     const sortedStages = [...stages].sort((a, b) => a.position - b.position);
     const lastStage = sortedStages[sortedStages.length - 1];
-    
+
     // If last stage doesn't have completed_at, set it to batch.completed_at
     if (!lastStage.completed_at) {
-      stages = stages.map(stage => 
-        stage.id === lastStage.id 
-          ? { ...stage, completed_at: batch.completed_at, status: "completed" as const }
-          : stage
+      stages = stages.map((stage) =>
+        stage.id === lastStage.id ? { ...stage, completed_at: batch.completed_at, status: "completed" as const } : stage
       );
     }
   }
-  
+
   return {
     id: batch.id,
     name: batch.name,
@@ -40,9 +38,7 @@ function transformBatchToVM(batch: BatchDto): ArchivedBatchViewModel {
     started_at: batch.started_at,
     completed_at: batch.completed_at,
     startedAtHuman: format(new Date(batch.started_at), "dd.MM.yyyy"),
-    completedAtHuman: batch.completed_at 
-      ? format(new Date(batch.completed_at), "dd.MM.yyyy") 
-      : undefined,
+    completedAtHuman: batch.completed_at ? format(new Date(batch.completed_at), "dd.MM.yyyy") : undefined,
     template: batch.template,
     stages,
     notes: batch.notes || [],
@@ -54,7 +50,7 @@ function transformBatchToVM(batch: BatchDto): ArchivedBatchViewModel {
 /**
  * Hook for archived batch data with React Query
  * Fetches complete batch data including stages and notes
- * 
+ *
  * @param batchId - Batch ID
  * @returns Query state with archived batch view model
  */
@@ -82,4 +78,3 @@ export function useArchivedBatch(batchId: string) {
     refetch: batchQuery.refetch,
   };
 }
-

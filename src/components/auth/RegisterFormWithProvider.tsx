@@ -17,4 +17,3 @@ export function RegisterFormWithProvider(props: RegisterFormWithProviderProps) {
     </AuthProvider>
   );
 }
-

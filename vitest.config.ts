@@ -18,14 +18,7 @@ export default defineConfig({
     include: ["src/**/*.{test,spec}.{ts,tsx}"],
 
     // Exclude patterns
-    exclude: [
-      "node_modules",
-      "dist",
-      ".idea",
-      ".git",
-      ".cache",
-      "**/e2e/**",
-    ],
+    exclude: ["node_modules", "dist", ".idea", ".git", ".cache", "**/e2e/**"],
 
     // Coverage configuration
     coverage: {
@@ -66,5 +59,3 @@ export default defineConfig({
     },
   },
 });
-
-

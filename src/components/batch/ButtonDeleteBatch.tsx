@@ -52,9 +52,8 @@ export function ButtonDeleteBatch({ batchId, batchName }: ButtonDeleteBatchProps
           <DialogHeader>
             <DialogTitle>Czy na pewno chcesz usunąć ten nastaw?</DialogTitle>
             <DialogDescription>
-              Nastaw "<strong>{batchName}</strong>" zostanie trwale usunięty.
-              Ta akcja jest nieodwracalna i spowoduje utratę wszystkich danych,
-              notatek i historii związanych z tym nastawem.
+              Nastaw &ldquo;<strong>{batchName}</strong>&rdquo; zostanie trwale usunięty. Ta akcja jest nieodwracalna i
+              spowoduje utratę wszystkich danych, notatek i historii związanych z tym nastawem.
             </DialogDescription>
           </DialogHeader>
 
@@ -81,6 +80,3 @@ export function ButtonDeleteBatch({ batchId, batchName }: ButtonDeleteBatchProps
     </>
   );
 }
-
-
-

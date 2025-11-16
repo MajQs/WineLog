@@ -15,4 +15,3 @@ export function ResetPasswordFormWithProvider({ token }: ResetPasswordFormWithPr
   // But we keep the wrapper for API consistency
   return <ResetPasswordForm token={token} />;
 }
-

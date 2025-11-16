@@ -1,7 +1,7 @@
 /**
  * E2E Test: Authentication - Login Flow
  * Tests user login functionality
- * 
+ *
  * NOTE: These tests run in 'chromium-no-auth' project without saved storage state
  * This ensures we're actually testing the login flow, not using cached authentication
  */
@@ -27,12 +27,12 @@ test.describe("Login Flow", () => {
     // ═══════════════════════════════════════════════════════════════════
     // ASSERT
     // ═══════════════════════════════════════════════════════════════════
-    
+
     // Should redirect to dashboard
     // Use domcontentloaded to avoid waiting for all resources
-    await page.waitForURL(/\/dashboard/, { 
+    await page.waitForURL(/\/dashboard/, {
       timeout: 30000,
-      waitUntil: "domcontentloaded"
+      waitUntil: "domcontentloaded",
     });
     expect(page.url()).toContain("/dashboard");
 
@@ -56,7 +56,7 @@ test.describe("Login Flow", () => {
     // ═══════════════════════════════════════════════════════════════════
     // ASSERT
     // ═══════════════════════════════════════════════════════════════════
-    
+
     // All form elements should be visible
     await expect(loginPage.getEmailInput()).toBeVisible();
     await expect(loginPage.getPasswordInput()).toBeVisible();
@@ -83,13 +83,11 @@ test.describe("Login Flow", () => {
     // ═══════════════════════════════════════════════════════════════════
     // ASSERT
     // ═══════════════════════════════════════════════════════════════════
-    
+
     // Should stay on login page
     expect(page.url()).toContain("/login");
-    
+
     // Should show error message (if implemented)
     await expect(loginPage.hasError()).toBeTruthy();
   });
 });
-
-

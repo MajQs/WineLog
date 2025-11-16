@@ -71,7 +71,7 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
       if (data.session) {
         // Store session in AuthProvider (which saves to localStorage)
         setSession(data.session as Session);
-        
+
         // Call success callback or redirect
         if (onSuccess) {
           onSuccess();
@@ -96,18 +96,12 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
     <Card>
       <CardHeader className="space-y-1">
         <CardTitle className="text-2xl font-bold">Utwórz konto</CardTitle>
-        <CardDescription>
-          Wprowadź swoje dane, aby utworzyć nowe konto
-        </CardDescription>
+        <CardDescription>Wprowadź swoje dane, aby utworzyć nowe konto</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
           {globalError && (
-            <div
-              className="rounded-md bg-destructive/10 p-3 text-sm text-destructive"
-              role="alert"
-              aria-live="polite"
-            >
+            <div className="rounded-md bg-destructive/10 p-3 text-sm text-destructive" role="alert" aria-live="polite">
               {globalError}
             </div>
           )}
@@ -201,4 +195,3 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
     </Card>
   );
 }
-

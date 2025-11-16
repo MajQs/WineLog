@@ -1,7 +1,7 @@
 /**
  * Logout API Endpoint
  * Handles user sign out and session invalidation
- * 
+ *
  * POST /api/auth/logout
  * Headers: Authorization: Bearer <token>
  * Returns: success message
@@ -18,7 +18,10 @@ export const POST: APIRoute = async ({ request, locals }) => {
     const authResult = await verifyAuthToken(request, locals.supabase);
 
     if (!authResult.success) {
-      return createErrorResponse(authResult.error!, authResult.status!);
+      return createErrorResponse(
+        authResult.error || { error: "Unauthorized", code: "UNAUTHORIZED" },
+        authResult.status || 401
+      );
     }
 
     // Sign out from Supabase (invalidates the token)
@@ -52,4 +55,3 @@ export const POST: APIRoute = async ({ request, locals }) => {
     );
   }
 };
-

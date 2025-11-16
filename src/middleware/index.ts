@@ -3,10 +3,17 @@ import { createClient } from "@supabase/supabase-js";
 
 import type { Database } from "../db/database.types";
 
-const supabaseUrl = import.meta.env.SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.SUPABASE_KEY;
-
 export const onRequest = defineMiddleware(async (context, next) => {
+  // Get Supabase credentials from CloudFlare runtime environment
+  const runtime = context.locals.runtime;
+  const supabaseUrl = runtime?.env?.SUPABASE_URL;
+  const supabaseAnonKey = runtime?.env?.SUPABASE_KEY;
+
+  if (!supabaseUrl || !supabaseAnonKey) {
+    console.error("Missing SUPABASE_URL or SUPABASE_KEY in CloudFlare environment");
+    throw new Error("Missing required Supabase environment variables");
+  }
+
   // Get JWT token from Authorization header (used by API endpoints)
   const authHeader = context.request.headers.get("Authorization");
   const token = authHeader?.replace("Bearer ", "");

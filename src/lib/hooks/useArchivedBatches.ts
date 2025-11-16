@@ -21,16 +21,14 @@ function transformBatchToVM(batch: BatchListResponseDto["batches"][number]): Arc
     startedAt: batch.started_at,
     completedAt: batch.completed_at || "",
     startedAtHuman: format(new Date(batch.started_at), "dd.MM.yyyy"),
-    completedAtHuman: batch.completed_at 
-      ? format(new Date(batch.completed_at), "dd.MM.yyyy")
-      : "",
+    completedAtHuman: batch.completed_at ? format(new Date(batch.completed_at), "dd.MM.yyyy") : "",
     rating: batch.rating,
   };
 }
 
 /**
  * Hook for archived batches data with React Query
- * 
+ *
  * @returns Query state with archived batches view models
  */
 export function useArchivedBatches() {
@@ -56,4 +54,3 @@ export function useArchivedBatches() {
     refetch: query.refetch,
   };
 }
-

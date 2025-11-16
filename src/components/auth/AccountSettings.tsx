@@ -69,9 +69,7 @@ export function AccountSettings({ user }: AccountSettingsProps) {
             <User className="h-5 w-5" />
             Informacje o koncie
           </CardTitle>
-          <CardDescription>
-            Podstawowe informacje dotyczące Twojego konta
-          </CardDescription>
+          <CardDescription>Podstawowe informacje dotyczące Twojego konta</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-3">
@@ -87,9 +85,7 @@ export function AccountSettings({ user }: AccountSettingsProps) {
               <Calendar className="h-5 w-5 text-muted-foreground mt-0.5" />
               <div className="flex-1 space-y-1">
                 <p className="text-sm font-medium">Data rejestracji</p>
-                <p className="text-sm text-muted-foreground">
-                  {formatDate(userData.created_at)}
-                </p>
+                <p className="text-sm text-muted-foreground">{formatDate(userData.created_at)}</p>
               </div>
             </div>
           </div>
@@ -100,9 +96,7 @@ export function AccountSettings({ user }: AccountSettingsProps) {
       <Card>
         <CardHeader>
           <CardTitle>Hasło</CardTitle>
-          <CardDescription>
-            Zmień hasło do swojego konta
-          </CardDescription>
+          <CardDescription>Zmień hasło do swojego konta</CardDescription>
         </CardHeader>
         <CardContent>
           <Button asChild variant="outline">
@@ -115,9 +109,7 @@ export function AccountSettings({ user }: AccountSettingsProps) {
       <Card className="border-destructive/50">
         <CardHeader>
           <CardTitle className="text-destructive">Strefa niebezpieczna</CardTitle>
-          <CardDescription>
-            Nieodwracalne operacje na koncie
-          </CardDescription>
+          <CardDescription>Nieodwracalne operacje na koncie</CardDescription>
         </CardHeader>
         <CardContent>
           <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
@@ -143,4 +135,3 @@ export function AccountSettings({ user }: AccountSettingsProps) {
     </div>
   );
 }
-

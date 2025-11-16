@@ -8,18 +8,14 @@ import type { RatingDto, UpsertRatingCommand } from "../types";
 
 /**
  * Gets the rating for a specific batch
- * 
+ *
  * @param supabase - Supabase client instance
  * @param userId - User ID from JWT token
  * @param batchId - Batch UUID
  * @returns Rating DTO or null if not found
  * @throws Error if batch doesn't exist or doesn't belong to user
  */
-export async function getRating(
-  supabase: SupabaseClient,
-  userId: string,
-  batchId: string
-): Promise<RatingDto | null> {
+export async function getRating(supabase: SupabaseClient, userId: string, batchId: string): Promise<RatingDto | null> {
   // 1. Verify batch exists and belongs to user
   const { data: batch, error: batchError } = await supabase
     .from("batches")
@@ -63,7 +59,7 @@ export async function getRating(
 /**
  * Creates or updates a rating for a batch
  * Only archived batches can be rated
- * 
+ *
  * @param supabase - Supabase client instance
  * @param userId - User ID from JWT token
  * @param batchId - Batch UUID
@@ -137,4 +133,3 @@ export async function upsertRating(
     isNew,
   };
 }
-

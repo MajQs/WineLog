@@ -3,7 +3,7 @@
  * Displays different error messages based on error code
  */
 
-import { AlertCircle, Home, Lock, ServerCrash } from "lucide-react";
+import { AlertCircle, Lock, ServerCrash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ApiError } from "@/lib/api/fetch";
 
@@ -27,7 +27,7 @@ function getErrorDisplay(error: Error | ApiError | unknown) {
           showRetry: false,
           showDashboard: true,
         };
-      
+
       case 403:
         return {
           icon: Lock,
@@ -36,7 +36,7 @@ function getErrorDisplay(error: Error | ApiError | unknown) {
           showRetry: false,
           showDashboard: true,
         };
-      
+
       case 409:
         return {
           icon: AlertCircle,
@@ -45,7 +45,7 @@ function getErrorDisplay(error: Error | ApiError | unknown) {
           showRetry: true,
           showDashboard: false,
         };
-      
+
       case 408:
         return {
           icon: ServerCrash,
@@ -54,7 +54,7 @@ function getErrorDisplay(error: Error | ApiError | unknown) {
           showRetry: true,
           showDashboard: false,
         };
-      
+
       case 500:
       case 502:
       case 503:
@@ -65,7 +65,7 @@ function getErrorDisplay(error: Error | ApiError | unknown) {
           showRetry: true,
           showDashboard: false,
         };
-      
+
       default:
         return {
           icon: AlertCircle,
@@ -110,7 +110,7 @@ export function ErrorState({ error, onRetry }: ErrorStateProps) {
           <div className="flex items-center justify-center rounded-full bg-red-100 p-4">
             <Icon className="h-12 w-12 text-red-600" aria-hidden="true" />
           </div>
-          
+
           {/* Error Message */}
           <div className="space-y-2">
             <h2 className="text-xl font-semibold text-gray-900">{display.title}</h2>
@@ -136,4 +136,3 @@ export function ErrorState({ error, onRetry }: ErrorStateProps) {
     </div>
   );
 }
-

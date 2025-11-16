@@ -1,0 +1,14 @@
+# CloudFlare Pages configuration
+# This file is used for local development with wrangler
+# For production configuration, use CloudFlare Pages dashboard
+
+name = "winelog"
+compatibility_date = "2024-01-01"
+
+# Environment variables for local development
+# Use .dev.vars file for actual values (not committed to git)
+
+# For production deployment, set these in CloudFlare Pages dashboard:
+# - SUPABASE_URL
+# - SUPABASE_KEY
+

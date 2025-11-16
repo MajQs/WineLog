@@ -58,9 +58,7 @@ export function MetaInfoBar({ batch }: MetaInfoBarProps) {
       </div>
 
       {/* Status Badge */}
-      <div
-        className={`flex items-center gap-2 px-3 py-1 rounded-full ${statusDisplay.className}`}
-      >
+      <div className={`flex items-center gap-2 px-3 py-1 rounded-full ${statusDisplay.className}`}>
         {statusDisplay.icon}
         <span className="text-sm font-medium">{statusDisplay.label}</span>
       </div>
@@ -88,4 +86,3 @@ export function MetaInfoBar({ batch }: MetaInfoBarProps) {
     </div>
   );
 }
-

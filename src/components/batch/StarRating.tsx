@@ -14,18 +14,13 @@ interface StarRatingProps {
   disabled?: boolean;
 }
 
-export function StarRating({ 
-  initialRating, 
-  batchId, 
-  onChange,
-  disabled = false 
-}: StarRatingProps) {
+export function StarRating({ initialRating, onChange, disabled = false }: StarRatingProps) {
   const [rating, setRating] = useState<number>(initialRating || 0);
   const [hoverRating, setHoverRating] = useState<number>(0);
 
   const handleClick = (value: number) => {
     if (disabled) return;
-    
+
     setRating(value);
     onChange?.(value);
   };
@@ -43,17 +38,18 @@ export function StarRating({
   return (
     <div className="flex items-center gap-3">
       <span className="text-sm font-medium text-gray-700">Ocena:</span>
-      
-      <div 
+
+      <div
         className="flex gap-1"
         onMouseLeave={handleMouseLeave}
         role="radiogroup"
         aria-label="Ocena nastawu"
+        tabIndex={0}
       >
         {Array.from({ length: 5 }).map((_, index) => {
           const starValue = index + 1;
           const isActive = starValue <= (hoverRating || rating);
-          
+
           return (
             <button
               key={starValue}
@@ -72,9 +68,7 @@ export function StarRating({
               <Star
                 className={cn(
                   "h-6 w-6 transition-colors",
-                  isActive 
-                    ? "fill-yellow-400 text-yellow-400" 
-                    : "fill-none text-gray-300"
+                  isActive ? "fill-yellow-400 text-yellow-400" : "fill-none text-gray-300"
                 )}
                 aria-hidden="true"
               />
@@ -83,14 +77,7 @@ export function StarRating({
         })}
       </div>
 
-      {rating > 0 && (
-        <span className="text-sm text-gray-600">
-          {rating}/5
-        </span>
-      )}
+      {rating > 0 && <span className="text-sm text-gray-600">{rating}/5</span>}
     </div>
   );
 }
-
-
-

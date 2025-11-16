@@ -26,22 +26,44 @@ beforeAll(() => {
 
   // Mock IntersectionObserver
   global.IntersectionObserver = class IntersectionObserver {
-    constructor() {}
-    disconnect() {}
-    observe() {}
-    takeRecords() {
+    // eslint-disable-next-line @typescript-eslint/no-useless-constructor, @typescript-eslint/no-unused-vars
+    constructor(_callback: IntersectionObserverCallback, _options?: IntersectionObserverInit) {
+      // Mock constructor - no implementation needed for tests
+    }
+    disconnect(): void {
+      // Mock method - no implementation needed for tests
+    }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    observe(_target: Element): void {
+      // Mock method - no implementation needed for tests
+    }
+    takeRecords(): IntersectionObserverEntry[] {
       return [];
     }
-    unobserve() {}
-  } as any;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    unobserve(_target: Element): void {
+      // Mock method - no implementation needed for tests
+    }
+  };
 
   // Mock ResizeObserver
   global.ResizeObserver = class ResizeObserver {
-    constructor() {}
-    disconnect() {}
-    observe() {}
-    unobserve() {}
-  } as any;
+    // eslint-disable-next-line @typescript-eslint/no-useless-constructor, @typescript-eslint/no-unused-vars
+    constructor(_callback: ResizeObserverCallback) {
+      // Mock constructor - no implementation needed for tests
+    }
+    disconnect(): void {
+      // Mock method - no implementation needed for tests
+    }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    observe(_target: Element, _options?: ResizeObserverOptions): void {
+      // Mock method - no implementation needed for tests
+    }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    unobserve(_target: Element): void {
+      // Mock method - no implementation needed for tests
+    }
+  };
 });
 
 // Mock Supabase client for tests
@@ -87,5 +109,3 @@ vi.mock("@/db/supabase.client", () => ({
     })),
   })),
 }));
-
-

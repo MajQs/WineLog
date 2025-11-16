@@ -12,13 +12,12 @@ import type {
   StageSummaryDto,
   NoteDto,
   StageName,
-  NoteStageContextDto,
 } from "../types";
 
 /**
  * Advances batch to the next stage
  * Closes current stage and optionally creates a note
- * 
+ *
  * @param supabase - Supabase client instance
  * @param userId - User ID from JWT token
  * @param batchId - Batch UUID
@@ -76,7 +75,10 @@ export async function advanceToNextStage(
   }
 
   // Find current stage (first non-completed)
-  const stages = allStages as any[];
+  interface StageWithCompletion {
+    completed_at: string | null;
+  }
+  const stages = allStages as StageWithCompletion[];
   const currentStageIndex = stages.findIndex((s) => !s.completed_at);
 
   if (currentStageIndex === -1) {
@@ -178,7 +180,7 @@ export async function advanceToNextStage(
 
 /**
  * Gets current stage details with notes
- * 
+ *
  * @param supabase - Supabase client instance
  * @param userId - User ID from JWT token
  * @param batchId - Batch UUID
@@ -230,7 +232,20 @@ export async function getCurrentStageDetails(
   }
 
   // Find current stage (first incomplete or last stage if all complete)
-  const stages = currentStageData as any[];
+  interface StageWithTemplateData {
+    completed_at: string | null;
+    started_at: string | null;
+    template_stages: {
+      position: number;
+      name: string;
+      description: string | null;
+      instructions: string | null;
+      materials: string[] | null;
+      days_min: number | null;
+      days_max: number | null;
+    };
+  }
+  const stages = currentStageData as StageWithTemplateData[];
   const currentStage = stages.find((s) => !s.completed_at) || stages[stages.length - 1];
   const templateStage = currentStage.template_stages;
 
@@ -280,7 +295,15 @@ function buildBatchStageDto(
   id: string,
   batch_id: string,
   template_stage_id: string,
-  templateStage: any,
+  templateStage: {
+    position: number;
+    name: string;
+    description: string | null;
+    instructions: string | null;
+    materials: string[] | null;
+    days_min: number | null;
+    days_max: number | null;
+  },
   started_at: string | null,
   completed_at: string | null
 ): BatchStageDto {
@@ -317,4 +340,3 @@ function calculateDaysElapsed(startDate: string | null): number | undefined {
 
   return diffDays;
 }
-
