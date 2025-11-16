@@ -76,63 +76,45 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v5
-        with:
-          name: build-output
-          path: dist/
-          retention-days: 1
+      # - name: Upload build artifacts
+      #   uses: actions/upload-artifact@v5
+      #   with:
+      #     name: build-output
+      #     path: dist/
+      #     retention-days: 1
 
   deploy:
     name: Deploy to Cloudflare Pages
     runs-on: ubuntu-latest
     needs: build
     environment: production
-    permissions:
-      contents: read
-      deployments: write
+    # permissions:
+    #   contents: read
+    #   deployments: write
     
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
 
-      - name: Download build artifacts
-        uses: actions/download-artifact@v6
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
         with:
-          name: build-output
-          path: dist/
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run build
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=${{ secrets.CLOUDFLARE_PROJECT_NAME }}
-        
-      - name: Deployment troubleshooting info
-        if: failure()
-        run: |
-          echo "❌ Deployment failed!"
-          echo ""
-          echo "Common issues:"
-          echo "1. Project not found (8000007):"
-          echo "   → Project will be created automatically on first deployment"
-          echo "   → If it fails, create manually at: https://dash.cloudflare.com/${{ secrets.CLOUDFLARE_ACCOUNT_ID }}/pages"
-          echo "   → Ensure CLOUDFLARE_PROJECT_NAME matches exactly (case-sensitive)"
-          echo ""
-          echo "2. Authentication error:"
-          echo "   → Verify CLOUDFLARE_API_TOKEN has 'Cloudflare Pages - Edit' permission"
-          echo "   → Create token at: https://dash.cloudflare.com/profile/api-tokens"
-          echo ""
-          echo "3. Account not found:"
-          echo "   → Verify CLOUDFLARE_ACCOUNT_ID is correct"
-          echo "   → Find it at: https://dash.cloudflare.com/ (right sidebar or URL)"
-          echo ""
-          echo "4. Build artifacts not found:"
-          echo "   → Check if 'build' job completed successfully"
-          echo "   → Verify dist/ directory was created during build"
-          echo ""
-          echo "📖 See .ai/cloudflare-deployment.md for detailed troubleshooting"
+          command: pages deploy website/build --project-name=winelog
+     
 
   status-comment:
     name: Post Deployment Status
