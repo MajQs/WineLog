@@ -33,5 +33,5 @@ e2e/.auth/*.json
 e2e/.auth/*.png
 *.zip
 
-
+.dev.vars
 
