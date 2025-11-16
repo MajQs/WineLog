@@ -36,7 +36,7 @@ function createWrapper() {
   const Wrapper = ({ children }: { children: ReactNode }) => (
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   );
-  Wrapper.displayName = "TestWrapper";
+  Wrapper.displayName = "QueryClientProviderWrapper";
   return Wrapper;
 }
 

@@ -39,7 +39,13 @@ export function StarRating({ initialRating, onChange, disabled = false }: StarRa
     <div className="flex items-center gap-3">
       <span className="text-sm font-medium text-gray-700">Ocena:</span>
 
-      <div className="flex gap-1" onMouseLeave={handleMouseLeave} role="group" aria-label="Ocena nastawu">
+      <div
+        className="flex gap-1"
+        onMouseLeave={handleMouseLeave}
+        role="radiogroup"
+        aria-label="Ocena nastawu"
+        tabIndex={0}
+      >
         {Array.from({ length: 5 }).map((_, index) => {
           const starValue = index + 1;
           const isActive = starValue <= (hoverRating || rating);

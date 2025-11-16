@@ -8,7 +8,7 @@ import { renderHook, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { ReactNode } from "react";
 import { useCreateBatch } from "./useCreateBatch";
-import type { CreateBatchCommand, BatchDto, BatchStageDto } from "@/types";
+import type { CreateBatchCommand, BatchDto } from "@/types";
 
 // Mock the API module
 vi.mock("../api/batch", () => ({
@@ -36,11 +36,11 @@ function createWrapper() {
     },
   });
 
-  const TestQueryProvider = ({ children }: { children: ReactNode }) => (
+  const Wrapper = ({ children }: { children: ReactNode }) => (
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   );
-  TestQueryProvider.displayName = "TestQueryProvider";
-  return TestQueryProvider;
+  Wrapper.displayName = "QueryClientProviderWrapper";
+  return Wrapper;
 }
 
 /**
@@ -832,7 +832,7 @@ describe("useCreateBatch", () => {
       await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
       expect(result.current.data?.started_at).toBe(startedAt);
-      if (result.current.data) {
+      if (result.current.data?.started_at) {
         expect(new Date(result.current.data.started_at).getTime()).toBeGreaterThan(0);
       }
     });
@@ -974,15 +974,15 @@ describe("useCreateBatch", () => {
 
       // Type assertions
       const batch = result.current.data;
-      expect(batch).toBeDefined();
-      if (!batch) return;
-
+      if (!batch) {
+        throw new Error("Batch is undefined");
+      }
       const _id: string = batch.id;
       const _name: string = batch.name;
       const _type: string = batch.type;
       const _status: string = batch.status;
       const _startedAt: string = batch.started_at;
-      const _stages: BatchStageDto[] = batch.stages;
+      const _stages = batch.stages;
 
       expect(_id).toBeDefined();
       expect(_name).toBeDefined();

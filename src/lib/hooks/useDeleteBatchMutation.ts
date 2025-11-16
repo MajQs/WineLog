@@ -37,13 +37,13 @@ export function useDeleteBatchMutation({ batchId, onSuccess, onError }: UseDelet
       // Remove batch from cache
       queryClient.removeQueries({ queryKey: ["batch", batchId] });
 
-      // Redirect to archive page after a short delay
+      // Call onSuccess callback first to allow parent component to handle redirect
+      onSuccess?.();
+
+      // Redirect after delay - this is intentional navigation, not a state mutation
       setTimeout(() => {
-        // eslint-disable-next-line react-compiler/react-compiler
         window.location.href = "/archived";
       }, 1000);
-
-      onSuccess?.();
     },
 
     // On error

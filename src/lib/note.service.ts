@@ -87,9 +87,10 @@ export async function createNote(
   // 4. Build response with stage context
   let stageContext: NoteStageContextDto | undefined;
   if (currentStageData) {
-    const templateStage = (
-      currentStageData as { template_stages: { position: number; name: string; description: string } }
-    ).template_stages;
+    const stageWithTemplate = currentStageData as {
+      template_stages: { position: number; name: string; description: string | null };
+    };
+    const templateStage = stageWithTemplate.template_stages;
     stageContext = {
       position: templateStage.position,
       name: templateStage.name as StageName,
@@ -176,7 +177,8 @@ export async function listNotes(
     throw new Error(`Failed to fetch notes: ${notesError.message}`);
   }
 
-  interface NoteWithStage {
+  // 3. Transform data to DTOs
+  interface NoteWithStageData {
     id: string;
     batch_id: string;
     stage_id: string;
@@ -188,13 +190,11 @@ export async function listNotes(
       template_stages?: {
         position: number;
         name: string;
-        description: string;
+        description: string | null;
       };
     };
   }
-
-  // 3. Transform data to DTOs
-  const notes: NoteDto[] = (notesData || []).map((note: NoteWithStage) => {
+  const notes: NoteDto[] = (notesData || []).map((note: NoteWithStageData) => {
     let stageContext: NoteStageContextDto | undefined;
     let stageName: StageName | undefined;
 

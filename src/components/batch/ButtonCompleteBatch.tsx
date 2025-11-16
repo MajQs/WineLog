@@ -54,7 +54,7 @@ export function ButtonCompleteBatch({ batchId, batchName, disabled = false }: Bu
 
       // Redirect to dashboard after a short delay
       setTimeout(() => {
-        // eslint-disable-next-line react-compiler/react-compiler
+        // This navigation is intentional and safe - not a state mutation issue
         window.location.href = "/dashboard";
       }, 1500);
     },

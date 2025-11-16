@@ -4,7 +4,7 @@
  * This allows tests to reuse the authenticated session without logging in repeatedly
  */
 
-import { chromium } from "@playwright/test";
+import { chromium, FullConfig } from "@playwright/test";
 import * as path from "path";
 import * as fs from "fs";
 import { fileURLToPath } from "url";
@@ -13,7 +13,8 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-async function globalSetup() {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+async function globalSetup(_config: FullConfig) {
   console.log("\n🔐 [Global Setup] Starting authentication...");
 
   // Get credentials from environment

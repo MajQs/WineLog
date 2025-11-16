@@ -132,13 +132,16 @@ async function getCurrentStageInfo(supabase: SupabaseClient, batchId: string): P
       .maybeSingle();
 
     if (lastStage) {
-      const templateStage = (lastStage as { template_stages: { position: number; name: string; description: string } })
-        .template_stages;
+      const stageWithTemplate = lastStage as {
+        started_at: string | null;
+        template_stages: { position: number; name: string; description: string | null };
+      };
+      const templateStage = stageWithTemplate.template_stages;
       return {
         position: templateStage.position,
         name: templateStage.name,
         description: templateStage.description,
-        days_elapsed: lastStage.started_at ? calculateDaysElapsed(lastStage.started_at) : undefined,
+        days_elapsed: stageWithTemplate.started_at ? calculateDaysElapsed(stageWithTemplate.started_at) : undefined,
       };
     }
 
@@ -150,15 +153,17 @@ async function getCurrentStageInfo(supabase: SupabaseClient, batchId: string): P
     };
   }
 
-  const templateStage = (
-    stageData as { template_stages: { position: number; name: string; description: string }; started_at: string | null }
-  ).template_stages;
+  const stageWithTemplate = stageData as {
+    started_at: string | null;
+    template_stages: { position: number; name: string; description: string | null };
+  };
+  const templateStage = stageWithTemplate.template_stages;
 
   return {
     position: templateStage.position,
     name: templateStage.name,
     description: templateStage.description,
-    days_elapsed: stageData.started_at ? calculateDaysElapsed(stageData.started_at) : undefined,
+    days_elapsed: stageWithTemplate.started_at ? calculateDaysElapsed(stageWithTemplate.started_at) : undefined,
   };
 }
 

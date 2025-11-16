@@ -202,9 +202,7 @@ export class BatchDetailPage extends BasePage {
     await this.confirmNextStageButton.click();
 
     // Wait for the dialog to close and navigation/update to complete
-    await this.nextStageDialog.waitFor({ state: "hidden" }).catch(() => {
-      // Ignore errors if dialog is already hidden
-    });
+    await this.nextStageDialog.waitFor({ state: "hidden" }).catch(() => undefined);
     await this.page.waitForLoadState("networkidle", { timeout: 30000 });
   }
 
@@ -226,9 +224,7 @@ export class BatchDetailPage extends BasePage {
     await this.confirmNextStageButton.click();
 
     // Wait for the dialog to close and navigation/update to complete
-    await this.nextStageDialog.waitFor({ state: "hidden" }).catch(() => {
-      // Ignore errors if dialog is already hidden
-    });
+    await this.nextStageDialog.waitFor({ state: "hidden" }).catch(() => undefined);
     await this.page.waitForLoadState("networkidle", { timeout: 30000 });
   }
 

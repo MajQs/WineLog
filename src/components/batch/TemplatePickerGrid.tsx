@@ -19,17 +19,17 @@ interface TemplatePickerGridProps {
 export function TemplatePickerGrid({ templates, selectedId, onSelect }: TemplatePickerGridProps) {
   return (
     <div>
-      <div className="mb-3 block text-sm font-medium" id="template-picker-label">
+      <span className="mb-3 block text-sm font-medium">
         Wybierz szablon produkcji
         <span className="text-destructive ml-1" aria-label="wymagane">
           *
         </span>
-      </div>
+      </span>
 
       <div
         className="grid gap-4 sm:grid-cols-2"
         role="radiogroup"
-        aria-labelledby="template-picker-label"
+        aria-label="Dostępne szablony produkcji"
         data-testid="template-picker-grid"
       >
         {templates.map((template) => (

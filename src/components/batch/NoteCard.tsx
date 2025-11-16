@@ -49,11 +49,11 @@ export function NoteCard({ note, batchId, onDelete }: NoteCardProps) {
 
       // Optimistically remove the note
       queryClient.setQueryData(["batch", batchId, "current-stage"], (old: unknown) => {
-        if (!old) return old;
-        const currentStage = old as { notes?: NoteDto[] };
+        if (!old || typeof old !== "object") return old;
+        const oldData = old as { notes?: NoteDto[] };
         return {
-          ...currentStage,
-          notes: currentStage.notes?.filter((n: NoteDto) => n.id !== note.id) || [],
+          ...oldData,
+          notes: oldData.notes?.filter((n: NoteDto) => n.id !== note.id) || [],
         };
       });
 

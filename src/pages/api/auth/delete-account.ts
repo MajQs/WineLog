@@ -19,15 +19,11 @@ export const POST: APIRoute = async ({ request, locals }) => {
     // Verify authentication
     const authResult = await verifyAuthToken(request, locals.supabase);
 
-    if (!authResult.success || !authResult.error || !authResult.status) {
+    if (!authResult.success || !authResult.userId) {
       return createErrorResponse(
         authResult.error || { error: "Unauthorized", code: "UNAUTHORIZED" },
         authResult.status || 401
       );
-    }
-
-    if (!authResult.userId) {
-      return createErrorResponse({ error: "Unauthorized", code: "UNAUTHORIZED" }, 401);
     }
 
     const userId = authResult.userId;

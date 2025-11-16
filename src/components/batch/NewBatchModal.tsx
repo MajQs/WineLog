@@ -140,10 +140,10 @@ function NewBatchModalContent() {
     setFormState((prev) => ({ ...prev, isSubmitting: true, error: undefined }));
 
     try {
+      // Template ID is validated by validateForm
+      if (!formState.templateId) return;
+
       // Create batch
-      if (!formState.templateId) {
-        throw new Error("Template ID is required");
-      }
       const batch = await createBatchMutation.mutateAsync({
         template_id: formState.templateId,
         name: formState.name || undefined,
@@ -162,7 +162,7 @@ function NewBatchModalContent() {
         errorMessage = error.message;
 
         // Handle specific error codes (if ApiError is used)
-        if ("code" in error) {
+        if ("code" in error && typeof error === "object") {
           const code = (error as { code: string }).code;
 
           if (code === "NAME_TOO_LONG") {

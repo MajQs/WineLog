@@ -74,19 +74,11 @@ export async function advanceToNextStage(
     throw new Error("NO_STAGES_FOUND");
   }
 
-  interface StageWithTemplate {
-    id: string;
-    completed_at: string | null;
-    started_at: string | null;
-    template_stages: {
-      position: number;
-      name: string;
-      description: string;
-    };
-  }
-
   // Find current stage (first non-completed)
-  const stages = allStages as StageWithTemplate[];
+  interface StageWithCompletion {
+    completed_at: string | null;
+  }
+  const stages = allStages as StageWithCompletion[];
   const currentStageIndex = stages.findIndex((s) => !s.completed_at);
 
   if (currentStageIndex === -1) {
@@ -239,25 +231,21 @@ export async function getCurrentStageDetails(
     throw new Error("NO_STAGES_FOUND");
   }
 
-  interface CurrentStageWithTemplate {
-    id: string;
-    batch_id: string;
-    template_stage_id: string;
-    started_at: string | null;
+  // Find current stage (first incomplete or last stage if all complete)
+  interface StageWithTemplateData {
     completed_at: string | null;
+    started_at: string | null;
     template_stages: {
       position: number;
       name: string;
-      description: string;
+      description: string | null;
       instructions: string | null;
       materials: string[] | null;
       days_min: number | null;
       days_max: number | null;
     };
   }
-
-  // Find current stage (first incomplete or last stage if all complete)
-  const stages = currentStageData as CurrentStageWithTemplate[];
+  const stages = currentStageData as StageWithTemplateData[];
   const currentStage = stages.find((s) => !s.completed_at) || stages[stages.length - 1];
   const templateStage = currentStage.template_stages;
 
@@ -303,21 +291,19 @@ export async function getCurrentStageDetails(
 /**
  * Helper function to build BatchStageDto from database data
  */
-interface TemplateStageData {
-  position: number;
-  name: string;
-  description: string;
-  instructions: string | null;
-  materials: string[] | null;
-  days_min: number | null;
-  days_max: number | null;
-}
-
 function buildBatchStageDto(
   id: string,
   batch_id: string,
   template_stage_id: string,
-  templateStage: TemplateStageData,
+  templateStage: {
+    position: number;
+    name: string;
+    description: string | null;
+    instructions: string | null;
+    materials: string[] | null;
+    days_min: number | null;
+    days_max: number | null;
+  },
   started_at: string | null,
   completed_at: string | null
 ): BatchStageDto {

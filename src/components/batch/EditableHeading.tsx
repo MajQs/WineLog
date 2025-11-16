@@ -51,8 +51,8 @@ export function EditableHeading({ name, batchId, onUpdated }: EditableHeadingPro
 
       // Optimistically update to the new value
       queryClient.setQueryData(["batch", batchId], (old: unknown) => {
-        if (!old) return old;
-        return { ...(old as Record<string, unknown>), name: variables.name };
+        if (!old || typeof old !== "object") return old;
+        return { ...old, name: variables.name };
       });
 
       return { previousBatch };

@@ -26,26 +26,44 @@ beforeAll(() => {
 
   // Mock IntersectionObserver
   global.IntersectionObserver = class IntersectionObserver {
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    disconnect(): void {}
-    // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
-    observe(_target: Element): void {}
+    // eslint-disable-next-line @typescript-eslint/no-useless-constructor, @typescript-eslint/no-unused-vars
+    constructor(_callback: IntersectionObserverCallback, _options?: IntersectionObserverInit) {
+      // Mock constructor - no implementation needed for tests
+    }
+    disconnect(): void {
+      // Mock method - no implementation needed for tests
+    }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    observe(_target: Element): void {
+      // Mock method - no implementation needed for tests
+    }
     takeRecords(): IntersectionObserverEntry[] {
       return [];
     }
-    // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
-    unobserve(_target: Element): void {}
-  } as unknown as typeof IntersectionObserver;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    unobserve(_target: Element): void {
+      // Mock method - no implementation needed for tests
+    }
+  };
 
   // Mock ResizeObserver
   global.ResizeObserver = class ResizeObserver {
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    disconnect(): void {}
-    // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
-    observe(_target: Element): void {}
-    // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
-    unobserve(_target: Element): void {}
-  } as unknown as typeof ResizeObserver;
+    // eslint-disable-next-line @typescript-eslint/no-useless-constructor, @typescript-eslint/no-unused-vars
+    constructor(_callback: ResizeObserverCallback) {
+      // Mock constructor - no implementation needed for tests
+    }
+    disconnect(): void {
+      // Mock method - no implementation needed for tests
+    }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    observe(_target: Element, _options?: ResizeObserverOptions): void {
+      // Mock method - no implementation needed for tests
+    }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    unobserve(_target: Element): void {
+      // Mock method - no implementation needed for tests
+    }
+  };
 });
 
 // Mock Supabase client for tests

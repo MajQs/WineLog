@@ -43,13 +43,13 @@ export function NoteForm({ batchId, onCreated }: NoteFormProps) {
 
       // Optimistically add the new note
       queryClient.setQueryData(["batch", batchId, "current-stage"], (old: unknown) => {
-        if (!old) return old;
-        const currentStage = old as { id: string; notes?: NoteDto[] };
+        if (!old || typeof old !== "object") return old;
+        const oldData = old as { id: string; notes?: NoteDto[] };
 
         const optimisticNote: NoteDto = {
           id: `temp-${Date.now()}`,
           batch_id: batchId,
-          stage_id: currentStage.id,
+          stage_id: oldData.id,
           user_id: "temp-user",
           action: newNote.action,
           observations: newNote.observations || null,
@@ -57,8 +57,8 @@ export function NoteForm({ batchId, onCreated }: NoteFormProps) {
         };
 
         return {
-          ...old,
-          notes: [...(old.notes || []), optimisticNote],
+          ...oldData,
+          notes: [...(oldData.notes || []), optimisticNote],
         };
       });
 
