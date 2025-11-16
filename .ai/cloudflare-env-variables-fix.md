@@ -172,3 +172,4 @@ Jeśli nadal masz problemy, sprawdź logi w:
 - Cloudflare Dashboard → Workers & Pages → winelog → Functions → Logs
 - Konsola przeglądarki (F12) → Network/Console tabs
 
+
