@@ -192,3 +192,4 @@ npx wrangler pages dev dist
 **Wersja:** 1.0  
 **Status:** ✅ Naprawione
 
+
