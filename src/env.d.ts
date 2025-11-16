@@ -21,9 +21,9 @@ interface ImportMeta {
 }
 
 // Cloudflare Pages runtime environment
-type CloudflareRuntime = {
+interface CloudflareRuntime {
   env: {
     SUPABASE_URL: string;
     SUPABASE_KEY: string;
   };
-};
+}
