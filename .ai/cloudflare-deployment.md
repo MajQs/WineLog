@@ -157,15 +157,17 @@ npm run dev
 
 **Problem**: Aplikacja została zdeployowana, ale zwraca błąd 500 przy próbie otwarcia strony.
 
-**Przyczyna**: Brakujące zmienne środowiskowe w Cloudflare Pages (SUPABASE_URL, SUPABASE_KEY).
+**Przyczyna**: Brakujące zmienne środowiskowe w Cloudflare Pages (SUPABASE_URL, SUPABASE_KEY) lub zmienne są w złej sekcji.
 
 **Rozwiązanie**:
-1. W Cloudflare Dashboard → Workers & Pages → winelog → Settings → Environment variables
+1. W Cloudflare Dashboard → Workers & Pages → winelog → Settings → **Environment variables** (NIE "Variables and Secrets"!)
 2. Dodaj zmienne dla środowiska **Production**:
    - `SUPABASE_URL` - URL projektu Supabase
    - `SUPABASE_KEY` - Supabase anon/public key
 3. Wykonaj **redeploy** (zmienne nie są stosowane retroaktywnie)
-4. Zobacz szczegółowy przewodnik: [cloudflare-env-variables-fix.md](cloudflare-env-variables-fix.md)
+4. Zobacz szczegółowe przewodniki:
+   - [cloudflare-env-variables-fix.md](cloudflare-env-variables-fix.md) - Podstawowa naprawa
+   - [cloudflare-environment-variables-setup.md](cloudflare-environment-variables-setup.md) - Różnica między Variables and Secrets vs Environment variables
 
 ### Build fails
 - Sprawdź czy wszystkie zmienne środowiskowe są ustawione

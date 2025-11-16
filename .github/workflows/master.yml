@@ -87,10 +87,6 @@ jobs:
     name: Deploy to Cloudflare Pages
     runs-on: ubuntu-latest
     needs: build
-    environment: production
-    permissions:
-      contents: read
-      deployments: write
     
     steps:
       - name: Checkout code
