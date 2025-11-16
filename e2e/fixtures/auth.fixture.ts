@@ -42,6 +42,7 @@ export const test = base.extend<{
 
     const dashboardPage = new DashboardPage(page);
 
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     await use(dashboardPage);
 
     // Cleanup (optional)

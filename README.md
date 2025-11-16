@@ -40,7 +40,7 @@ $ npm install
 
 # 3. Start the development server
 $ npm run dev
-# The app is now available at http://localhost:4321
+# The app is now available at http://localhost:3000
 
 # 4. Build for production
 $ npm run build
@@ -148,6 +148,24 @@ _Out of scope for MVP_: native mobile apps, advanced calculators, social feature
 [![Version](https://img.shields.io/static/v1?label=version&message=0.0.1&color=blue)](./package.json)
 
 The project is in active **MVP development**. Core features are being implemented; expect breaking changes until v1.0.0.
+
+### CI/CD & Deployment
+- **Continuous Integration** – Automated testing and linting via GitHub Actions on every pull request (lint, unit tests).
+- **Hosting** – The application is deployed on **Cloudflare Pages** using [GitHub Actions](.github/workflows/master.yml) (manual trigger).
+
+#### Required GitHub Secrets for Deployment
+To deploy to Cloudflare Pages, configure these secrets in your repository:
+- `CLOUDFLARE_API_TOKEN` – API token with Cloudflare Pages permissions
+- `CLOUDFLARE_ACCOUNT_ID` – Your Cloudflare account ID
+- `SUPABASE_URL` – Your Supabase project URL (used during build)
+- `SUPABASE_KEY` – Your Supabase anonymous key (used during build)
+
+#### Required Environment Variables in Cloudflare Pages
+Configure these variables in Cloudflare Dashboard → Workers & Pages → Your Project → Settings → Environment variables:
+- `SUPABASE_URL` – Your Supabase project URL
+- `SUPABASE_KEY` – Your Supabase anonymous key
+
+> **Important**: Variables in GitHub Secrets are used during build. Variables in Cloudflare Pages are used at runtime.
 
 ## License
 This project is licensed under the **MIT License**. See the [`LICENSE`](LICENSE) file for details.
